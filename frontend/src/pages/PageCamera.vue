@@ -1,10 +1,15 @@
 <template>
   <q-page class="constrain-more q-pa-md">
-    <div class="camera-frame q-pa-md">
-      <video class="full-width" autoplay ref="video" v-show="!imageCaptured" />
+    <div class="camera-frame q-pa-xs">
+      <video
+        class="full-width remove-xtra-margin"
+        autoplay
+        ref="video"
+        v-show="!imageCaptured"
+      />
       <canvas
         ref="canvas"
-        class="full-width"
+        class="full-width remove-xtra-margin"
         height="248"
         v-show="imageCaptured"
       />
@@ -14,9 +19,10 @@
         <q-btn
           class="q-mr-sm"
           round
-          color="grey-10"
+          color="primary"
           icon="eva-camera"
           size="lg"
+          unelevated
           @click="captureImage"
           :disable="imageCaptured"
         />
@@ -24,10 +30,11 @@
         <q-btn
           v-if="imageCaptured"
           round
-          color="grey-10"
+          unelevated
+          color="primary"
           icon="eva-plus-outline"
           size="lg"
-          @click="captureImage"
+          @click="addMorePhotos"
         />
       </template>
 
@@ -45,11 +52,15 @@
       </q-file>
     </div>
     <div class="row justify-center q-ma-md">
+      <q-input v-model="post.title" class="col col-sm-6" label="Title" filled />
+    </div>
+    <div class="row justify-center q-ma-md">
       <q-input
-        v-model="post.caption"
+        v-model="post.details"
+        filled
+        autogrow
         class="col col-sm-6"
-        label="Standard"
-        dense
+        label="Details"
       />
     </div>
     <div class="row justify-center q-ma-md">
@@ -58,7 +69,7 @@
         v-model="post.location"
         class="col col-sm-6"
         label="Location"
-        dense
+        filled
       >
         <template
           v-slot:append
@@ -77,11 +88,15 @@
     <div class="row justify-center q-mt-lg">
       <q-btn
         unelevated
-        rounded
         color="primary"
         label="Post Image"
         @click="addPost"
-        :disable="!post.caption || !post.photo"
+        :disable="
+          !post.title ||
+            !post.details ||
+            post.photos.length <= 0 ||
+            !post.location
+        "
       ></q-btn>
     </div>
   </q-page>
@@ -97,9 +112,10 @@ export default {
     return {
       post: {
         id: uid(),
-        caption: '',
+        title: '',
+        details: '',
         location: '',
-        photo: null,
+        photos: [],
         date: Date.now()
       },
       imageCaptured: false,
@@ -138,8 +154,12 @@ export default {
 
       this.imageCaptured = true;
 
-      this.post.photo = this.dataURItoBlob(canvas.toDataURL());
+      this.post.photos.push(this.dataURItoBlob(canvas.toDataURL()));
       this.disableCamera();
+    },
+    addMorePhotos() {
+      this.imageCaptured = false;
+      this.initCamera();
     },
     dataURItoBlob(dataURI) {
       var byteString = atob(dataURI.split(',')[1]);
@@ -267,7 +287,11 @@ export default {
 
 <style lang="scss">
 .camera-frame {
-  border: 2px solid $grey-10;
-  border-radius: 10px;
+  border: 1px solid $grey-5;
+  border-radius: 5px;
+}
+
+.remove-xtra-margin {
+  margin-bottom: -5px;
 }
 </style>
