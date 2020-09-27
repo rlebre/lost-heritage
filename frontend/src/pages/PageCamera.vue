@@ -52,22 +52,27 @@
       </q-file>
     </div>
     <div class="row justify-center q-ma-md">
-      <q-input v-model="post.title" class="col col-sm-6" label="Title" filled />
+      <q-input
+        v-model="building.title"
+        class="col col-sm-10"
+        label="Title"
+        filled
+      />
     </div>
     <div class="row justify-center q-ma-md">
       <q-input
-        v-model="post.details"
+        v-model="building.details"
         filled
         autogrow
-        class="col col-sm-6"
+        class="col col-sm-10"
         label="Details"
       />
     </div>
     <div class="row justify-center q-ma-md">
       <q-input
         :loading="locationLoading"
-        v-model="post.location"
-        class="col col-sm-6"
+        v-model="building.location"
+        class="col col-sm-10"
         label="Location"
         filled
       >
@@ -92,10 +97,10 @@
         label="Post Image"
         @click="addPost"
         :disable="
-          !post.title ||
-            !post.details ||
-            post.photos.length <= 0 ||
-            !post.location
+          !building.title ||
+            !building.details ||
+            building.photos.length <= 0 ||
+            !building.location
         "
       ></q-btn>
     </div>
@@ -110,7 +115,7 @@ export default {
   name: 'PageCamera',
   data() {
     return {
-      post: {
+      building: {
         id: uid(),
         title: '',
         details: '',
@@ -154,7 +159,7 @@ export default {
 
       this.imageCaptured = true;
 
-      this.post.photos.push(this.dataURItoBlob(canvas.toDataURL()));
+      this.building.photos.push(this.dataURItoBlob(canvas.toDataURL()));
       this.disableCamera();
     },
     addMorePhotos() {
@@ -177,7 +182,7 @@ export default {
       return blob;
     },
     captureImageFallback(file) {
-      this.post.photo = file;
+      this.building.photo = file;
       let canvas = this.$refs.canvas;
       let context = canvas.getContext('2d');
 
@@ -226,8 +231,9 @@ export default {
       );
     },
     locationSuccess(result) {
-      this.post.location = result.data.city;
-      if (result.data.country) this.post.location += `, ${result.data.country}`;
+      this.building.location = result.data.city;
+      if (result.data.country)
+        this.building.location += `, ${result.data.country}`;
       this.locationLoading = false;
     },
     locationError(error) {
@@ -241,13 +247,13 @@ export default {
       this.$q.loading.show();
 
       let formData = new FormData();
-      formData.append('id', this.post.id);
-      formData.append('caption', this.post.caption);
-      formData.append('location', this.post.location);
-      formData.append('date', this.post.date);
-      formData.append('file', this.post.photo, this.post.id + '.png');
+      formData.append('id', this.building.id);
+      formData.append('caption', this.building.caption);
+      formData.append('location', this.building.location);
+      formData.append('date', this.building.date);
+      formData.append('file', this.building.photo, this.building.id + '.png');
 
-      this.$axios.post(`${process.env.API}/createPost`, formData).then(
+      this.$axios.building(`${process.env.API}/createPost`, formData).then(
         response => {
           this.$router.push('/');
 
@@ -266,7 +272,7 @@ export default {
         error => {
           this.$q.dialog({
             title: 'Error',
-            message: 'Sorry, could not create post.'
+            message: 'Sorry, could not create building.'
           });
 
           this.$q.loading.hide();
