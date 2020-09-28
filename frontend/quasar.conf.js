@@ -9,6 +9,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
 
+let API_LOCAL = 'http://localhost:3000', API_PRODUCTION = 'https://quasagram-tutorial.herokuapp.com';
+
 module.exports = configure(function (ctx) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
@@ -52,7 +54,9 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-
+      env: {
+        API: API_LOCAL // API_LOCAL | API_PRODUCTION
+      },
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
