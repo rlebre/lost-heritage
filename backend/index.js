@@ -83,6 +83,7 @@ app.post('/createPost', (req, res) => {
 
             db.collection('lost-heritage').doc(fields.id).set({
                 id: fields.id,
+                title: fields.title,
                 details: fields.details,
                 location: fields.location,
                 lat: Number(fields.lat),
