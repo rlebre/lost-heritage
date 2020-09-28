@@ -1,5 +1,5 @@
 <template>
-  <q-page class="constrain-more q-pa-md">
+  <q-page class="q-pa-md">
     <GmapMap
       :center="{ lat: 39.7330017, lng: -7.6897566 }"
       :zoom="7"

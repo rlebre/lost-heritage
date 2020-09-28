@@ -2,17 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-grey-10" bordered>
       <q-toolbar class="constrain">
-        <q-btn
-          flat
-          round
-          icon="eva-camera-outline"
-          size="18px"
-          dense
-          to="/camera"
-          class="large-screen-only q-mr-sm"
-        />
-
-        <q-separator vertical spaced class="large-screen-only" />
+        <!-- <q-separator vertical spaced class="large-screen-only" /> -->
 
         <q-toolbar-title class="text-grand-hotel text-bold">
           Lost Heritage
@@ -25,7 +15,27 @@
           size="18px"
           dense
           to="/"
-          class="large-screen-only"
+          class="large-screen-only q-mr-lg"
+        />
+
+        <q-btn
+          flat
+          round
+          icon="eva-map-outline"
+          size="18px"
+          dense
+          to="/map"
+          class="large-screen-only q-mr-lg"
+        />
+
+        <q-btn
+          flat
+          round
+          icon="eva-camera-outline"
+          size="18px"
+          dense
+          to="/camera"
+          class="large-screen-only q-mr-lg"
         />
       </q-toolbar>
     </q-header>
