@@ -248,36 +248,50 @@ export default {
 
       let formData = new FormData();
       formData.append('id', this.building.id);
-      formData.append('caption', this.building.caption);
+      formData.append('details', this.building.details);
+      formData.append('title', this.building.title);
       formData.append('location', this.building.location);
       formData.append('date', this.building.date);
-      formData.append('file', this.building.photo, this.building.id + '.png');
+      this.building.photos.forEach((photo, index) => {
+        console.log(index, photo);
+        formData.append(
+          `files[${index}]`,
+          photo,
+          `${this.building.id}_${index}.png`
+        );
+      });
 
-      this.$axios.building(`${process.env.API}/createPost`, formData).then(
-        response => {
-          this.$router.push('/');
+      this.$axios
+        .post(`${process.env.API}/createPost`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(
+          response => {
+            //this.$router.push('/');
 
-          this.$q.notify({
-            message: 'Post created.',
-            actions: [
-              {
-                label: 'Dismiss',
-                color: 'white'
-              }
-            ]
-          });
+            this.$q.notify({
+              message: 'Post created.',
+              actions: [
+                {
+                  label: 'Dismiss',
+                  color: 'white'
+                }
+              ]
+            });
 
-          this.$q.loading.hide();
-        },
-        error => {
-          this.$q.dialog({
-            title: 'Error',
-            message: 'Sorry, could not create building.'
-          });
+            this.$q.loading.hide();
+          },
+          error => {
+            this.$q.dialog({
+              title: 'Error',
+              message: 'Sorry, could not create building.'
+            });
 
-          this.$q.loading.hide();
-        }
-      );
+            this.$q.loading.hide();
+          }
+        );
     }
   },
   mounted() {
