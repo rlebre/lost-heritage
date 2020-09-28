@@ -13,7 +13,6 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     storageBucket: "forgotten-heritage-dev.appspot.com"
 });
-
 const db = admin.firestore()
 let bucket = admin.storage().bucket();
 
@@ -86,6 +85,8 @@ app.post('/createPost', (req, res) => {
                 id: fields.id,
                 details: fields.details,
                 location: fields.location,
+                lat: Number(fields.lat),
+                lng: Number(fields.lng),
                 date: parseInt(fields.date),
                 imageUrls
             }).then(
@@ -94,6 +95,7 @@ app.post('/createPost', (req, res) => {
                 },
                 error => {
                     console.log(error);
+
                 }
             );
         }

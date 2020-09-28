@@ -68,7 +68,7 @@
         label="Details"
       />
     </div>
-    <div class="row justify-center q-ma-md">
+    <!-- <div class="row justify-center q-ma-md">
       <q-input
         :loading="locationLoading"
         v-model="building.location"
@@ -89,7 +89,7 @@
           />
         </template>
       </q-input>
-    </div>
+    </div> -->
     <div class="row justify-center q-mt-lg">
       <q-btn
         unelevated
@@ -100,7 +100,7 @@
           !building.title ||
             !building.details ||
             building.photos.length <= 0 ||
-            !building.location
+            !(building.lat && building.lng)
         "
       ></q-btn>
     </div>
@@ -120,6 +120,8 @@ export default {
         title: '',
         details: '',
         location: '',
+        lat: '',
+        lng: '',
         photos: [],
         date: Date.now()
       },
@@ -208,8 +210,9 @@ export default {
       this.locationLoading = true;
       navigator.geolocation.getCurrentPosition(
         position => {
-          console.log(position);
-          this.getCityAndCountry(position);
+          this.building.lng = position.coords.longitude;
+          this.building.lat = position.coords.latitude;
+          //this.getCityAndCountry(position);
         },
         error => {
           console.log(error);
@@ -251,9 +254,10 @@ export default {
       formData.append('details', this.building.details);
       formData.append('title', this.building.title);
       formData.append('location', this.building.location);
+      formData.append('lat', this.building.lat);
+      formData.append('lng', this.building.lng);
       formData.append('date', this.building.date);
       this.building.photos.forEach((photo, index) => {
-        console.log(index, photo);
         formData.append(
           `files[${index}]`,
           photo,
@@ -296,6 +300,7 @@ export default {
   },
   mounted() {
     this.initCamera();
+    this.getLocation();
   },
   beforeDestroy() {
     if (this.hasCameraSupport) {
