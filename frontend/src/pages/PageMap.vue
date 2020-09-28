@@ -13,17 +13,19 @@
     >
       <GmapMarker
         :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
+        v-for="(post, index) in posts"
+        :position="{ lat: post.lat, lng: post.lng }"
         :clickable="true"
         :draggable="false"
         @click="
-          center = m.position;
-          m.ifw = !m.ifw;
+          center = { lat: post.lat, lng: post.lng };
+          post.clicked = !post.clicked;
         "
       >
-        <gmap-info-window :opened="m.ifw">
-          <b>Text:</b> {{ m.ifw2text }}
+        <gmap-info-window :opened="post.clicked">
+          <q-img class="col" style="width:200px" :src="post.imageUrls[0]" />
+          <p><b>Title:</b> {{ post.title }}</p>
+          <p><b>Details:</b> {{ post.details }}</p>
         </gmap-info-window>
       </GmapMarker>
     </GmapMap>
@@ -37,32 +39,34 @@ export default {
   name: 'PageMap',
   data() {
     return {
-      markers: [
-        {
-          position: { lat: 10.0, lng: 10.0 },
-          ifw2text: 'This text is bad please change me :( ',
-          ifw: false
-        },
-        {
-          position: { lat: 11.0, lng: 11.0 },
-          ifw: false
-        },
-        {
-          position: {
-            lat: 48.8538302,
-            lng: 2.2982161
-          },
-          opacity: 1,
-          draggable: true,
-          enabled: true,
-          clicked: 0,
-          rightClicked: 0,
-          dragended: 0,
-          ifw: false,
-          ifw2text: 'This text is bad please change me :( '
-        }
-      ]
+      posts: []
     };
+  },
+  methods: {
+    getPosts() {
+      this.loadingPosts = true;
+      this.$axios
+        .get(`${process.env.API}/posts`)
+        .then(response => {
+          this.posts = response.data.map(obj => ({ ...obj, clicked: false }));
+          this.loadingPosts = false;
+        })
+        .catch(error => {
+          this.$q.dialog({
+            title: 'Error',
+            message: 'Could not download posts.'
+          });
+          this.loadingPosts = false;
+        });
+    }
+  },
+  filters: {
+    niceDate(value) {
+      return date.formatDate(value, 'MMMM D, HH:mm');
+    }
+  },
+  created() {
+    this.getPosts();
   }
 };
 </script>
