@@ -1,7 +1,7 @@
 import { route } from 'quasar/wrappers';
 import VueRouter from 'vue-router';
 import routes from './routes';
-import * as VueGoogleMaps from 'vue2-google-maps';
+const VueGoogleMaps = require('vue2-google-maps');
 
 
 /*

@@ -9,14 +9,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
 
-let API_LOCAL = 'http://localhost:3000', API_PRODUCTION = 'https://quasagram-tutorial.herokuapp.com';
+let API_LOCAL = 'http://localhost:3000', API_PRODUCTION = 'https://lost-heritage.herokuapp.com';
 
 module.exports = configure(function (ctx) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: {
       tsCheckerConfig: {
-        eslint: true
+        eslint: false
       }
     },
 
@@ -55,7 +55,7 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
-        API: API_LOCAL // API_LOCAL | API_PRODUCTION
+        API: API_PRODUCTION // API_LOCAL | API_PRODUCTION
       },
       // transpile: false,
 

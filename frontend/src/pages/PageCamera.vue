@@ -140,7 +140,7 @@ export default {
     initCamera() {
       navigator.mediaDevices
         .getUserMedia({
-          video: true
+          video: { facingMode: 'environment' }
         })
         .then(stream => {
           this.$refs.video.srcObject = stream;
@@ -149,6 +149,7 @@ export default {
           this.hasCameraSupport = false;
         });
     },
+    startStream() {},
     captureImage() {
       let video = this.$refs.video;
       let canvas = this.$refs.canvas;
