@@ -21,6 +21,11 @@
           center = { lat: post.lat, lng: post.lng };
           post.clicked = !post.clicked;
         "
+        :icon="
+          `http://maps.google.com/mapfiles/ms/icons/${
+            post.isRecovered ? 'green' : 'red'
+          }-dot.png`
+        "
       >
         <gmap-info-window :opened="post.clicked">
           <q-img class="col" style="width:200px" :src="post.imageUrls[0]" />

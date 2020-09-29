@@ -68,6 +68,13 @@
         label="Details"
       />
     </div>
+    <div class="row justify-center q-ma-md text-grey-9">
+      <q-checkbox
+        class="col col-sm-10"
+        v-model="building.isRecovered"
+        label="Recovered"
+      />
+    </div>
     <!-- <div class="row justify-center q-ma-md">
       <q-input
         :loading="locationLoading"
@@ -123,7 +130,8 @@ export default {
         lat: '',
         lng: '',
         photos: [],
-        date: Date.now()
+        date: Date.now(),
+        isRecovered: false
       },
       imageCaptured: false,
       imageUpload: [],
@@ -258,6 +266,7 @@ export default {
       formData.append('lat', this.building.lat);
       formData.append('lng', this.building.lng);
       formData.append('date', this.building.date);
+      formData.append('isRecovered', this.building.isRecovered);
       this.building.photos.forEach((photo, index) => {
         formData.append(
           `files[${index}]`,
@@ -275,6 +284,7 @@ export default {
         .then(
           response => {
             this.$router.push('/');
+            this.$forceUpdate();
 
             this.$q.notify({
               message: 'Post created.',
