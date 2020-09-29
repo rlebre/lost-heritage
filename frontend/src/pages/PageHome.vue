@@ -2,48 +2,20 @@
   <q-page class="constrain q-pa-md">
     <div class="row q-col-gutter-lg">
       <template v-if="!loadingPosts && posts.length">
-        <div class="col-12 col-sm-6" v-for="post in posts" :key="post.id">
+        <div class="col-12" v-for="post in posts" :key="post.id">
           <template>
-            <!-- <q-card class="card-post q-mb-md" flat bordered>
-              <q-item>
-                <q-item-section avatar>
-                  <q-avatar
-                    color="primary"
-                    text-color="white"
-                    icon="fas fa-building"
-                  />
-                </q-item-section>
-
-                <q-item-section>
-                  <q-item-label>{{ post.title }}</q-item-label>
-                  <q-item-label caption>
-                    {{ post.location }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-separator />
-
-              <q-img class="col" :src="post.imageUrls[0]" />
-
-              <q-card-section>
-                <div>{{ post.details }}</div>
-                <div class="text-caption text-grey">
-                  {{ post.date | niceDate }}
-                </div>
-              </q-card-section>
-            </q-card> -->
-
             <q-card class="card-post q-mb-md" flat bordered>
               <q-card-section horizontal>
-                <q-card-section class="q-pt-xs col-6">
-                  <div class="text-h5 q-mt-sm q-mb-xs">{{ post.title }}</div>
+                <q-card-section class="q-pt-xs col-7">
+                  <div class="text-h5 q-mt-sm q-mb-lg text-weight-bold">
+                    {{ post.title }}
+                  </div>
                   <div class="text-caption text-grey">
                     {{ post.details }}
                   </div>
                 </q-card-section>
 
-                <q-card-section class="col-6 flex flex-center">
+                <q-card-section class="col-5 flex flex-center">
                   <q-img
                     class="rounded-borders"
                     :src="post.imageUrls[0]"
