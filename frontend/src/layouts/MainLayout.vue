@@ -5,7 +5,7 @@
         <!-- <q-separator vertical spaced class="large-screen-only" /> -->
 
         <q-toolbar-title class="text-grand-hotel text-bold">
-          {{ $t('message.appName') }}
+          {{ $t('header.appName') }}
         </q-toolbar-title>
 
         <q-btn
@@ -39,12 +39,14 @@
         />
 
         <q-select
-          class="text-uppercase"
-          borderless
+          class="text-uppercase text-weight-bold"
+          v-model="lang"
+          :options="langOptions"
           dense
-          v-model="selectedLocale"
-          :options="localeOptions"
-          @input="changeLocale"
+          borderless
+          emit-value
+          map-options
+          options-dense
         />
       </q-toolbar>
     </q-header>
@@ -72,13 +74,16 @@ export default {
   name: 'MainLayout',
   data() {
     return {
-      selectedLocale: 'en',
-      localeOptions: this.$i18n.availableLocales
+      langOptions: [
+        { value: 'en-us', label: 'EN' },
+        { value: 'pt-pt', label: 'PT' }
+      ],
+      lang: 'EN'
     };
   },
-  methods: {
-    changeLocale(locale) {
-      this.$i18n.locale = locale;
+  watch: {
+    lang(lang) {
+      this.$i18n.locale = lang;
     }
   }
 };
