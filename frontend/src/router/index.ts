@@ -1,8 +1,6 @@
 import { route } from 'quasar/wrappers';
 import VueRouter from 'vue-router';
 import routes from './routes';
-const VueGoogleMaps = require('vue2-google-maps');
-
 
 /*
  * If not building with SSR mode, you can
@@ -11,12 +9,6 @@ const VueGoogleMaps = require('vue2-google-maps');
 
 export default route(function ({ Vue }) {
   Vue.use(VueRouter);
-  Vue.use(VueGoogleMaps, {
-    load: {
-      key: 'AIzaSyCyCLaxQj1be6nNe5ii559A1DY-cqM3Z8s',
-      installComponents: true
-    }
-  });
 
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
