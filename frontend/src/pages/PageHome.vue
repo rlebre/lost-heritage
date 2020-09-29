@@ -10,7 +10,10 @@
                   <div class="text-h5 q-mt-sm q-mb-lg text-weight-bold">
                     {{ post.title }}
                   </div>
-                  <div class="text-caption text-grey">
+                  <div class="text-caption text-grey-7 small-screen-only">
+                    {{ post.details | str_limit(200) }}
+                  </div>
+                  <div class="text-caption text-grey-7 large-screen-only">
                     {{ post.details }}
                   </div>
                 </q-card-section>
@@ -105,31 +108,16 @@ export default {
       loadingPosts: false
     };
   },
-  methods: {
-    getPosts() {
-      this.loadingPosts = true;
-      this.$axios
-        .get(`${process.env.API}/posts`)
-        .then(response => {
-          this.posts = response.data;
-          this.loadingPosts = false;
-        })
-        .catch(error => {
-          this.$q.dialog({
-            title: 'Error',
-            message: 'Could not download posts.'
-          });
-          this.loadingPosts = false;
-        });
-    }
-  },
+
   filters: {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D, HH:mm');
     }
   },
+
   created() {
-    this.getPosts();
+    this.posts = this.$attrs.buildingList;
+    this.loadingPosts = this.$attrs.loadingBuildings;
   }
 };
 </script>
@@ -138,6 +126,9 @@ export default {
 .card-post {
   .q-img {
     min-height: 200px;
+  }
+  .text-caption {
+    font-size: 0.8rem;
   }
 }
 </style>

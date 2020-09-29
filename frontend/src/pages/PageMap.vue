@@ -42,31 +42,17 @@ export default {
       posts: []
     };
   },
-  methods: {
-    getPosts() {
-      this.loadingPosts = true;
-      this.$axios
-        .get(`${process.env.API}/posts`)
-        .then(response => {
-          this.posts = response.data.map(obj => ({ ...obj, clicked: false }));
-          this.loadingPosts = false;
-        })
-        .catch(error => {
-          this.$q.dialog({
-            title: 'Error',
-            message: 'Could not download posts.'
-          });
-          this.loadingPosts = false;
-        });
-    }
-  },
   filters: {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D, HH:mm');
     }
   },
   created() {
-    this.getPosts();
+    this.posts = this.$attrs.buildingList.map(obj => ({
+      ...obj,
+      clicked: false
+    }));
+    this.loadingPosts = this.$attrs.loadingBuildings;
   }
 };
 </script>

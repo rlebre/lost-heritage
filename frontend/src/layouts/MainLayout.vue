@@ -63,8 +63,11 @@
       </q-tabs>
     </q-footer>
 
-    <q-page-container class="bg-grey-1">
-      <router-view />
+    <q-page-container class="bg-grey-1" v-if="!loadingBuildings">
+      <router-view
+        :buildingList="buildingList"
+        :loadingBuildings="loadingBuildings"
+      />
     </q-page-container>
   </q-layout>
 </template>
@@ -74,6 +77,8 @@ export default {
   name: 'MainLayout',
   data() {
     return {
+      buildingList: [],
+      loadingBuildings: true,
       langOptions: [
         { value: 'en-us', label: 'EN' },
         { value: 'pt-pt', label: 'PT' }
@@ -85,6 +90,27 @@ export default {
     lang(lang) {
       this.$i18n.locale = lang;
     }
+  },
+  methods: {
+    getBuildings() {
+      this.loadingBuildings = true;
+      this.$axios
+        .get(`${process.env.API}/posts`)
+        .then(response => {
+          this.buildingList = response.data;
+          this.loadingBuildings = false;
+        })
+        .catch(error => {
+          this.$q.dialog({
+            title: 'Error',
+            message: 'Could not download buildings.'
+          });
+          this.loadingBuildings = false;
+        });
+    }
+  },
+  created() {
+    this.getBuildings();
   }
 };
 </script>
