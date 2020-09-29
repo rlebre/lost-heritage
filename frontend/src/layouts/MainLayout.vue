@@ -5,7 +5,7 @@
         <!-- <q-separator vertical spaced class="large-screen-only" /> -->
 
         <q-toolbar-title class="text-grand-hotel text-bold">
-          Lost Heritage
+          {{ $t('message.appName') }}
         </q-toolbar-title>
 
         <q-btn
@@ -37,6 +37,15 @@
           to="/camera"
           class="large-screen-only q-mr-lg"
         />
+
+        <q-select
+          class="text-uppercase"
+          borderless
+          dense
+          v-model="selectedLocale"
+          :options="localeOptions"
+          @input="changeLocale"
+        />
       </q-toolbar>
     </q-header>
 
@@ -62,7 +71,15 @@
 export default {
   name: 'MainLayout',
   data() {
-    return {};
+    return {
+      selectedLocale: 'en',
+      localeOptions: this.$i18n.availableLocales
+    };
+  },
+  methods: {
+    changeLocale(locale) {
+      this.$i18n.locale = locale;
+    }
   }
 };
 </script>
