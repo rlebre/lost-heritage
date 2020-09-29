@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run start-dev",
     "start-dev": "nodemon index.js",
-    "deploy": "heroku builds:create -a quasagram-tutorial",
+    "deploy": "heroku builds:create -a lost-heritage",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rui Lebre",
