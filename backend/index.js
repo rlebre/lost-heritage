@@ -89,6 +89,7 @@ app.post('/createPost', (req, res) => {
                 lat: Number(fields.lat),
                 lng: Number(fields.lng),
                 date: parseInt(fields.date),
+                isRecovered: fields.isRecovered,
                 imageUrls
             }).then(
                 response => {
