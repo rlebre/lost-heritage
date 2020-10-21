@@ -1,8 +1,8 @@
 <template>
   <q-page class="constrain q-pa-md">
     <div class="row q-col-gutter-lg">
-      <template v-if="!loadingPosts && posts.length">
-        <div class="col-12" v-for="post in posts" :key="post.id">
+      <template v-if="!isLoadingPosts && postList.length">
+        <div class="col-12" v-for="post in postList" :key="post.id">
           <template>
             <q-card class="card-post q-mb-md" flat bordered>
               <q-card-section horizontal>
@@ -43,28 +43,11 @@
           </template>
         </div>
       </template>
-      <div class="col-12 col-sm-6" v-else-if="!loadingPosts && !posts.length">
+      <div class="col-12" v-else-if="!isLoadingPosts && !postList.length">
         <h5 class="text-center text-grey">No posts yet.</h5>
       </div>
-      <div class="col-12 col-sm-6" v-else>
+      <div class="col-12" v-else>
         <q-card flat bordered>
-          <q-item>
-            <q-item-section avatar>
-              <q-skeleton type="QAvatar" animation="fade" size="40px" />
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label>
-                <q-skeleton type="text" animation="fade" />
-              </q-item-label>
-              <q-item-label caption>
-                <q-skeleton type="text" animation="fade" />
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-skeleton height="200px" square animation="fade" />
-
           <q-card-section>
             <q-skeleton type="text" class="text-subtitle2" animation="fade" />
             <q-skeleton
@@ -74,6 +57,8 @@
               animation="fade"
             />
           </q-card-section>
+
+          <q-skeleton class="q-ma-sm" height="200px" animation="fade" />
         </q-card>
       </div>
       <!-- <div class="col-4 large-screen-only">
@@ -98,26 +83,23 @@
 
 <script>
 import { date } from 'quasar';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PageHome',
 
+  computed: {
+    ...mapGetters('posts', ['postList', 'isLoadingPosts'])
+  },
+
   data() {
-    return {
-      posts: [],
-      loadingPosts: false
-    };
+    return {};
   },
 
   filters: {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D, HH:mm');
     }
-  },
-
-  created() {
-    this.posts = this.$attrs.buildingList;
-    this.loadingPosts = this.$attrs.loadingBuildings;
   }
 };
 </script>
