@@ -13,7 +13,7 @@
     >
       <GmapMarker
         :key="index"
-        v-for="(post, index) in postListForMap"
+        v-for="(post, index) in posts"
         :position="{ lat: post.lat, lng: post.lng }"
         :clickable="true"
         :draggable="false"
@@ -43,16 +43,32 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'PageMap',
+
   data() {
-    return {};
+    return {
+      posts: []
+    };
   },
+
   computed: {
-    ...mapGetters('posts', ['postListForMap'])
+    ...mapGetters('posts', ['postList'])
   },
+
   filters: {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D, HH:mm');
     }
+  },
+  watch: {
+    postList(newPostList, oldPostList) {
+      this.posts = newPostList;
+    }
+  },
+  created() {
+    this.posts = this.postList.map(obj => ({
+      ...obj,
+      clicked: false
+    }));
   }
 };
 </script>
