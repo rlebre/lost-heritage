@@ -5,8 +5,15 @@
 </template>
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+import { mapActions } from 'vuex';
 
 export default defineComponent({
   name: 'App',
+  methods: {
+    ...mapActions('posts', ['fetchPosts'])
+  },
+  mounted() {
+    this.fetchPosts();
+  }
 });
 </script>

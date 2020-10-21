@@ -39,25 +39,36 @@
 
 <script>
 import * as VueGoogleMaps from 'vue2-google-maps';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PageMap',
+
   data() {
     return {
       posts: []
     };
   },
+
+  computed: {
+    ...mapGetters('posts', ['postList'])
+  },
+
   filters: {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D, HH:mm');
     }
   },
+  watch: {
+    postList(newPostList, oldPostList) {
+      this.posts = newPostList;
+    }
+  },
   created() {
-    this.posts = this.$attrs.buildingList.map(obj => ({
+    this.posts = this.postList.map(obj => ({
       ...obj,
       clicked: false
     }));
-    this.loadingPosts = this.$attrs.loadingBuildings;
   }
 };
 </script>
