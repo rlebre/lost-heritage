@@ -4,6 +4,41 @@
       <h4 class="text-h4 q-ma-sm ">Create new post</h4>
     </div>
 
+    <div>
+      <h6 class="text-weight-light q-ma-sm ">Contributor Information</h6>
+    </div>
+
+    <div class=" q-ma-md">
+      <q-input
+        v-model="newPost.contributorName"
+        class="col col-sm-10"
+        label="Contributor Name"
+        filled
+      />
+    </div>
+
+    <div class=" q-ma-md">
+      <q-input
+        v-model="newPost.contributorEmail"
+        class="col col-sm-10"
+        label="Contributor Email"
+        filled
+      />
+    </div>
+
+    <div class=" q-ma-md">
+      <q-input
+        v-model="newPost.contributorAddress"
+        class="col col-sm-10"
+        label="Contributor City"
+        filled
+      />
+    </div>
+
+    <div>
+      <h6 class="text-weight-light q-ma-sm ">Building Information</h6>
+    </div>
+
     <div class=" q-ma-md">
       <q-input
         v-model="newPost.title"
@@ -12,6 +47,7 @@
         filled
       />
     </div>
+
     <div class="q-ma-md">
       <q-input
         v-model="newPost.details"
@@ -35,6 +71,8 @@
           v-slot:append
           v-if="!this.locationLoading && locationSupported"
         >
+          <q-btn round dense flat icon="eva-pin-outline" @click="getLocation" />
+
           <q-btn
             round
             dense
@@ -46,23 +84,70 @@
       </q-input>
     </div>
 
-    <div class="q-ma-sm text-grey-9">
-      <q-checkbox
+    <div class="q-ma-md">
+      <q-input
+        v-model="newPost.previousFunctions"
+        filled
+        autogrow
         class="col col-sm-10"
-        v-model="newPost.isRecovered"
-        label="Recovered"
+        label="Previous Functions"
+        type="textarea"
       />
     </div>
+
+    <div class="q-ma-md">
+      <q-input
+        v-model="newPost.stories"
+        filled
+        autogrow
+        class="col col-sm-10"
+        label="Relevant Stories"
+        type="textarea"
+      />
+    </div>
+
+    <div class="q-ma-md">
+      <q-input
+        v-model="newPost.suggestedFunctions"
+        filled
+        autogrow
+        class="col col-sm-10"
+        label="Suggested Functions"
+        type="textarea"
+      />
+    </div>
+
+    <q-btn-toggle
+      v-model="newPost.isRecovered"
+      spread
+      class="q-ma-sm q-mx-md text-grey-9"
+      no-caps
+      unelevated
+      toggle-color="primary"
+      color="grey-4"
+      text-color="grey-9"
+      :options="[
+        { label: 'Recovered', value: true },
+        { label: 'Needs recovery', value: false }
+      ]"
+    />
 
     <div class="row text-center">
       <div
         class="col-12 col-sm-4"
-        v-for="(image, idx) in loadedImages"
+        v-for="(image, idx) in newPost.photos"
         :key="idx"
       >
         <div class="q-mt-lg">
           <div class="q-mb-sm">
-            <q-btn round unelevated color="primary" label="X" size="xs" />
+            <q-btn
+              round
+              unelevated
+              color="primary"
+              icon="eva-trash-outline"
+              size="xs"
+              @click="deletePhotoFromUploadQueue(idx)"
+            />
           </div>
           <img
             style="max-width: 70%; min-height:100%"
@@ -75,9 +160,10 @@
               dense
               filled
               autogrow
-              class="col col-sm-10 q-ml-lg q-mr-lg"
+              class="col col-sm-10 q-ml-lg q-mr-lg q-px-sm"
               label="Description"
               type="textarea"
+              maxlength="30"
             />
           </div>
         </div>
@@ -85,7 +171,7 @@
 
       <q-file
         outlined
-        class="q-mx-md q-mt-lg"
+        class="q-mx-md q-ma-lg"
         v-model="imageUpload"
         label="Choose an image"
         accept="image/*"
@@ -94,12 +180,27 @@
         max-files="4"
         append
         @input="captureImageFallback"
-        @clear="fileCleared"
       >
         <template v-slot:prepend>
           <q-icon name="eva-attach-outline" />
         </template>
       </q-file>
+    </div>
+
+    <div class="q-ma-sm text-grey-9">
+      <q-checkbox
+        class="col col-sm-10"
+        v-model="newPost.newsletterAgree"
+        label="I agree to receive e-mails with news."
+      />
+    </div>
+
+    <div class="q-ma-sm text-grey-9">
+      <q-checkbox
+        class="col col-sm-10"
+        v-model="tncAgree"
+        label="I agree with the T&C, recongnizing that the personal data will be stored for validation and possible future contact."
+      />
     </div>
 
     <div class="row justify-center q-mt-lg">
@@ -124,16 +225,23 @@ import { uid } from 'quasar';
 require('md-gum-polyfill');
 
 export default {
-  name: 'PageCamera',
+  name: 'PagePost',
   data() {
     return {
       newPost: {
         id: uid(),
+        contributorName: '',
+        contributorEmail: '',
+        contributorAddress: '',
         title: '',
         details: '',
         location: '',
         lat: '',
         lng: '',
+        previousFunctions: '',
+        stories: '',
+        suggestedFunctions: '',
+        newsletterAgree: false,
         photos: [],
         date: Date.now(),
         isRecovered: false
@@ -141,20 +249,17 @@ export default {
       imageCaptured: false,
       imageUpload: [],
       locationLoading: false,
-      loadedImages: [],
-      blalba: ''
+      tncAgree: false
     };
   },
+
   computed: {
     locationSupported() {
       return 'geolocation' in navigator;
     }
   },
+
   methods: {
-    addMorePhotos() {
-      this.imageCaptured = false;
-      this.initCamera();
-    },
     dataURItoBlob(dataURI) {
       var byteString = atob(dataURI.split(',')[1]);
 
@@ -170,22 +275,33 @@ export default {
       var blob = new Blob([ab], { type: mimeString });
       return blob;
     },
+
     captureImageFallback(files) {
       var URL = window.URL || window.webkitURL;
 
-      for (let i in this.loadedImages) {
-        this.$set(this.loadedImages, i, '');
+      for (let i in this.newPost.photos) {
+        this.$set(this.newPost.photos, i, '');
       }
 
-      files.forEach((file, index) => {
-        var imgURL = URL.createObjectURL(file, index);
+      // TODO
+      // Trolha way
+      this.newPost.photos = [];
 
-        this.$set(this.loadedImages, index, imgURL);
+      files.forEach((file, index) => {
+        var fileReader = new FileReader();
+
+        fileReader.onload = event => {
+          this.newPost.photos.push(event.target.result);
+        };
+        fileReader.readAsDataURL(file);
       });
     },
-    fileCleared(value) {
-      console.log(`File cleared ${value}`);
+
+    deletePhotoFromUploadQueue(idx) {
+      this.newPost.photos.splice(idx, 1);
+      this.imageUpload.splice(idx, 1);
     },
+
     getLocation() {
       this.locationLoading = true;
       navigator.geolocation.getCurrentPosition(
@@ -201,6 +317,7 @@ export default {
         { timeout: 10000 }
       );
     },
+
     getCityAndCountry(position) {
       let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
       this.$axios.get(apiUrl).then(
@@ -213,12 +330,14 @@ export default {
         }
       );
     },
+
     locationSuccess(result) {
       this.newPost.location = result.data.city;
       if (result.data.country)
         this.newPost.location += `, ${result.data.country}`;
       this.locationLoading = false;
     },
+
     locationError(error) {
       this.$q.dialog({
         title: 'Error',
@@ -226,6 +345,7 @@ export default {
       });
       this.locationLoading = false;
     },
+
     addPost() {
       this.$q.loading.show();
 
@@ -241,7 +361,7 @@ export default {
       this.newPost.photos.forEach((photo, index) => {
         formData.append(
           `files[${index}]`,
-          photo,
+          this.dataURItoBlob(photo),
           `${this.newPost.id}_${index}.png`
         );
       });
