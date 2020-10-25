@@ -31,10 +31,10 @@
         <q-btn
           flat
           round
-          icon="eva-camera-outline"
+          icon="eva-plus-circle-outline"
           size="18px"
           dense
-          to="/camera"
+          to="/new-post"
           class="large-screen-only q-mr-lg"
         />
 
@@ -59,7 +59,7 @@
       >
         <q-route-tab to="/" icon="eva-home-outline" />
         <q-route-tab to="/map" icon="eva-map-outline" />
-        <q-route-tab to="/camera" icon="eva-camera-outline" />
+        <q-route-tab to="/new-post" icon="eva-plus-circle-outline" />
       </q-tabs>
     </q-footer>
 
