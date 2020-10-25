@@ -1,6 +1,13 @@
 <template>
   <q-page class="q-pa-md">
-    <MapComponent :posts="posts"></MapComponent>
+    <div class="row">
+      <div class="col-md-6">
+        <MapComponent :posts="posts"></MapComponent>
+      </div>
+      <div class="col-md-6">
+        teste test
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -21,8 +28,11 @@ export default {
   },
 
   watch: {
-    postList(newPostList, oldPostList) {
-      this.posts = newPostList;
+    postList(newPosts) {
+      this.posts = newPosts.map(obj => ({
+        ...obj,
+        clicked: false
+      }));
     }
   },
 

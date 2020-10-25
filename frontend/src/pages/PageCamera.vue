@@ -1,84 +1,32 @@
 <template>
   <q-page class="constrain-more q-pa-md">
-    <div class="camera-frame q-pa-xs">
-      <video
-        class="full-width remove-xtra-margin"
-        autoplay
-        ref="video"
-        v-show="!imageCaptured"
-      />
-      <canvas
-        ref="canvas"
-        class="full-width remove-xtra-margin"
-        height="248"
-        v-show="imageCaptured"
-      />
+    <div>
+      <h4 class="text-h4 q-ma-sm ">Create new post</h4>
     </div>
-    <div class="text-center q-pa-md">
-      <template v-if="hasCameraSupport">
-        <q-btn
-          class="q-mr-sm"
-          round
-          color="primary"
-          icon="eva-camera"
-          size="lg"
-          unelevated
-          @click="captureImage"
-          :disable="imageCaptured"
-        />
 
-        <q-btn
-          v-if="imageCaptured"
-          round
-          unelevated
-          color="primary"
-          icon="eva-plus-outline"
-          size="lg"
-          @click="addMorePhotos"
-        />
-      </template>
-
-      <q-file
-        v-else
-        outlined
-        v-model="imageUpload"
-        label="Choose an image"
-        accept="image/*"
-        @input="captureImageFallback"
-      >
-        <template v-slot:prepend>
-          <q-icon name="eva-attach-outline" />
-        </template>
-      </q-file>
-    </div>
-    <div class="row justify-center q-ma-md">
+    <div class=" q-ma-md">
       <q-input
-        v-model="building.title"
+        v-model="newPost.title"
         class="col col-sm-10"
         label="Title"
         filled
       />
     </div>
-    <div class="row justify-center q-ma-md">
+    <div class="q-ma-md">
       <q-input
-        v-model="building.details"
+        v-model="newPost.details"
         filled
         autogrow
         class="col col-sm-10"
         label="Details"
+        type="textarea"
       />
     </div>
-    <div class="row justify-center q-ma-md text-grey-9">
-      <q-checkbox
-        class="col col-sm-10"
-        v-model="building.isRecovered"
-        label="Recovered"
-      />
-    </div>
-    <!-- <div class="row justify-center q-ma-md">
+
+    <div class="q-ma-md">
       <q-input
         :loading="locationLoading"
-        v-model="building.location"
+        v-model="newPost.location"
         class="col col-sm-10"
         label="Location"
         filled
@@ -96,7 +44,44 @@
           />
         </template>
       </q-input>
-    </div> -->
+    </div>
+
+    <div class="q-ma-sm text-grey-9">
+      <q-checkbox
+        class="col col-sm-10"
+        v-model="newPost.isRecovered"
+        label="Recovered"
+      />
+    </div>
+
+    <div class="row text-center">
+      <div
+        class="col-12 col-sm-4"
+        v-for="(image, idx) in loadedImages"
+        :key="idx"
+      >
+        <img :src="image" alt="" ref="picture" />
+      </div>
+
+      <q-file
+        outlined
+        class="q-mx-md q-mt-lg"
+        v-model="imageUpload"
+        label="Choose an image"
+        accept="image/*"
+        multiple
+        use-chips
+        max-files="4"
+        append
+        @input="captureImageFallback"
+        @clear="fileCleared"
+      >
+        <template v-slot:prepend>
+          <q-icon name="eva-attach-outline" />
+        </template>
+      </q-file>
+    </div>
+
     <div class="row justify-center q-mt-lg">
       <q-btn
         unelevated
@@ -104,10 +89,10 @@
         label="Post Image"
         @click="addPost"
         :disable="
-          !building.title ||
-            !building.details ||
-            building.photos.length <= 0 ||
-            !(building.lat && building.lng)
+          !newPost.title ||
+            !newPost.details ||
+            newPost.photos.length <= 0 ||
+            !(newPost.lat && newPost.lng)
         "
       ></q-btn>
     </div>
@@ -122,7 +107,7 @@ export default {
   name: 'PageCamera',
   data() {
     return {
-      building: {
+      newPost: {
         id: uid(),
         title: '',
         details: '',
@@ -135,8 +120,8 @@ export default {
       },
       imageCaptured: false,
       imageUpload: [],
-      hasCameraSupport: true,
-      locationLoading: false
+      locationLoading: false,
+      loadedImages: []
     };
   },
   computed: {
@@ -145,34 +130,6 @@ export default {
     }
   },
   methods: {
-    initCamera() {
-      navigator.mediaDevices
-        .getUserMedia({
-          video: { facingMode: 'environment' }
-        })
-        .then(stream => {
-          this.$refs.video.srcObject = stream;
-        })
-        .catch(error => {
-          this.hasCameraSupport = false;
-        });
-    },
-    startStream() {},
-    captureImage() {
-      let video = this.$refs.video;
-      let canvas = this.$refs.canvas;
-
-      canvas.width = video.getBoundingClientRect().width;
-      canvas.height = video.getBoundingClientRect().height;
-
-      let context = canvas.getContext('2d');
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      this.imageCaptured = true;
-
-      this.building.photos.push(this.dataURItoBlob(canvas.toDataURL()));
-      this.disableCamera();
-    },
     addMorePhotos() {
       this.imageCaptured = false;
       this.initCamera();
@@ -192,36 +149,29 @@ export default {
       var blob = new Blob([ab], { type: mimeString });
       return blob;
     },
-    captureImageFallback(file) {
-      this.building.photo = file;
-      let canvas = this.$refs.canvas;
-      let context = canvas.getContext('2d');
+    captureImageFallback(files) {
+      var URL = window.URL || window.webkitURL;
 
-      var reader = new FileReader();
-      reader.onload = event => {
-        var img = new Image();
-        img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          context.drawImage(img, 0, 0);
-          this.imageCaptured = true;
-        };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
-    disableCamera() {
-      this.$refs.video.srcObject.getVideoTracks().forEach(track => {
-        track.stop();
+      for (let i in this.loadedImages) {
+        this.$set(this.loadedImages, i, '');
+      }
+
+      files.forEach((file, index) => {
+        var imgURL = URL.createObjectURL(file, index);
+
+        this.$set(this.loadedImages, index, imgURL);
       });
+    },
+    fileCleared(value) {
+      console.log(`File cleared ${value}`);
     },
     getLocation() {
       this.locationLoading = true;
       navigator.geolocation.getCurrentPosition(
         position => {
-          this.building.lng = position.coords.longitude;
-          this.building.lat = position.coords.latitude;
-          //this.getCityAndCountry(position);
+          this.newPost.lng = position.coords.longitude;
+          this.newPost.lat = position.coords.latitude;
+          this.getCityAndCountry(position);
         },
         error => {
           console.log(error);
@@ -243,9 +193,9 @@ export default {
       );
     },
     locationSuccess(result) {
-      this.building.location = result.data.city;
+      this.newPost.location = result.data.city;
       if (result.data.country)
-        this.building.location += `, ${result.data.country}`;
+        this.newPost.location += `, ${result.data.country}`;
       this.locationLoading = false;
     },
     locationError(error) {
@@ -259,19 +209,19 @@ export default {
       this.$q.loading.show();
 
       let formData = new FormData();
-      formData.append('id', this.building.id);
-      formData.append('details', this.building.details);
-      formData.append('title', this.building.title);
-      formData.append('location', this.building.location);
-      formData.append('lat', this.building.lat);
-      formData.append('lng', this.building.lng);
-      formData.append('date', this.building.date);
-      formData.append('isRecovered', this.building.isRecovered);
-      this.building.photos.forEach((photo, index) => {
+      formData.append('id', this.newPost.id);
+      formData.append('details', this.newPost.details);
+      formData.append('title', this.newPost.title);
+      formData.append('location', this.newPost.location);
+      formData.append('lat', this.newPost.lat);
+      formData.append('lng', this.newPost.lng);
+      formData.append('date', this.newPost.date);
+      formData.append('isRecovered', this.newPost.isRecovered);
+      this.newPost.photos.forEach((photo, index) => {
         formData.append(
           `files[${index}]`,
           photo,
-          `${this.building.id}_${index}.png`
+          `${this.newPost.id}_${index}.png`
         );
       });
 
@@ -301,21 +251,12 @@ export default {
           error => {
             this.$q.dialog({
               title: 'Error',
-              message: 'Sorry, could not create building.'
+              message: 'Sorry, could not create newPost.'
             });
 
             this.$q.loading.hide();
           }
         );
-    }
-  },
-  mounted() {
-    this.initCamera();
-    this.getLocation();
-  },
-  beforeDestroy() {
-    if (this.hasCameraSupport) {
-      this.disableCamera();
     }
   }
 };
