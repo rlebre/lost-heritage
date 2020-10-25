@@ -9,7 +9,6 @@
       fullscreenControl: false,
       disableDefaultUI: false
     }"
-    style="height:90%"
   >
     <GmapMarker
       :key="index"
