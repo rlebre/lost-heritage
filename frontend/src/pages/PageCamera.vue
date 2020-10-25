@@ -60,7 +60,27 @@
         v-for="(image, idx) in loadedImages"
         :key="idx"
       >
-        <img :src="image" alt="" ref="picture" />
+        <div class="q-mt-lg">
+          <div class="q-mb-sm">
+            <q-btn round unelevated color="primary" label="X" size="xs" />
+          </div>
+          <img
+            style="max-width: 70%; min-height:100%"
+            :src="image"
+            alt=""
+            ref="picture"
+          />
+          <div>
+            <q-input
+              dense
+              filled
+              autogrow
+              class="col col-sm-10 q-ml-lg q-mr-lg"
+              label="Description"
+              type="textarea"
+            />
+          </div>
+        </div>
       </div>
 
       <q-file
@@ -121,7 +141,8 @@ export default {
       imageCaptured: false,
       imageUpload: [],
       locationLoading: false,
-      loadedImages: []
+      loadedImages: [],
+      blalba: ''
     };
   },
   computed: {
