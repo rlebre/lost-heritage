@@ -1,11 +1,23 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="row">
-      <div class="col-md-6">
-        <MapComponent :posts="posts"></MapComponent>
+  <q-page>
+    <div class="large-screen-only">
+      <div class="app-panel row">
+        <div class="list-panel col-sm-4 col-md-4">
+          <template v-if="posts.length">
+            <div class="col-12 q-ma-sm" v-for="post in posts" :key="post.id">
+              <ListCardComponent :post="post"></ListCardComponent>
+            </div>
+          </template>
+        </div>
+        <div class="col-sm-8 col-md-8">
+          <MapComponent :posts="posts"></MapComponent>
+        </div>
       </div>
-      <div class="col-md-6">
-        teste test
+    </div>
+
+    <div class="small-screen-only">
+      <div class="app-panel row">
+        <MapComponent :posts="posts"></MapComponent>
       </div>
     </div>
   </q-page>
@@ -45,4 +57,23 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.app-panel {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.list-panel {
+  overflow-y: scroll;
+  max-height: 100%;
+}
+
+.vue-map-container {
+  position: relative;
+}
+
+.map-panel {
+  flex: 4 1 80%;
+}
+</style>

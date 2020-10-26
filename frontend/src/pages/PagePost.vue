@@ -64,25 +64,38 @@
         :loading="locationLoading"
         v-model="newPost.location"
         class="col col-sm-10"
-        label="Location"
+        label="Pick or Locate Below"
         filled
+        disable
       >
-        <template
-          v-slot:append
-          v-if="!this.locationLoading && locationSupported"
-        >
-          <q-btn round dense flat icon="eva-pin-outline" @click="getLocation" />
-
-          <q-btn
-            round
-            dense
-            flat
-            icon="eva-navigation-2-outline"
-            @click="getLocation"
-          />
-        </template>
       </q-input>
+      <q-btn-group flat spread class="q-mt-sm">
+        <q-btn
+          class="q-mr-sm"
+          dense
+          flat
+          color="primary"
+          icon="eva-pin-outline"
+          label="Pick"
+          @click="toggleShowLocationPickerDialog"
+        />
+
+        <q-btn
+          dense
+          flat
+          color="primary"
+          icon="eva-navigation-2-outline"
+          label="Locate"
+          @click="getLocation"
+        />
+      </q-btn-group>
     </div>
+
+    <LocationPickerDialog
+      v-if="showLocationPickerDialog"
+      @closed="showLocationPickerDialog = false"
+      @pickedLocation="applyLocation"
+    ></LocationPickerDialog>
 
     <div class="q-ma-md">
       <q-input
@@ -189,17 +202,25 @@
 
     <div class="q-ma-sm text-grey-9">
       <q-checkbox
-        class="col col-sm-10"
+        :class="
+          'col col-sm-10 '.concat(
+            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
+          )
+        "
         v-model="newPost.newsletterAgree"
-        label="I agree to receive e-mails with news."
+        label="I want to receive e-mails with news."
       />
     </div>
 
     <div class="q-ma-sm text-grey-9">
       <q-checkbox
-        class="col col-sm-10"
+        :class="
+          'col col-sm-10 '.concat(
+            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
+          )
+        "
         v-model="tncAgree"
-        label="I agree with the T&C, recongnizing that the personal data will be stored for validation and possible future contact."
+        label="I agree with the T&C, recognizing that the personal data will be stored for validation and possible future contact."
       />
     </div>
 
@@ -249,7 +270,8 @@ export default {
       imageCaptured: false,
       imageUpload: [],
       locationLoading: false,
-      tncAgree: false
+      tncAgree: false,
+      showLocationPickerDialog: false
     };
   },
 
@@ -346,6 +368,16 @@ export default {
       this.locationLoading = false;
     },
 
+    toggleShowLocationPickerDialog() {
+      this.showLocationPickerDialog ^= true;
+    },
+
+    applyLocation(location) {
+      let lat = location.lat.toFixed(5);
+      let lng = location.lng.toFixed(5);
+      this.newPost.location = `${lat}, ${lng}`;
+    },
+
     addPost() {
       this.$q.loading.show();
 
@@ -404,6 +436,12 @@ export default {
 </script>
 
 <style lang="scss">
+.align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .camera-frame {
   border: 1px solid $grey-5;
   border-radius: 5px;

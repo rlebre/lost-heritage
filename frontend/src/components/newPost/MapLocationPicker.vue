@@ -1,9 +1,11 @@
 <template>
   <GmapMap
+    ref="mapLocationPicker"
+    @center_changed="updateCenter($event)"
     :center="{ lat: 39.7330017, lng: -7.6897566 }"
     :zoom="7"
     :options="{
-      mapTypeControl: false,
+      mapTypeControl: true,
       streetViewControl: false,
       rotateControl: false,
       fullscreenControl: false,
@@ -12,27 +14,10 @@
     }"
   >
     <GmapMarker
-      :key="index"
-      v-for="(post, index) in posts"
-      :position="{ lat: post.lat, lng: post.lng }"
-      :clickable="true"
+      :position="pickedLocation"
       :draggable="false"
-      @click="
-        center = { lat: post.lat, lng: post.lng };
-        post.clicked = !post.clicked;
-      "
-      :icon="
-        `http://maps.google.com/mapfiles/ms/icons/${
-          post.isRecovered ? 'green' : 'red'
-        }-dot.png`
-      "
-    >
-      <gmap-info-window :opened="post.clicked">
-        <q-img class="col" style="width:200px" :src="post.imageUrls[0]" />
-        <p><b>Title:</b> {{ post.title }}</p>
-        <p><b>Details:</b> {{ post.details }}</p>
-      </gmap-info-window>
-    </GmapMarker>
+      icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+    />
   </GmapMap>
 </template>
 
@@ -42,14 +27,9 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 export default {
   name: 'Map',
 
-  props: {
-    posts: {
-      type: Array
-    }
-  },
-
   data() {
     return {
+      pickedLocation: { lat: 39.7330017, lng: -7.6897566 },
       styleLight: [
         {
           featureType: 'administrative.neighborhood',
@@ -392,6 +372,21 @@ export default {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D, HH:mm');
     }
+  },
+
+  methods: {
+    updateCenter(newLocation) {
+      this.pickedLocation = {
+        lat: newLocation.lat(),
+        lng: newLocation.lng()
+      };
+
+      this.$emit('centerUpdated', this.pickedLocation);
+    }
+  },
+
+  created() {
+    this.$emit('centerUpdated', this.pickedLocation);
   }
 };
 </script>
