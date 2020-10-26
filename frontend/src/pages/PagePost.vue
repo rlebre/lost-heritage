@@ -71,18 +71,78 @@
           v-slot:append
           v-if="!this.locationLoading && locationSupported"
         >
-          <q-btn round dense flat icon="eva-pin-outline" @click="getLocation" />
+          <q-btn
+            class="q-mr-sm"
+            round
+            dense
+            flat
+            icon="eva-pin-outline"
+            label="Pick on map"
+            @click="showLocationPickerDialog = true"
+          />
 
           <q-btn
             round
             dense
             flat
             icon="eva-navigation-2-outline"
+            label="Current"
             @click="getLocation"
           />
         </template>
       </q-input>
     </div>
+
+    <q-dialog v-model="showLocationPickerDialog">
+      <q-layout view="Lhh lpR fff" container class="bg-white">
+        <q-header
+          :class="
+            $q.dark.isActive
+              ? 'bg-grey-9 text-grey-13'
+              : 'bg-grey-1 text-grey-10'
+          "
+        >
+          <q-toolbar>
+            <q-toolbar-title>
+              <h6 class="text-h6 q-ma-sm">Pick Location on map</h6>
+            </q-toolbar-title>
+            <q-btn
+              class="float-right"
+              flat
+              v-close-popup
+              round
+              dense
+              icon="close"
+            />
+          </q-toolbar>
+        </q-header>
+
+        <q-footer
+          :class="
+            'align-center '.concat(
+              $q.dark.isActive
+                ? 'bg-grey-9 text-grey-13'
+                : 'bg-grey-1 text-grey-10'
+            )
+          "
+        >
+          <q-btn
+            class="q-ma-sm q-pa-md q-px-xl"
+            flat
+            v-close-popup
+            dense
+            icon="eva-checkmark-circle-2-outline"
+            >Set</q-btn
+          >
+        </q-footer>
+
+        <q-page-container>
+          <q-page padding>
+            <MapLocationPicker></MapLocationPicker>
+          </q-page>
+        </q-page-container>
+      </q-layout>
+    </q-dialog>
 
     <div class="q-ma-md">
       <q-input
@@ -249,7 +309,8 @@ export default {
       imageCaptured: false,
       imageUpload: [],
       locationLoading: false,
-      tncAgree: false
+      tncAgree: false,
+      showLocationPickerDialog: false
     };
   },
 
@@ -346,6 +407,10 @@ export default {
       this.locationLoading = false;
     },
 
+    toggleShowLocationPickerDialog() {
+      this.showLocationPickerDialog ^= true;
+    },
+
     addPost() {
       this.$q.loading.show();
 
@@ -404,6 +469,12 @@ export default {
 </script>
 
 <style lang="scss">
+.align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .camera-frame {
   border: 1px solid $grey-5;
   border-radius: 5px;
