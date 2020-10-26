@@ -380,7 +380,13 @@ export default {
         lat: newLocation.lat(),
         lng: newLocation.lng()
       };
+
+      this.$emit('centerUpdated', this.pickedLocation);
     }
+  },
+
+  created() {
+    this.$emit('centerUpdated', this.pickedLocation);
   }
 };
 </script>
