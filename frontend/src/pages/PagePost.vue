@@ -59,6 +59,27 @@
       />
     </div>
 
+    <q-select
+      class="q-ma-md"
+      filled
+      use-input
+      label="Concelho"
+      v-model="newPost.concelho"
+      :options="filteredConcelhos"
+      @filter="filterConcelho"
+      behavior="menu"
+      input-debounce="0"
+      max-values="1"
+    >
+      <template v-slot:no-option>
+        <q-item>
+          <q-item-section class="text-grey">
+            No results
+          </q-item-section>
+        </q-item>
+      </template>
+    </q-select>
+
     <div class="q-ma-md">
       <q-input
         :loading="locationLoading"
@@ -256,6 +277,7 @@ export default {
         contributorAddress: '',
         title: '',
         details: '',
+        concelho: '',
         location: '',
         lat: '',
         lng: '',
@@ -271,7 +293,9 @@ export default {
       imageUpload: [],
       locationLoading: false,
       tncAgree: false,
-      showLocationPickerDialog: false
+      showLocationPickerDialog: false,
+      concelhos: [],
+      filteredConcelhos: []
     };
   },
 
@@ -378,6 +402,22 @@ export default {
       this.newPost.location = `${lat}, ${lng}`;
     },
 
+    filterConcelho(val, update) {
+      if (val === '') {
+        update(() => {
+          this.filteredConcelhos = this.concelhos;
+        });
+        return;
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        this.filteredConcelhos = this.concelhos.filter(
+          v => v.toLowerCase().indexOf(needle) > -1
+        );
+      });
+    },
+
     addPost() {
       this.$q.loading.show();
 
@@ -431,6 +471,11 @@ export default {
           }
         );
     }
+  },
+  created() {
+    let concelhosDictionary = require('assets/concelhos.json');
+    this.concelhos = Object.keys(concelhosDictionary);
+    this.filteredConcelhos = this.concelhos;
   }
 };
 </script>
