@@ -7,7 +7,7 @@ const routes: RouteConfig[] = [
     children: [
       { path: '', component: () => import('pages/PageHome.vue') },
       { path: '/map', component: () => import('pages/PageMap.vue') },
-      { path: '/camera', component: () => import('pages/PageCamera.vue') }
+      { path: '/new-post', component: () => import('pages/PagePost.vue') }
     ]
   },
 
