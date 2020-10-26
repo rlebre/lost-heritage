@@ -191,7 +191,7 @@
       <q-checkbox
         class="col col-sm-10"
         v-model="newPost.newsletterAgree"
-        label="I agree to receive e-mails with news."
+        label="I want to receive e-mails with news."
       />
     </div>
 
@@ -199,7 +199,7 @@
       <q-checkbox
         class="col col-sm-10"
         v-model="tncAgree"
-        label="I agree with the T&C, recongnizing that the personal data will be stored for validation and possible future contact."
+        label="I agree with the T&C, recognizing that the personal data will be stored for validation and possible future contact."
       />
     </div>
 

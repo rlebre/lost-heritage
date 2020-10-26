@@ -1,5 +1,9 @@
 <template>
-  <q-card class="card-post q-mb-md" flat bordered>
+  <q-card
+    :class="'card-post q-mb-md '.concat($q.dark.isActive ? 'bg-grey-10' : '')"
+    flat
+    bordered
+  >
     <q-card-section horizontal>
       <q-card-section class="q-pt-xs col-7 q-mt-sm">
         <div class="text-h6 text-weight-bold">
