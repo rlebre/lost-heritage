@@ -64,85 +64,38 @@
         :loading="locationLoading"
         v-model="newPost.location"
         class="col col-sm-10"
-        label="Location"
+        label="Pick or Locate Below"
         filled
+        disable
       >
-        <template
-          v-slot:append
-          v-if="!this.locationLoading && locationSupported"
-        >
-          <q-btn
-            class="q-mr-sm"
-            round
-            dense
-            flat
-            icon="eva-pin-outline"
-            label="Pick on map"
-            @click="showLocationPickerDialog = true"
-          />
-
-          <q-btn
-            round
-            dense
-            flat
-            icon="eva-navigation-2-outline"
-            label="Current"
-            @click="getLocation"
-          />
-        </template>
       </q-input>
+      <q-btn-group flat spread class="q-mt-sm">
+        <q-btn
+          class="q-mr-sm"
+          dense
+          flat
+          color="primary"
+          icon="eva-pin-outline"
+          label="Pick"
+          @click="toggleShowLocationPickerDialog"
+        />
+
+        <q-btn
+          dense
+          flat
+          color="primary"
+          icon="eva-navigation-2-outline"
+          label="Locate"
+          @click="getLocation"
+        />
+      </q-btn-group>
     </div>
 
-    <q-dialog v-model="showLocationPickerDialog">
-      <q-layout view="Lhh lpR fff" container class="bg-white">
-        <q-header
-          :class="
-            $q.dark.isActive
-              ? 'bg-grey-9 text-grey-13'
-              : 'bg-grey-1 text-grey-10'
-          "
-        >
-          <q-toolbar>
-            <q-toolbar-title>
-              <h6 class="text-h6 q-ma-sm">Pick Location on map</h6>
-            </q-toolbar-title>
-            <q-btn
-              class="float-right"
-              flat
-              v-close-popup
-              round
-              dense
-              icon="close"
-            />
-          </q-toolbar>
-        </q-header>
-
-        <q-footer
-          :class="
-            'align-center '.concat(
-              $q.dark.isActive
-                ? 'bg-grey-9 text-grey-13'
-                : 'bg-grey-1 text-grey-10'
-            )
-          "
-        >
-          <q-btn
-            class="q-ma-sm q-pa-md q-px-xl"
-            flat
-            v-close-popup
-            dense
-            icon="eva-checkmark-circle-2-outline"
-            >Set</q-btn
-          >
-        </q-footer>
-
-        <q-page-container>
-          <q-page padding>
-            <MapLocationPicker></MapLocationPicker>
-          </q-page>
-        </q-page-container>
-      </q-layout>
-    </q-dialog>
+    <LocationPickerDialog
+      v-if="showLocationPickerDialog"
+      @closed="showLocationPickerDialog = false"
+      @pickedLocation="applyLocation"
+    ></LocationPickerDialog>
 
     <div class="q-ma-md">
       <q-input
@@ -249,7 +202,11 @@
 
     <div class="q-ma-sm text-grey-9">
       <q-checkbox
-        class="col col-sm-10"
+        :class="
+          'col col-sm-10 '.concat(
+            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
+          )
+        "
         v-model="newPost.newsletterAgree"
         label="I want to receive e-mails with news."
       />
@@ -257,7 +214,11 @@
 
     <div class="q-ma-sm text-grey-9">
       <q-checkbox
-        class="col col-sm-10"
+        :class="
+          'col col-sm-10 '.concat(
+            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
+          )
+        "
         v-model="tncAgree"
         label="I agree with the T&C, recognizing that the personal data will be stored for validation and possible future contact."
       />
@@ -409,6 +370,12 @@ export default {
 
     toggleShowLocationPickerDialog() {
       this.showLocationPickerDialog ^= true;
+    },
+
+    applyLocation(location) {
+      let lat = location.lat.toFixed(5);
+      let lng = location.lng.toFixed(5);
+      this.newPost.location = `${lat}, ${lng}`;
     },
 
     addPost() {
