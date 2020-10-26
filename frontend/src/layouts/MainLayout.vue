@@ -87,9 +87,33 @@
         active-color="primary"
         indicator-color="transparent"
       >
-        <q-route-tab to="/" icon="eva-home-outline" />
-        <q-route-tab to="/map" icon="eva-map-outline" />
-        <q-route-tab to="/new-post" icon="eva-plus-circle-outline" />
+        <q-route-tab
+          to="/"
+          icon="eva-home-outline"
+          :class="
+            $q.dark.isActive
+              ? 'bg-grey-10 text-grey-13'
+              : 'bg-white text-grey-10'
+          "
+        />
+        <q-route-tab
+          to="/map"
+          icon="eva-map-outline"
+          :class="
+            $q.dark.isActive
+              ? 'bg-grey-10 text-grey-13'
+              : 'bg-white text-grey-10'
+          "
+        />
+        <q-route-tab
+          to="/new-post"
+          icon="eva-plus-circle-outline"
+          :class="
+            $q.dark.isActive
+              ? 'bg-grey-10 text-grey-13'
+              : 'bg-white text-grey-10'
+          "
+        />
       </q-tabs>
     </q-footer>
 
