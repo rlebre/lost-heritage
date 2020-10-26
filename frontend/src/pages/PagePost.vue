@@ -1,11 +1,27 @@
 <template>
   <q-page class="constrain-more q-pa-md">
     <div>
-      <h4 class="text-h4 q-ma-sm ">Create new post</h4>
+      <h4
+        :class="
+          'text-h4 q-ma-sm '.concat(
+            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
+          )
+        "
+      >
+        Create new post
+      </h4>
     </div>
 
     <div>
-      <h6 class="text-weight-light q-ma-sm ">Contributor Information</h6>
+      <h6
+        :class="
+          'text-weight-light q-ma-sm '.concat(
+            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
+          )
+        "
+      >
+        Contributor Information
+      </h6>
     </div>
 
     <div class=" q-ma-md">
@@ -36,7 +52,15 @@
     </div>
 
     <div>
-      <h6 class="text-weight-light q-ma-sm ">Building Information</h6>
+      <h6
+        :class="
+          'text-weight-light q-ma-sm ) '.concat(
+            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
+          )
+        "
+      >
+        Building Information
+      </h6>
     </div>
 
     <div class=" q-ma-md">
