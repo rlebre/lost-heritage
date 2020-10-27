@@ -26,6 +26,7 @@
           icon="eva-share-outline"
           size="xs"
           unelevated
+          @click="copyToClipboardHandler"
         />
 
         <ShareNetwork
@@ -122,6 +123,8 @@
 </template>
 
 <script>
+import { copyToClipboard } from 'quasar';
+
 export default {
   name: 'FeedCard',
 
@@ -136,6 +139,34 @@ export default {
     return {
       newComment: ''
     };
+  },
+
+  methods: {
+    copyToClipboardHandler() {
+      copyToClipboard('some text')
+        .then(() => {
+          this.$q.notify({
+            message: 'Copied to clipboard.',
+            actions: [
+              {
+                icon: 'close',
+                color: 'white'
+              }
+            ]
+          });
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: 'Failed.',
+            actions: [
+              {
+                icon: 'close',
+                color: 'white'
+              }
+            ]
+          });
+        });
+    }
   }
 };
 </script>
