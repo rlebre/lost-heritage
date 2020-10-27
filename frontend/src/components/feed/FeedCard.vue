@@ -23,28 +23,45 @@
           class="q-mr-xs float-right"
           round
           color="primary"
-          icon="eva-facebook-outline"
-          size="xs"
-          unelevated
-        />
-
-        <q-btn
-          class="q-mr-xs float-right"
-          round
-          color="primary"
-          icon="eva-twitter-outline"
-          size="xs"
-          unelevated
-        />
-
-        <q-btn
-          class="q-mr-xs float-right"
-          round
-          color="primary"
           icon="eva-share-outline"
           size="xs"
           unelevated
         />
+
+        <ShareNetwork
+          network="twitter"
+          url="https://news.vuejs.org/issues/180"
+          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
+          quote="The hot reload is so fast it\'s near instant. - Evan You"
+          hashtags="lostheritage"
+        >
+          <q-btn
+            class="q-mr-xs float-right"
+            round
+            color="primary"
+            icon="eva-twitter-outline"
+            size="xs"
+            unelevated
+          />
+        </ShareNetwork>
+
+        <ShareNetwork
+          network="facebook"
+          url="https://news.vuejs.org/issues/180"
+          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
+          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
+          quote="The hot reload is so fast it\'s near instant. - Evan You"
+          hashtags="lostheritage"
+        >
+          <q-btn
+            class="q-mr-xs float-right"
+            round
+            color="primary"
+            icon="eva-facebook-outline"
+            size="xs"
+            unelevated
+          />
+        </ShareNetwork>
       </div>
     </div>
 
