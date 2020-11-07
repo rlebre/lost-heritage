@@ -12,7 +12,8 @@ const app = express();
 mongoose.connect(`mongodb+srv://${config.DB_USER}:${config.DB_SECRET}@${config.DB_HOST}/${config.DB_NAME}?retryWrites=true&w=majority`, {
     useCreateIndex: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 app.use(bodyParser.json())

@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Contributor = require('../models/contributor');
+const Comment = require('../models/post-comment');
 
 const { normalizeErrors } = require('../helpers/mongoose');
 
@@ -52,30 +53,47 @@ exports.createPost = (req, res) => {
 };
 
 
-exports.getAllPosts = (req, res) => {
-    let posts = [];
+exports.getPublicPosts = (req, res) => {
+    Post.find({ approved: true }, (err, posts) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
 
-    db.collection('lost-heritage').orderBy('date', 'desc').get().then((snapshot) => {
-        snapshot.forEach((doc) => {
-            posts.push(doc.data());
-        })
-        res.send(posts);
-    })
+        if (!posts) {
+            return res.json([]);
+        }
+
+        res.json(posts);
+    });
+};
+
+exports.getAllPosts = (req, res) => {
+    Post.find({}, (err, posts) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        if (!posts) {
+            return res.json([]);
+        }
+
+        res.json(posts);
+    });
 };
 
 exports.getPostDetails = (req, res) => {
     const postId = req.params.id;
-    let post = {};
 
-    db.collection('lost-heritage').where('id', '==', postId).get().then((snapshot) => {
-        if (snapshot.empty) {
-            return res.send(post);
+    Post.findById(postId, (err, post) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
 
-        snapshot.forEach((doc) => {
-            post = doc.data();
-            return res.send(post);
-        });
+        if (!post) {
+            return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+        }
+
+        res.json(post);
     });
 };
 
@@ -103,4 +121,57 @@ exports.getFilteredPosts = (req, res) => {
         })
         res.send(posts);
     })
+};
+
+exports.likePost = (req, res) => {
+    const postId = req.params.id;
+
+    if (!postId) {
+        return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide Post ID" }] });
+    }
+
+    Post.findByIdAndUpdate(postId, { $inc: { 'likes': 1 } }, (err, post) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        if (!post) {
+            return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+        }
+
+        post.likes++;
+        res.json(post);
+    });
+};
+
+exports.commentPost = async (req, res) => {
+    const postId = req.params.id;
+    const { comment } = req.body;
+
+    if (!postId || !comment) {
+        return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide Post ID and Comment" }] });
+    }
+
+    const commentObj = new Comment({ comment });
+    const newComment = await Comment.create(commentObj);
+
+    if (!newComment) {
+        return res.status(422).send({ errors: [{ title: "Error", detail: "Error creating comment." }] });
+    }
+
+    Post.findByIdAndUpdate(postId, { $push: { 'comments': newComment } }, (err, post) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        if (!post) {
+            return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+        }
+
+        newComment.set({ post });
+        newComment.save();
+
+        post.comments.push(newComment);
+        res.json(post);
+    });
 };
