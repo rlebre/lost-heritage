@@ -1,5 +1,9 @@
 <template>
   <q-page>
+    <PostFilter
+      @onFilterChanged="postFilterChanged"
+      class="q-pa-md"
+    ></PostFilter>
     <div class="large-screen-only">
       <div class="app-panel row">
         <div class="list-panel col-sm-4 col-md-4">
@@ -37,6 +41,12 @@ export default {
 
   computed: {
     ...mapGetters('posts', ['postList'])
+  },
+
+  methods: {
+    postFilterChanged(filterOptions) {
+      console.log(filterOptions);
+    }
   },
 
   watch: {

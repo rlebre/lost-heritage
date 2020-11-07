@@ -1,5 +1,6 @@
 <template>
   <q-page class="constrain q-pa-md">
+    <PostFilter @onFilterChanged="postFilterChanged"></PostFilter>
     <div class="row q-col-gutter-lg">
       <template v-if="!isLoadingPosts && posts.length">
         <div class="col-12" v-for="post in posts" :key="post.id">
@@ -57,6 +58,13 @@ export default {
   watch: {
     postList(newPosts) {
       this.posts = newPosts;
+    }
+  },
+
+  methods: {
+    postFilterChanged(filterOptions) {
+      console.log('asdas');
+      console.log(filterOptions);
     }
   },
 
