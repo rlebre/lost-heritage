@@ -4,8 +4,6 @@ const Contributor = require('../models/contributor');
 const { normalizeErrors } = require('../helpers/mongoose');
 
 exports.createPost = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-
     const {
         contributorName,
         contributorEmail,
@@ -51,34 +49,10 @@ exports.createPost = (req, res) => {
             });
         });
     });
-
-
-    // db.collection('lost-heritage').doc(fields.id).set({
-    //     id: fields.id,
-    //     title: fields.title,
-    //     details: fields.details,
-    //     location: fields.location,
-    //     lat: Number(fields.lat),
-    //     lng: Number(fields.lng),
-    //     date: parseInt(fields.date),
-    //     isRecovered: fields.isRecovered,
-    //     imageUrls
-    // }).then(
-    //     response => {
-    //         res.send("Post added" + fields.id)
-    //     },
-    //     error => {
-    //         console.log(error);
-
-    //     }
-    // );
-
 };
 
 
 exports.getAllPosts = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-
     let posts = [];
 
     db.collection('lost-heritage').orderBy('date', 'desc').get().then((snapshot) => {
@@ -90,8 +64,6 @@ exports.getAllPosts = (req, res) => {
 };
 
 exports.getPostDetails = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-
     const postId = req.params.id;
     let post = {};
 
@@ -122,8 +94,6 @@ exports.getFilteredPosts = (req, res) => {
     if (!["date", "location", "likes"].includes(orderBy.toLowerCase())) {
         return res.status(422).send({ errors: [{ title: "Data missing", detail: "Sorting must be one of 'date', 'likes' or 'location'" }] });
     }
-
-    res.set('Access-Control-Allow-Origin', '*');
 
     let posts = [];
 
