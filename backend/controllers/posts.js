@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Contributor = require('../models/contributor');
+const Comment = require('../models/post-comment');
 
 const { normalizeErrors } = require('../helpers/mongoose');
 
@@ -123,7 +124,7 @@ exports.getFilteredPosts = (req, res) => {
 };
 
 exports.likePost = (req, res) => {
-    const { postId } = req.body;
+    const postId = req.params.id;
 
     if (!postId) {
         return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide Post ID" }] });
@@ -138,6 +139,39 @@ exports.likePost = (req, res) => {
             return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
         }
 
+        post.likes++;
+        res.json(post);
+    });
+};
+
+exports.commentPost = async (req, res) => {
+    const postId = req.params.id;
+    const { comment } = req.body;
+
+    if (!postId || !comment) {
+        return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide Post ID and Comment" }] });
+    }
+
+    const commentObj = new Comment({ comment });
+    const newComment = await Comment.create(commentObj);
+
+    if (!newComment) {
+        return res.status(422).send({ errors: [{ title: "Error", detail: "Error creating comment." }] });
+    }
+
+    Post.findByIdAndUpdate(postId, { $push: { 'comments': newComment } }, (err, post) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        if (!post) {
+            return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+        }
+
+        newComment.set({ post });
+        newComment.save();
+
+        post.comments.push(newComment);
         res.json(post);
     });
 };
