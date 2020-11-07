@@ -19,3 +19,5 @@ yarn-error.log*
 
 # Costum
 serviceAccountKey.json
+#configs
+/config/dev.js
