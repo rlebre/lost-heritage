@@ -40,7 +40,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', ['postList'])
+    ...mapGetters('posts', ['postListWithClickField'])
   },
 
   methods: {
@@ -49,20 +49,8 @@ export default {
     }
   },
 
-  watch: {
-    postList(newPosts) {
-      this.posts = newPosts.map(obj => ({
-        ...obj,
-        clicked: false
-      }));
-    }
-  },
-
   created() {
-    this.posts = this.postList.map(obj => ({
-      ...obj,
-      clicked: false
-    }));
+    this.posts = this.postListWithClickField;
   }
 };
 </script>

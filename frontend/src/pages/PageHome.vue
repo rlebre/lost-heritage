@@ -2,13 +2,13 @@
   <q-page class="constrain q-pa-md">
     <PostFilter @onFilterChanged="postFilterChanged"></PostFilter>
     <div class="row q-col-gutter-lg">
-      <template v-if="!isLoadingPosts && posts.length">
-        <div class="col-12" v-for="post in posts" :key="post.id">
+      <template v-if="!isLoadingPosts && postList && postList.length">
+        <div class="col-12" v-for="post in postList" :key="post.id">
           <FeedCard :post="post"></FeedCard>
         </div>
       </template>
 
-      <div class="col-12" v-else-if="!isLoadingPosts && !posts.length">
+      <div class="col-12" v-else-if="!isLoadingPosts && !postList">
         <h5 class="text-center text-grey">No posts yet.</h5>
       </div>
 
@@ -33,7 +33,7 @@
 
 <script>
 import { date } from 'quasar';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'PageHome',
@@ -44,7 +44,6 @@ export default {
 
   data() {
     return {
-      posts: [],
       activeComment: ''
     };
   },
@@ -55,21 +54,13 @@ export default {
     }
   },
 
-  watch: {
-    postList(newPosts) {
-      this.posts = newPosts;
-    }
-  },
-
   methods: {
+    ...mapActions('posts', ['likePost', 'commentPost']),
+
     postFilterChanged(filterOptions) {
       console.log('asdas');
       console.log(filterOptions);
     }
-  },
-
-  created() {
-    this.posts = this.postList;
   }
 };
 </script>

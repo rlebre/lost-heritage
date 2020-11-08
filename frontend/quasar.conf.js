@@ -10,6 +10,7 @@
 const { configure } = require('quasar/wrappers');
 
 let API_LOCAL = 'http://localhost:3000', API_PRODUCTION = 'https://lost-heritage.herokuapp.com';
+API_PRODUCTION = API_LOCAL;
 
 module.exports = configure(function (ctx) {
   return {
@@ -95,7 +96,13 @@ module.exports = configure(function (ctx) {
     devServer: {
       https: false,
       port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          secure: false
+        }
+      }
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
