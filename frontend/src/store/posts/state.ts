@@ -1,6 +1,10 @@
 export default function () {
   return {
-    loadingPosts: true,
-    postList: []
+    loadingPosts: false,
+    postList: [],
+
+    creatingPost: false,
+    likingPost: false,
+    commentingPost: false,
   }
 }
