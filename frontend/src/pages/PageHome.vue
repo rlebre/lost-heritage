@@ -33,7 +33,7 @@
 
 <script>
 import { date } from 'quasar';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PageHome',
@@ -55,8 +55,6 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['likePost', 'commentPost']),
-
     postFilterChanged(filterOptions) {
       console.log(filterOptions);
     }

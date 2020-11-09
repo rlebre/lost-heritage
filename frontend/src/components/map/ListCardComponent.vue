@@ -29,7 +29,7 @@
     <div class="row q-mb-sm q-mx-md q-pb-xs">
       <div class="col-6">
         <div class="text-subtitle2">
-          <q-icon name="eva-heart" color="negative" /> 1000
+          <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
         </div>
       </div>
       <div class="col-6">
