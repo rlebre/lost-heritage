@@ -18,7 +18,7 @@ mongoose.connect(`mongodb+srv://${config.DB_USER}:${config.DB_SECRET}@${config.D
 });
 
 
-var allowlist = ['http://localhost:8080', 'https://forgotten-heritage-dev.web.app'];
+var allowlist = ['http://localhost:8080', 'https://patrimonioesquecido.ruilebre.com'];
 
 var corsOptionsDelegate = function (req, callback) {
     var corsOptions;
