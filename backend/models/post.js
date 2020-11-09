@@ -25,20 +25,21 @@ const postSchema = new Schema({
     lat: Number,
     stories: {
         type: String,
-        required: true,
         max: [500, "Stories field too long. Max: 500 characters."]
     },
     suggestedFunctions: {
         type: String,
-        required: true,
         max: [500, "Suggested functions field too long. Max: 500 characters."]
     },
-    isRecovered: Boolean,
+    isRecovered: {
+        type: Boolean,
+        required: true
+    },
     images: {
         type: [String]
     },
     createdAt: { type: Date, default: Date.now },
-    approved: { type: Boolean, default: false },
+    approved: { type: Boolean, default: true },
     approvedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
