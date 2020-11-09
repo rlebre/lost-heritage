@@ -28,11 +28,9 @@ exports.createPost = (req, res) => {
         }
 
         if (foundContributor) {
-            foundContributor.set({
-                name: contributorName,
-                city: contributorCity,
-                newsletterAgree
-            })
+            foundContributor.name = contributorName;
+            foundContributor.city = contributorCity;
+            foundContributor.newsletterAgree = newsletterAgree;
         } else {
             foundContributor = new Contributor({ name: contributorName, email: contributorEmail, city: contributorCity, newsletterAgree });
         }
@@ -102,7 +100,6 @@ exports.getPostDetails = (req, res) => {
 
 exports.getFilteredPosts = (req, res) => {
     const { counties, orderBy, orderType, searchString } = req.body;
-    console.log({ counties, orderBy, orderType, searchString });
 
     if (!(counties || (orderBy && orderType) || searchString)) {
         return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide filters" }] });

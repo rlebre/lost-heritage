@@ -17,9 +17,7 @@ const contributorSchema = new Schema({
         max: [32, "Name too long. Max: 32 characters."],
         min: [4, "Name too short. Min: 4 characters."],
         required: 'Email address is required',
-        validate: [validateEmail, 'Please fill a valid email address'],
-        trim: true,
-        lowercase: true
+        validate: [validateEmail, 'Please fill a valid email address']
     },
     city: {
         type: String,
