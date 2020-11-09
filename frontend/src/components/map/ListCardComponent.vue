@@ -20,7 +20,7 @@
       <q-card-section class="col-5 flex flex-center">
         <q-img
           class="rounded-borders"
-          :src="post.imageUrls[0]"
+          :src="post.images[0]"
           style="height:100px"
         />
       </q-card-section>

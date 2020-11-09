@@ -28,7 +28,7 @@
       "
     >
       <gmap-info-window :opened="post.clicked">
-        <q-img class="col" style="width:200px" :src="post.imageUrls[0]" />
+        <q-img class="col" style="width:200px" :src="post.images[0]" />
         <p><b>Title:</b> {{ post.title }}</p>
         <p><b>Details:</b> {{ post.details }}</p>
       </gmap-info-window>

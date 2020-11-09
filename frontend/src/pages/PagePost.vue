@@ -44,7 +44,7 @@
 
     <div class=" q-ma-md">
       <q-input
-        v-model="newPost.contributorAddress"
+        v-model="newPost.contributorCity"
         class="col col-sm-10"
         label="Contributor City"
         filled
@@ -88,7 +88,7 @@
       filled
       use-input
       label="Concelho"
-      v-model="newPost.concelho"
+      v-model="newPost.county"
       :options="filteredConcelhos"
       @filter="filterConcelho"
       behavior="menu"
@@ -278,8 +278,8 @@
         :disable="
           !newPost.title ||
             !newPost.details ||
-            newPost.photos.length <= 0 ||
-            !(newPost.lat && newPost.lng)
+            !(newPost.lat && newPost.lng) ||
+            !tncAgree
         "
       ></q-btn>
     </div>
@@ -288,6 +288,7 @@
 
 <script>
 import { uid } from 'quasar';
+import { mapGetters, mapActions } from 'vuex';
 require('md-gum-polyfill');
 
 export default {
@@ -298,10 +299,10 @@ export default {
         id: uid(),
         contributorName: '',
         contributorEmail: '',
-        contributorAddress: '',
+        contributorCity: '',
         title: '',
         details: '',
-        concelho: '',
+        county: '',
         location: '',
         lat: '',
         lng: '',
@@ -330,6 +331,8 @@ export default {
   },
 
   methods: {
+    ...mapActions('posts', ['createPost']),
+
     dataURItoBlob(dataURI) {
       var byteString = atob(dataURI.split(',')[1]);
 
@@ -424,6 +427,8 @@ export default {
       let lat = location.lat.toFixed(5);
       let lng = location.lng.toFixed(5);
       this.newPost.location = `${lat}, ${lng}`;
+      this.newPost.lat = lat;
+      this.newPost.lng = lng;
     },
 
     filterConcelho(val, update) {
@@ -443,7 +448,7 @@ export default {
     },
 
     addPost() {
-      this.$q.loading.show();
+      //this.$q.loading.show();
 
       let formData = new FormData();
       formData.append('id', this.newPost.id);
@@ -462,38 +467,40 @@ export default {
         );
       });
 
-      this.$axios
-        .post(`${process.env.API}/createPost`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then(
-          response => {
-            this.$router.push('/');
-            this.$forceUpdate();
+      this.createPost(this.newPost);
 
-            this.$q.notify({
-              message: 'Post created.',
-              actions: [
-                {
-                  label: 'Dismiss',
-                  color: 'white'
-                }
-              ]
-            });
+      //   this.$axios
+      //     .post(`${process.env.API}/createPost`, formData, {
+      //       headers: {
+      //         'Content-Type': 'multipart/form-data'
+      //       }
+      //     })
+      //     .then(
+      //       response => {
+      //         this.$router.push('/');
+      //         this.$forceUpdate();
 
-            this.$q.loading.hide();
-          },
-          error => {
-            this.$q.dialog({
-              title: 'Error',
-              message: 'Sorry, could not create newPost.'
-            });
+      //         this.$q.notify({
+      //           message: 'Post created.',
+      //           actions: [
+      //             {
+      //               label: 'Dismiss',
+      //               color: 'white'
+      //             }
+      //           ]
+      //         });
 
-            this.$q.loading.hide();
-          }
-        );
+      //         this.$q.loading.hide();
+      //       },
+      //       error => {
+      //         this.$q.dialog({
+      //           title: 'Error',
+      //           message: 'Sorry, could not create newPost.'
+      //         });
+
+      //         this.$q.loading.hide();
+      //       }
+      //     );
     }
   },
   created() {
