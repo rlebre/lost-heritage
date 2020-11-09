@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 const config = require("./config");
 
 const postRoutes = require('./routes/post');
@@ -15,6 +16,22 @@ mongoose.connect(`mongodb+srv://${config.DB_USER}:${config.DB_SECRET}@${config.D
     useUnifiedTopology: true,
     useFindAndModify: false
 });
+
+
+var allowlist = ['http://localhost:8080', 'https://forgotten-heritage-dev.web.app'];
+
+var corsOptionsDelegate = function (req, callback) {
+    var corsOptions;
+    if (allowlist.indexOf(req.header('Origin')) !== -1) {
+        corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+    } else {
+        corsOptions = { origin: false } // disable CORS for this request
+    }
+    callback(null, corsOptions) // callback expects two parameters: error and options
+}
+
+app.use(cors(corsOptionsDelegate));
+
 
 app.use(bodyParser.json())
 
