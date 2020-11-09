@@ -35,6 +35,9 @@ export function likePostRequest(state: any) {
 
 export function likePostSuccess(state: any, newPost: any) {
     state.likingPost = false;
+
+    const index = state.postList.map((post: any) => post._id).indexOf(newPost._id);
+    state.postList.splice(index, 1, newPost);
 }
 
 export function likePostFailure(state: any, error: any) {

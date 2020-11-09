@@ -7,7 +7,9 @@
     <q-card-section horizontal>
       <q-card-section class="q-pt-xs q-pb-xs">
         <div class="text-h5 q-mt-sm text-weight-bold">
-          {{ post.title }}
+          <router-link class="no-link" :to="`/post/${post._id}`">
+            {{ post.title }}
+          </router-link>
         </div>
       </q-card-section>
     </q-card-section>
@@ -15,7 +17,7 @@
     <div class="row q-mt-sm q-mx-md">
       <div class="col-6">
         <div class="text-subtitle2">
-          <q-icon name="eva-heart" color="negative" /> 1000
+          <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
         </div>
       </div>
       <div class="col-6">
@@ -96,6 +98,7 @@
           icon="eva-heart"
           size="sm"
           unelevated
+          @click="addLike"
         />
       </div>
       <div class="col-10 q-ml-sm">
@@ -113,8 +116,15 @@
               rounded
               color="primary large-screen-only"
               label="Add Comment"
+              @click="addComment"
             />
-            <q-btn flat rounded color="primary small-screen-only" icon="send" />
+            <q-btn
+              flat
+              rounded
+              color="primary small-screen-only"
+              icon="send"
+              @click="addComment"
+            />
           </template>
         </q-input>
       </div>
@@ -124,6 +134,7 @@
 
 <script>
 import { copyToClipboard } from 'quasar';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'FeedCard',
@@ -142,6 +153,8 @@ export default {
   },
 
   methods: {
+    ...mapActions('posts', ['likePost', 'commentPost']),
+
     copyToClipboardHandler() {
       copyToClipboard('some text')
         .then(() => {
@@ -166,6 +179,17 @@ export default {
             ]
           });
         });
+    },
+
+    addLike() {
+      this.likePost(this.post._id);
+    },
+
+    addComment() {
+      this.commentPost({
+        postId: this.post._id,
+        comment: this.newComment
+      });
     }
   }
 };
