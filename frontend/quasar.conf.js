@@ -10,7 +10,7 @@
 const { configure } = require('quasar/wrappers');
 
 let API_LOCAL = 'http://localhost:3000', API_PRODUCTION = 'https://lost-heritage.herokuapp.com';
-API_PRODUCTION = API_LOCAL;
+let API = API_LOCAL;
 
 module.exports = configure(function (ctx) {
   return {
@@ -60,7 +60,7 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
-        API: API_PRODUCTION // API_LOCAL | API_PRODUCTION
+        API
       },
       // transpile: false,
 
@@ -99,7 +99,7 @@ module.exports = configure(function (ctx) {
       open: true, // opens browser window automatically
       proxy: {
         '/api': {
-          target: 'http://localhost:3000',
+          target: API,
           secure: false
         }
       }

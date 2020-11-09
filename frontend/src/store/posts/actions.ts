@@ -2,7 +2,7 @@ export function fetchPosts(this: any, { commit }: any) {
     commit('getPostsListRequest');
 
     this.$axios
-        .get(`/api/v1/posts`)
+        .get(`${process.env.API}/api/v1/posts`)
         .then((response: any) => {
             commit('getPostsListSuccess', response.data);
         })
@@ -15,7 +15,7 @@ export function createPost(this: any, { commit }: any, newPost: any) {
     commit('createPostRequest');
 
     this.$axios
-        .post(`/api/v1/posts/createPost`, newPost)
+        .post(`${process.env.API}/api/v1/posts/createPost`, newPost)
         .then((response: any) => {
             commit('createPostSuccess', response.data);
         })
@@ -29,7 +29,7 @@ export function likePost(this: any, { commit }: any, postId: string) {
     commit('likePostRequest');
 
     this.$axios
-        .post(`/api/v1/posts/${postId}/like`)
+        .post(`${process.env.API}/api/v1/posts/${postId}/like`)
         .then((response: any) => {
             commit('likePostSuccess', response.data);
         })
@@ -45,7 +45,7 @@ export function commentPost(this: any, { commit }: any, data: any) {
     const { postId, comment } = data;
 
     this.$axios
-        .post(`/api/v1/posts/${postId}/comment`, { comment })
+        .post(`${process.env.API}/api/v1/posts/${postId}/comment`, { comment })
         .then((response: any) => {
             commit('commentPostSuccess', response.data);
         })
