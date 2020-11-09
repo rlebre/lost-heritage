@@ -25,6 +25,10 @@ const contributorSchema = new Schema({
         type: String,
         required: true,
         max: [30, "City too long. Max: 30 characters."]
+    },
+    newsletterAgree: {
+        type: Boolean,
+        default: false
     }
 });
 

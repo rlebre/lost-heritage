@@ -17,7 +17,9 @@ exports.createPost = (req, res) => {
         stories,
         suggestedFunctions,
         isRecovered,
-        images } = req.body;
+        images,
+        newsletterAgree
+    } = req.body;
 
 
     Contributor.findOne({ email: contributorEmail }, (err, foundContributor) => {
@@ -28,10 +30,11 @@ exports.createPost = (req, res) => {
         if (foundContributor) {
             foundContributor.set({
                 name: contributorName,
-                city: contributorCity
+                city: contributorCity,
+                newsletterAgree
             })
         } else {
-            foundContributor = new Contributor({ name: contributorName, email: contributorEmail, city: contributorCity });
+            foundContributor = new Contributor({ name: contributorName, email: contributorEmail, city: contributorCity, newsletterAgree });
         }
 
         foundContributor.save((err) => {
