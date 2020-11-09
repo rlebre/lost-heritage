@@ -58,7 +58,6 @@ export default {
     ...mapActions('posts', ['likePost', 'commentPost']),
 
     postFilterChanged(filterOptions) {
-      console.log('asdas');
       console.log(filterOptions);
     }
   }
