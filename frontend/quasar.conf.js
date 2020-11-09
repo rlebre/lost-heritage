@@ -10,7 +10,7 @@
 const { configure } = require('quasar/wrappers');
 
 let API_LOCAL = 'http://localhost:3000', API_PRODUCTION = 'https://lost-heritage.herokuapp.com';
-let API = API_LOCAL;
+let API = API_PRODUCTION;
 
 module.exports = configure(function (ctx) {
   return {
