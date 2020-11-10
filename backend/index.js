@@ -7,6 +7,7 @@ const config = require("./config");
 const postRoutes = require('./routes/post');
 const imageUploadRoutes = require('./routes/image-upload');
 const userRoutes = require('./routes/users');
+const infoRoutes = require('./routes/info');
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use(bodyParser.json());
 app.use('/api/v1/posts', postRoutes);
 app.use('/api/v1/image', imageUploadRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/infos', infoRoutes);
 
 app.listen(process.env.PORT || 3000, function () {
     console.log("Server running");
