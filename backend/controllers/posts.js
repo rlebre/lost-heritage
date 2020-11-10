@@ -175,3 +175,61 @@ exports.commentPost = async (req, res) => {
         res.json(post);
     });
 };
+
+exports.filterPosts = (req, res) => {
+    const { countyList, sortBy, sortType } = req.body;
+
+    if (!countyList && !sortBy && !sortType) {
+        return res.status(422).send({ errors: [{ title: 'Data missing', detail: 'Provide countyList, sortBy and/or sortType.' }] });
+    }
+
+    let dbQuery = Post.find({ 'county': { $in: countyList } });
+
+    if (sortBy || sortType) {
+        const sort = {};
+        sortType = 'date';
+        sort[sortBy] = (sortType |= -1);
+        dbQuery.sort(sort)
+    }
+
+    dbQuery.exec((err, posts) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        if (!posts) {
+            return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+        }
+
+        res.send(posts)
+    });
+};
+
+exports.searchPosts = (req, res) => {
+    const { query, sortBy, sortType } = req.body;
+
+    let dbQuery = Post.find({ $text: { $search: query } });
+
+    if (!query) {
+        return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide search query." }] });
+    }
+
+    if (sortBy && sortType) {
+        const sort = {};
+        sort[sortBy] = sortType;
+
+        dbQuery.sort(sort)
+    }
+
+    dbQuery.exec((err, posts) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        if (!posts) {
+            return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+        }
+
+        res.send(posts)
+    });
+};
