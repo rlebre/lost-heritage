@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-var cors = require('cors');
+const cors = require('cors');
 const config = require("./config");
 
 const postRoutes = require('./routes/post');
@@ -17,6 +17,8 @@ mongoose.connect(`mongodb+srv://${config.DB_USER}:${config.DB_SECRET}@${config.D
     useFindAndModify: false
 });
 
+//db.posts.createIndex( { "title": "text", "details": "text", "county": "text", "stories":"text", "suggestedFunctions": "text", "comments": "text"} )
+
 
 var allowlist = ['http://localhost:8080', 'https://patrimonioesquecido.ruilebre.com'];
 
@@ -31,9 +33,7 @@ var corsOptionsDelegate = function (req, callback) {
 }
 
 app.use(cors(corsOptionsDelegate));
-
-
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.use('/api/v1/posts', postRoutes);
 app.use('/api/v1/image', imageUploadRoutes);
