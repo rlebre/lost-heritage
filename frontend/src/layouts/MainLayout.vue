@@ -154,16 +154,6 @@ export default {
 </script>
 
 <style lang="scss">
-.no-link {
-  text-decoration: none;
-
-  :visited,
-  :hover,
-  :active {
-    color: inherit;
-  }
-}
-
 .q-footer {
   .q-tab__icon {
     font-size: 30px;
