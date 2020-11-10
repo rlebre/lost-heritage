@@ -14,7 +14,7 @@
             use-input
             options-dense
             clearable
-            :options="optionsConcelhosFiltered"
+            :options="existingCountiesList | capitalize_array"
             @filter="filterConcelhos"
             max-values="5"
             label="Concelhos"
@@ -32,7 +32,7 @@
             bottom-slots
             v-model="sortBy"
             :options="optionsSort"
-            label="Sort"
+            label="sort"
             style="width: 90%"
             @input="filterChanged"
           />
@@ -72,6 +72,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: 'PostFilter',
 
@@ -87,9 +89,13 @@ export default {
     };
   },
 
-  props: {},
+  computed: {
+    ...mapGetters('infos', ['existingCountiesList'])
+  },
 
   methods: {
+    ...mapActions('infos', ['fetchExistingCounties']),
+
     toggleSort() {
       this.sortDesc ^= true;
       this.filterChanged();
@@ -129,6 +135,8 @@ export default {
     let concelhosDictionary = require('assets/concelhos.json');
     this.optionsConcelhos = Object.keys(concelhosDictionary);
     this.optionsConcelhosFiltered = this.optionsConcelhos;
+
+    this.fetchExistingCounties();
   }
 };
 </script>

@@ -10,4 +10,16 @@ export default boot(({ Vue }) => {
         }
         return value.substr(0, size) + '...';
     });
+
+    Vue.filter('capitalize', (value: string) => {
+        if (!value) return ''
+        value = value.toString()
+        return value.charAt(0).toUpperCase() + value.slice(1)
+    })
+
+    Vue.filter('capitalize_array', (values: any) => {
+        if (!values) return []
+
+        return values.map((value: any) => value.toString().charAt(0).toUpperCase() + value.slice(1))
+    })
 });
