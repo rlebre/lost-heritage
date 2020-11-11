@@ -30,9 +30,6 @@ var upload = multer({
         ACL: 'public-read',
         s3,
         Bucket: 'lost-heritage',
-        Metadata: function (req, file, cb) {
-            cb(null, { fieldName: file.fieldname });
-        },
         Key: function (req, file, cb) {
             let { email, title } = req.query;
 
