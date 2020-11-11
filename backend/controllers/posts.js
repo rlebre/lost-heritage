@@ -206,7 +206,7 @@ exports.filterPosts = (req, res) => {
 };
 
 exports.searchPosts = (req, res) => {
-    const { query, sortBy, sortType } = req.body;
+    const { query, sortBy, sortType } = req.query;
 
     let dbQuery = Post.find({ $text: { $search: query } });
 
