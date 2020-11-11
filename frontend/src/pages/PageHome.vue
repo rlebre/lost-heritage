@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { date } from 'quasar';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -59,12 +58,6 @@ export default {
     },
     filteredPostList(n, o) {
       this.filteredPosts = this.filteredPostList;
-    }
-  },
-
-  filters: {
-    niceDate(value) {
-      return date.formatDate(value, 'MMMM D, HH:mm');
     }
   },
 
