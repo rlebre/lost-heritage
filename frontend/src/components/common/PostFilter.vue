@@ -32,7 +32,7 @@
             bottom-slots
             v-model="sortBy"
             :options="optionsSort"
-            label="sort"
+            label="Sort"
             style="width: 90%"
             @input="filterChanged"
           />
@@ -44,7 +44,7 @@
             dense
             unelevated
             size="md"
-            :icon="sortDesc ? 'eva-arrow-up' : 'eva-arrow-down'"
+            :icon="sortDesc ? 'eva-arrow-down' : 'eva-arrow-up'"
             @click="toggleSort"
           />
         </div>
@@ -85,7 +85,13 @@ export default {
       optionsSort: ['Concelho', 'Data', 'Likes'],
       search: '',
       sortBy: 'Data',
-      sortDesc: true
+      sortDesc: true,
+
+      sortTranslation: {
+        Data: 'date',
+        Concelho: 'county',
+        Likes: 'likes'
+      }
     };
   },
 
@@ -123,19 +129,21 @@ export default {
 
     filterChanged() {
       this.$emit('onFilterChanged', {
-        selectedOptions: this.selectedOptions ? this.selectedOptions : [],
-        sortBy: this.sortBy,
+        selectedOptions: this.selectedOptions
+          ? this.lowerCaseArray(this.selectedOptions)
+          : [],
+        sortBy: this.sortTranslation[this.sortBy],
         sortType: this.sortDesc ? 'desc' : 'asc',
-        searchString: this.search ? this.search : ''
+        searchString: this.search ? this.search : null
       });
+    },
+
+    lowerCaseArray(stringList) {
+      return stringList.map(word => word.toLowerCase());
     }
   },
 
   created() {
-    let concelhosDictionary = require('assets/concelhos.json');
-    this.optionsConcelhos = Object.keys(concelhosDictionary);
-    this.optionsConcelhosFiltered = this.optionsConcelhos;
-
     this.fetchExistingCounties();
   }
 };
