@@ -2,13 +2,13 @@
   <q-page class="constrain q-pa-md">
     <PostFilter @onFilterChanged="postFilterChanged"></PostFilter>
     <div class="row q-col-gutter-lg">
-      <template v-if="!isLoadingPosts && postList && postList.length">
-        <div class="col-12" v-for="post in postList" :key="post.id">
+      <template v-if="!isLoadingPosts && filteredPosts && filteredPosts.length">
+        <div class="col-12" v-for="post in filteredPosts" :key="post.id">
           <FeedCard :post="post"></FeedCard>
         </div>
       </template>
 
-      <div class="col-12" v-else-if="!isLoadingPosts && !postList">
+      <div class="col-12" v-else-if="!isLoadingPosts && !filteredPosts">
         <h5 class="text-center text-grey">No posts yet.</h5>
       </div>
 
@@ -44,7 +44,8 @@ export default {
 
   data() {
     return {
-      activeComment: ''
+      activeComment: '',
+      filteredPosts: []
     };
   },
 
@@ -55,9 +56,46 @@ export default {
   },
 
   methods: {
+    dynamicSort(property, sortOrder = -1) {
+      if (property[0] === '-') {
+        property = property.substr(1);
+      }
+
+      return (a, b) => {
+        const result =
+          a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+        return result * sortOrder;
+      };
+    },
+
     postFilterChanged(filterOptions) {
-      console.log(filterOptions);
+      const { selectedOptions, sortBy, sortType, searchString } = filterOptions;
+
+      if (selectedOptions.length === 0) {
+        this.filteredPosts = this.postList;
+      } else {
+        this.filteredPosts = this.postList.filter(post => {
+          return selectedOptions.includes(post.county);
+        });
+      }
+
+      if (sortBy) {
+        this.filteredPosts.sort(this.dynamicSort(filterOptions.sortBy));
+      }
+
+      this.filteredPosts.sort(
+        this.dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1)
+      );
+
+      if (searchString) {
+        // chamar search ao servidor
+        // arranjar maneira de com clear, voltar a lista inicial
+      }
     }
+  },
+
+  created() {
+    this.filteredPosts = this.postList;
   }
 };
 </script>
