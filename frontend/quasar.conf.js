@@ -34,7 +34,8 @@ module.exports = configure(function (ctx) {
       'google-maps',
       'filters',
       'components',
-      'social-sharing'
+      'social-sharing',
+      'helpers'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
