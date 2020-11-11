@@ -33,13 +33,13 @@
 
 <script>
 import { date } from 'quasar';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'PageHome',
 
   computed: {
-    ...mapGetters('posts', ['postList', 'isLoadingPosts'])
+    ...mapGetters('posts', ['postList', 'isLoadingPosts', 'filteredPostList'])
   },
 
   data() {
@@ -49,6 +49,19 @@ export default {
     };
   },
 
+  created() {
+    this.filteredPosts = this.postList;
+  },
+
+  watch: {
+    postList(newValue, oldValue) {
+      this.filteredPosts = this.postList;
+    },
+    filteredPostList(n, o) {
+      this.filteredPosts = this.filteredPostList;
+    }
+  },
+
   filters: {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D, HH:mm');
@@ -56,6 +69,7 @@ export default {
   },
 
   methods: {
+    ...mapActions('posts', ['searchPosts']),
     dynamicSort(property, sortOrder = -1) {
       if (property[0] === '-') {
         property = property.substr(1);
@@ -88,14 +102,11 @@ export default {
       );
 
       if (searchString) {
-        // chamar search ao servidor
-        // arranjar maneira de com clear, voltar a lista inicial
+        this.searchPosts({ query: searchString, sortBy, sortType });
+      } else {
+        this.filteredPosts = this.postList;
       }
     }
-  },
-
-  created() {
-    this.filteredPosts = this.postList;
   }
 };
 </script>

@@ -10,6 +10,13 @@ export function postListWithClickField(state: any) {
     }));
 }
 
+export function filteredPostList(state: any) {
+    return state.filteredPostList.map((obj: any) => ({
+        ...obj,
+        clicked: false
+    }));
+}
+
 export function isLoadingPosts(state: any) {
     return state.loadingPosts;
 }
