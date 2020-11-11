@@ -53,3 +53,26 @@ export function commentPost(this: any, { commit }: any, data: any) {
             commit('commentPostFailure', error);
         })
 }
+
+export function searchPosts(this: any, { commit }: any, data: any) {
+    commit('getFilteredPostsRequest');
+
+    const { query, sortBy, sortType } = data;
+
+    let url = `${process.env.API}/api/v1/posts/`;
+    if (query) {
+        url = `${process.env.API}/api/v1/posts/search?query=${query}`
+
+        url = sortBy ? url.concat(`&sortBy=${sortBy}`) : url;
+        url = sortType ? url.concat(`&sortType=${sortType}`) : url;
+    }
+
+    this.$axios
+        .get(url, data)
+        .then((response: any) => {
+            commit('getFilteredPostsSuccess', response.data);
+        })
+        .catch((error: any) => {
+            commit('getFilteredPostsFailure', error);
+        })
+}

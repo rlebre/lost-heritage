@@ -59,3 +59,19 @@ export function commentPostSuccess(this: any, state: any, newPost: any) {
 export function commentPostFailure(state: any, error: any) {
     state.commentingPost = false;
 }
+
+
+// ---------- POST SEARCH --------------
+export function getFilteredPostsRequest(state: any) {
+    state.loadingPosts = true;
+}
+
+export function getFilteredPostsSuccess(state: any, filteredPostList: any) {
+    state.loadingPosts = false;
+    state.filteredPostList = filteredPostList;
+}
+
+export function getFilteredPostsFailure(state: any, error: any) {
+    state.loadingPosts = false;
+    state.filteredPostList = state.postList;
+}
