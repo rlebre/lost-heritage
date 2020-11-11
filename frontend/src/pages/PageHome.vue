@@ -70,42 +70,33 @@ export default {
 
   methods: {
     ...mapActions('posts', ['searchPosts']),
-    dynamicSort(property, sortOrder = -1) {
-      if (property[0] === '-') {
-        property = property.substr(1);
-      }
-
-      return (a, b) => {
-        const result =
-          a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
-        return result * sortOrder;
-      };
-    },
 
     postFilterChanged(filterOptions) {
       const { selectedOptions, sortBy, sortType, searchString } = filterOptions;
-
-      if (selectedOptions.length === 0) {
-        this.filteredPosts = this.postList;
-      } else {
-        this.filteredPosts = this.postList.filter(post => {
-          return selectedOptions.includes(post.county);
-        });
-      }
-
-      if (sortBy) {
-        this.filteredPosts.sort(this.dynamicSort(filterOptions.sortBy));
-      }
-
-      this.filteredPosts.sort(
-        this.dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1)
-      );
 
       if (searchString) {
         this.searchPosts({ query: searchString, sortBy, sortType });
       } else {
         this.filteredPosts = this.postList;
       }
+
+      if (selectedOptions.length > 0) {
+        this.filteredPosts = this.filteredPosts.filter(post => {
+          return selectedOptions.includes(post.county);
+        });
+      }
+
+      if (!searchString && selectedOptions.length === 0) {
+        this.filteredPosts = this.postList;
+      }
+
+      if (sortBy) {
+        this.filteredPosts.sort(this.$dynamicSort(filterOptions.sortBy));
+      }
+
+      this.filteredPosts.sort(
+        this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1)
+      );
     }
   }
 };
