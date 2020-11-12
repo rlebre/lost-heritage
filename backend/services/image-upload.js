@@ -31,17 +31,13 @@ var upload = multer({
         s3,
         Bucket: 'lost-heritage',
         Key: function (req, file, cb) {
-            let { email, title } = req.query;
+            let { postUid } = req.query;
+            postUid = postUid ? postUid : uuidv4().toString();
 
-            const uuid = uuidv4().toString();
-
-            email = email ? email : uuid;
-            title = title ? title : uuid;
-
-            cb(null, md5(file.originalname.concat(title).concat(email)))
+            cb(null, md5(file.originalname.concat(postUid)))
         },
         resize: {
-            width: 100
+            width: 200
         }
     })
 });
