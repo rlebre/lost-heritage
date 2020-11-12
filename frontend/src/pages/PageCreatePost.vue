@@ -222,7 +222,7 @@
       <q-btn
         unelevated
         color="primary"
-        label="Post Image"
+        label="Submit"
         @click="addPost"
         :disable="
           !newPost.contributorEmail ||
