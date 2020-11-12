@@ -22,10 +22,10 @@ export function createPostRequest(state: any) {
 }
 
 export function createPostSuccess(state: any, newPost: any) {
-    state.createPostSuccess = true;
-    state.creatingPost = false;
     state.postList.push(newPost);
     state.errors = [];
+    state.createPostSuccess = true;
+    state.creatingPost = false;
 }
 
 export function createPostFailure(state: any, error: any) {
