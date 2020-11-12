@@ -7,7 +7,7 @@ export function fetchPosts(this: any, { commit }: any) {
             commit('getPostsListSuccess', response.data);
         })
         .catch((error: any) => {
-            commit('getPostsListFailure', error);
+            commit('getPostsListFailure', error.response.data);
         })
 }
 
@@ -20,7 +20,7 @@ export function createPost(this: any, { commit }: any, newPost: any) {
             commit('createPostSuccess', response.data);
         })
         .catch((error: any) => {
-            commit('createPostFailure', error);
+            commit('createPostFailure', error.response.data);
         })
 }
 
@@ -34,7 +34,7 @@ export function likePost(this: any, { commit }: any, postId: string) {
             commit('likePostSuccess', response.data);
         })
         .catch((error: any) => {
-            commit('likePostFailure', error);
+            commit('likePostFailure', error.response.data);
         })
 }
 
@@ -50,7 +50,7 @@ export function commentPost(this: any, { commit }: any, data: any) {
             commit('commentPostSuccess', response.data);
         })
         .catch((error: any) => {
-            commit('commentPostFailure', error);
+            commit('commentPostFailure', error.response.data);
         })
 }
 
@@ -73,6 +73,41 @@ export function searchPosts(this: any, { commit }: any, data: any) {
             commit('getFilteredPostsSuccess', response.data);
         })
         .catch((error: any) => {
-            commit('getFilteredPostsFailure', error);
+            commit('getFilteredPostsFailure', error.response.data);
+        })
+}
+
+
+
+
+export function uploadImages(this: any, { commit }: any, data: any) {
+    commit('imageUploadRequest');
+    const { images, postUid } = data;
+
+    const formData = new FormData();
+    images.forEach((photo: any) => {
+        formData.append(
+            'image',
+            photo
+        );
+    });
+
+    this.$axios
+        .post(`${process.env.API}/api/v1/image/upload?postUid=${postUid}`, formData)
+        .then((response: any) => {
+            commit('imageUploadSuccess', response.data);
+        })
+        .catch((error: any) => {
+            commit('imageUploadFailure', error.response.data);
+        })
+}
+
+export function removeImageFromList(this: any, { commit }: any, data: any) {
+    const { imageKey, postUid } = data;
+    commit('removeImageFromListRequest', imageKey);
+
+    this.$axios.post(`${process.env.API}/api/v1/image/remove`, { key: imageKey, postUid })
+        .catch((error: any) => {
+            commit('imageUploadFailure', error.response.data);
         })
 }
