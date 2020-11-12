@@ -5,7 +5,7 @@ const cors = require('cors');
 const config = require("./config");
 
 const postRoutes = require('./routes/post');
-const imageUploadRoutes = require('./routes/image-upload');
+const imageUploadRoutes = require('./routes/images');
 const userRoutes = require('./routes/users');
 const infoRoutes = require('./routes/info');
 

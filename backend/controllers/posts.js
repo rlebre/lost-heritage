@@ -1,11 +1,12 @@
 const Post = require('../models/post');
 const Contributor = require('../models/contributor');
 const Comment = require('../models/post-comment');
+const Image = require('../models/image');
 
 const { normalizeErrors } = require('../helpers/mongoose');
 
 exports.createPost = (req, res) => {
-    const {
+    let {
         contributorName,
         contributorEmail,
         contributorCity,
@@ -21,6 +22,7 @@ exports.createPost = (req, res) => {
         newsletterAgree
     } = req.body;
 
+    images = images.map(image => image.url);
 
     Contributor.findOne({ email: contributorEmail }, (err, foundContributor) => {
         if (err) {
@@ -34,6 +36,14 @@ exports.createPost = (req, res) => {
         } else {
             foundContributor = new Contributor({ name: contributorName, email: contributorEmail, city: contributorCity, newsletterAgree });
         }
+
+        Image.updateMany(
+            { postUid: req.body.uid },
+            { $set: { "isPostCreated": true } }
+            , (err) => {
+                if (err)
+                    console.log(err);
+            });
 
         foundContributor.save((err) => {
             if (err) {
@@ -69,17 +79,19 @@ exports.getPublicPosts = (req, res) => {
 };
 
 exports.getAllPosts = (req, res) => {
-    Post.find({}, (err, posts) => {
-        if (err) {
-            return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
+    Post.find({})
+        .populate('images')
+        .exec((err, posts) => {
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
 
-        if (!posts) {
-            return res.json([]);
-        }
+            if (!posts) {
+                return res.json([]);
+            }
 
-        res.json(posts);
-    });
+            res.json(posts);
+        });
 };
 
 exports.getPostDetails = (req, res) => {
