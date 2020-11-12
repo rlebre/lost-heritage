@@ -7,6 +7,7 @@ import ListCardComponent from 'components/map/ListCardComponent.vue';
 import MapLocationPicker from 'components/new-post/MapLocationPicker.vue';
 import LocationPickerDialog from 'components/new-post/LocationPickerDialog.vue';
 import PostFilter from 'components/common/PostFilter.vue';
+import ImagePicker from 'components/common/ImagePicker.vue';
 
 
 // "async" is optional;
@@ -19,4 +20,5 @@ export default boot(({ Vue }) => {
   Vue.component('MapLocationPicker', MapLocationPicker);
   Vue.component('LocationPickerDialog', LocationPickerDialog);
   Vue.component('PostFilter', PostFilter);
+  Vue.component('ImagePicker', ImagePicker);
 })
