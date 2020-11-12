@@ -107,7 +107,7 @@
     <div class="q-ma-md">
       <q-input
         :loading="locationLoading"
-        v-model="newPost.location"
+        v-model="location"
         class="col col-sm-10"
         label="Pick or Locate Below"
         filled
@@ -190,59 +190,8 @@
       ]"
     />
 
-    <div class="row text-center">
-      <div
-        class="col-12 col-sm-4"
-        v-for="(image, idx) in newPost.photos"
-        :key="idx"
-      >
-        <div class="q-mt-lg">
-          <div class="q-mb-sm">
-            <q-btn
-              round
-              unelevated
-              color="primary"
-              icon="eva-trash-outline"
-              size="xs"
-              @click="deletePhotoFromUploadQueue(idx)"
-            />
-          </div>
-          <img
-            style="max-width: 70%; min-height:100%"
-            :src="image"
-            alt=""
-            ref="picture"
-          />
-          <div>
-            <q-input
-              dense
-              filled
-              autogrow
-              class="col col-sm-10 q-ml-lg q-mr-lg q-px-sm"
-              label="Description"
-              type="textarea"
-              maxlength="30"
-            />
-          </div>
-        </div>
-      </div>
-
-      <q-file
-        outlined
-        class="q-mx-md q-ma-lg"
-        v-model="imageUpload"
-        label="Choose an image"
-        accept="image/*"
-        multiple
-        use-chips
-        max-files="4"
-        append
-        @input="captureImageFallback"
-      >
-        <template v-slot:prepend>
-          <q-icon name="eva-attach-outline" />
-        </template>
-      </q-file>
+    <div class="q-ma-sm text-grey-9">
+      <ImagePicker :postUid="newPost.uid"></ImagePicker>
     </div>
 
     <div class="q-ma-sm text-grey-9">
@@ -276,10 +225,12 @@
         label="Post Image"
         @click="addPost"
         :disable="
-          !newPost.title ||
+          !newPost.contributorEmail ||
+            !newPost.title ||
             !newPost.details ||
             !(newPost.lat && newPost.lng) ||
-            !tncAgree
+            !tncAgree ||
+            isUploadingImages
         "
       ></q-btn>
     </div>
@@ -289,33 +240,31 @@
 <script>
 import { uid } from 'quasar';
 import { mapGetters, mapActions } from 'vuex';
-require('md-gum-polyfill');
+import { isCreatePostSuccess, isCreatingPost } from '../store/posts/getters';
 
 export default {
   name: 'PageCreatePost',
   data() {
     return {
       newPost: {
-        id: uid(),
+        uid: '',
         contributorName: '',
         contributorEmail: '',
         contributorCity: '',
         title: '',
         details: '',
         county: '',
-        location: '',
         lat: '',
         lng: '',
         previousFunctions: '',
         stories: '',
         suggestedFunctions: '',
         newsletterAgree: false,
-        photos: [],
+        images: [],
         date: Date.now(),
         isRecovered: false
       },
-      imageCaptured: false,
-      imageUpload: [],
+      location: '',
       locationLoading: false,
       tncAgree: false,
       showLocationPickerDialog: false,
@@ -325,55 +274,73 @@ export default {
   },
 
   computed: {
-    locationSupported() {
-      return 'geolocation' in navigator;
+    ...mapGetters('posts', [
+      'uploadedImages',
+      'isUploadingImages',
+      'isCreatingPost',
+      'isCreatePostSuccess',
+      'errors',
+      'lastCreatedPost'
+    ])
+  },
+
+  watch: {
+    uploadedImages(newValue, oldValue) {
+      this.newPost.images = newValue;
+    },
+
+    isCreatingPost(newValue, oldValue) {
+      if (newValue && !oldValue) {
+        this.$q.loading.show();
+      }
+
+      if (!newValue && oldValue) {
+        this.$q.loading.hide();
+        if (this.isCreatePostSuccess) {
+          this.$router.push('/');
+          this.$forceUpdate();
+          this.$q.notify({
+            message: '<p style="text-align:center">Post created<p>',
+            html: true,
+            timeout: 5000,
+            actions: [
+              {
+                icon: 'close',
+                color: 'white'
+              },
+              {
+                icon: 'eva-arrow-circle-right',
+                color: 'white',
+                handler: () => {
+                  this.$router.push(`/post/${this.lastCreatedPost._id}`);
+                  this.$forceUpdate();
+                }
+              }
+            ]
+          });
+        } else {
+          this.errors.forEach(error => {
+            this.$q.notify({
+              title: 'Error',
+              group: false,
+              message: error.detail,
+              timeout: 10000,
+              progress: true,
+              actions: [
+                {
+                  icon: 'close',
+                  color: 'white'
+                }
+              ]
+            });
+          });
+        }
+      }
     }
   },
 
   methods: {
-    ...mapActions('posts', ['createPost']),
-
-    dataURItoBlob(dataURI) {
-      var byteString = atob(dataURI.split(',')[1]);
-
-      var mimeString = dataURI
-        .split(',')[0]
-        .split(':')[1]
-        .split(';')[0];
-      var ab = new ArrayBuffer(byteString.length);
-      var ia = new Uint8Array(ab);
-      for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      var blob = new Blob([ab], { type: mimeString });
-      return blob;
-    },
-
-    captureImageFallback(files) {
-      var URL = window.URL || window.webkitURL;
-
-      for (let i in this.newPost.photos) {
-        this.$set(this.newPost.photos, i, '');
-      }
-
-      // TODO
-      // Trolha way
-      this.newPost.photos = [];
-
-      files.forEach((file, index) => {
-        var fileReader = new FileReader();
-
-        fileReader.onload = event => {
-          this.newPost.photos.push(event.target.result);
-        };
-        fileReader.readAsDataURL(file);
-      });
-    },
-
-    deletePhotoFromUploadQueue(idx) {
-      this.newPost.photos.splice(idx, 1);
-      this.imageUpload.splice(idx, 1);
-    },
+    ...mapActions('posts', ['createPost', 'uploadImages']),
 
     getLocation() {
       this.locationLoading = true;
@@ -381,7 +348,6 @@ export default {
         position => {
           this.newPost.lng = position.coords.longitude;
           this.newPost.lat = position.coords.latitude;
-          this.getCityAndCountry(position);
         },
         error => {
           console.log(error);
@@ -389,26 +355,6 @@ export default {
         },
         { timeout: 10000 }
       );
-    },
-
-    getCityAndCountry(position) {
-      let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
-      this.$axios.get(apiUrl).then(
-        result => {
-          this.locationSuccess(result);
-        },
-        error => {
-          console.log(error);
-          this.locationError(error);
-        }
-      );
-    },
-
-    locationSuccess(result) {
-      this.newPost.location = result.data.city;
-      if (result.data.country)
-        this.newPost.location += `, ${result.data.country}`;
-      this.locationLoading = false;
     },
 
     locationError(error) {
@@ -426,7 +372,7 @@ export default {
     applyLocation(location) {
       let lat = location.lat.toFixed(5);
       let lng = location.lng.toFixed(5);
-      this.newPost.location = `${lat}, ${lng}`;
+      this.location = `${lat}, ${lng}`;
       this.newPost.lat = lat;
       this.newPost.lng = lng;
     },
@@ -448,65 +394,15 @@ export default {
     },
 
     addPost() {
-      //this.$q.loading.show();
-
-      let formData = new FormData();
-      formData.append('id', this.newPost.id);
-      formData.append('details', this.newPost.details);
-      formData.append('title', this.newPost.title);
-      formData.append('location', this.newPost.location);
-      formData.append('lat', this.newPost.lat);
-      formData.append('lng', this.newPost.lng);
-      formData.append('date', this.newPost.date);
-      formData.append('isRecovered', this.newPost.isRecovered);
-      this.newPost.photos.forEach((photo, index) => {
-        formData.append(
-          `files[${index}]`,
-          this.dataURItoBlob(photo),
-          `${this.newPost.id}_${index}.png`
-        );
-      });
-
       this.createPost(this.newPost);
-
-      //   this.$axios
-      //     .post(`${process.env.API}/createPost`, formData, {
-      //       headers: {
-      //         'Content-Type': 'multipart/form-data'
-      //       }
-      //     })
-      //     .then(
-      //       response => {
-      //         this.$router.push('/');
-      //         this.$forceUpdate();
-
-      //         this.$q.notify({
-      //           message: 'Post created.',
-      //           actions: [
-      //             {
-      //               label: 'Dismiss',
-      //               color: 'white'
-      //             }
-      //           ]
-      //         });
-
-      //         this.$q.loading.hide();
-      //       },
-      //       error => {
-      //         this.$q.dialog({
-      //           title: 'Error',
-      //           message: 'Sorry, could not create newPost.'
-      //         });
-
-      //         this.$q.loading.hide();
-      //       }
-      //     );
     }
   },
   created() {
     let concelhosDictionary = require('assets/concelhos.json');
     this.concelhos = Object.keys(concelhosDictionary);
     this.filteredConcelhos = this.concelhos;
+
+    this.newPost.uid = uid();
   }
 };
 </script>
