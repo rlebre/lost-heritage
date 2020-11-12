@@ -228,7 +228,7 @@
           !newPost.contributorEmail ||
             !newPost.title ||
             !newPost.details ||
-            !(newPost.lat && newPost.lng) ||
+            !newPost.county ||
             !tncAgree ||
             isUploadingImages
         "
