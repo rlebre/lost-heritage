@@ -3,6 +3,10 @@ export function postList(state: any) {
     return state.postList;
 }
 
+export function lastCreatedPost(state: any) {
+    return state.postList[state.postList.length - 1];
+}
+
 export function postListWithClickField(state: any) {
     return state.postList.map((obj: any) => ({
         ...obj,
