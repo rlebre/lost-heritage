@@ -1,10 +1,9 @@
 <template>
-  <div class=" q-col-gutter-lg">
-    <div class="small-screen-only q-pt-sm">
-      <div class="col-12 ">
+  <div class="q-col-gutter-lg">
+    <div class="small-screen-only">
+      <div class="col-12">
         <q-btn
-          class="full-width q-my-sm"
-          v-if="!showFilterModal"
+          class="full-width q-mb-sm"
           flat
           dense
           @click="showFilterModal = true"
@@ -117,7 +116,6 @@
                   style="width:100%"
                   label="Search"
                   @input="filterChanged"
-                  debounce="1000"
                 >
                   <template v-slot:append>
                     <q-icon name="search" />
@@ -130,7 +128,7 @@
       </q-dialog>
     </div>
 
-    <div class="large-screen-only q-mt-sm q-pt-sm ">
+    <div class="large-screen-only">
       <div class="row">
         <div class="col-md-4 q-pr-sm">
           <q-select
