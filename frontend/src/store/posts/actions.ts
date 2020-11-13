@@ -11,6 +11,19 @@ export function fetchPosts(this: any, { commit }: any) {
         })
 }
 
+export function fetchPostDetails(this: any, { commit }: any, postId: string) {
+    commit('getPostDetailsRequest');
+
+    this.$axios
+        .get(`${process.env.API}/api/v1/posts/${postId}`)
+        .then((response: any) => {
+            commit('getPostDetailsSuccess', response.data);
+        })
+        .catch((error: any) => {
+            commit('getPostDetailsFailure', error.response.data);
+        })
+}
+
 export function createPost(this: any, { commit }: any, newPost: any) {
     commit('createPostRequest');
 

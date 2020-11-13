@@ -3,6 +3,10 @@ export function postList(state: any) {
     return state.postList;
 }
 
+export function postDetails(state: any) {
+    return state.postDetails;
+}
+
 export function lastCreatedPost(state: any) {
     return state.postList[state.postList.length - 1];
 }

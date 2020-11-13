@@ -3,6 +3,7 @@ export default function () {
   return {
     postList: [],
     filteredPostList: [],
+    postDetails: {},
     loadingPosts: false,
 
     creatingPost: false,

@@ -15,6 +15,23 @@ export function getPostsListFailure(state: any, error: any) {
     state.errors = error.errors;
 }
 
+// ---------- POST DETAILS --------------
+export function getPostDetailsRequest(state: any) {
+    state.loadingPosts = true;
+}
+
+export function getPostDetailsSuccess(state: any, post: any) {
+    state.loadingPosts = false;
+    state.postDetails = post;
+}
+
+export function getPostDetailsFailure(state: any, error: any) {
+    state.loadingPosts = false;
+    state.postDetails = null;
+    state.errors = error.errors;
+}
+
+
 
 // ---------- POST CREATE --------------
 export function createPostRequest(state: any) {
