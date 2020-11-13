@@ -1,15 +1,15 @@
 <template>
   <q-page>
     <PostFilter
+      class="q-px-md q-pt-sm"
       @onFilterChanged="postFilterChanged"
-      class="q-pa-md"
     ></PostFilter>
     <div class="large-screen-only">
       <div class="app-panel row">
         <div class="list-panel col-sm-4 col-md-4">
           <template v-if="filteredPosts.length">
             <div
-              class="col-12 q-ma-sm"
+              class="col-12 q-ml-md q-mr-sm q-mb-sm"
               v-for="post in filteredPosts"
               :key="post.id"
             >
@@ -17,14 +17,14 @@
             </div>
           </template>
         </div>
-        <div class="col-sm-8 col-md-8">
+        <div class="col-sm-8 col-md-8 q-pr-md">
           <MapComponent :posts="filteredPosts"></MapComponent>
         </div>
       </div>
     </div>
 
     <div class="small-screen-only">
-      <div class="app-panel row">
+      <div class="app-panel row" style="padding-bottom:48px">
         <MapComponent :posts="filteredPosts"></MapComponent>
       </div>
     </div>
