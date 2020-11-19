@@ -1,5 +1,5 @@
 <template>
-  <q-page class="constrain-less q-pa-md">
+  <q-page class="constrain q-pa-md">
     <div class="upper-section">
       <div class="row">
         <div class="col-12 col-md-6">
@@ -15,7 +15,7 @@
             <q-carousel-slide
               class="uncropped-image"
               v-for="(image, index) in post.images"
-              :key="`blabla${index}`"
+              :key="`img-${index}`"
               :name="index"
               :img-src="image"
             />
@@ -42,8 +42,8 @@
       </div>
     </div>
 
-    <div class="details-section">
-      <div class="details-section-header q-mb-md">
+    <div class="details-section q-ma-sm">
+      <div class="details-section-header">
         <div class="row">
           <h3
             :class="
@@ -63,10 +63,10 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-12 col-md-8">
-          <hr class="q-mb-lg" />
+      <hr class="q-my-lg" />
 
+      <div class="row">
+        <div class="col-12 col-md-8 q-pr-sm">
           <h2 class="building-details-title">Details</h2>
           <p class="rental-description">
             {{ post.details }}
@@ -95,10 +95,21 @@
             <span>2 / 5</span>
           </div>
         </div>
+      </div>
 
-        <div class="col-12 col-md-4">
-          olaaa
-        </div>
+      <hr class="q-my-lg q-mb-lg" />
+
+      <div class="row">
+        <h2 class="building-details-title">Comments</h2>
+
+        <CommentsBox
+          class="col-12 small-screen-only q-px-xs"
+          :comments="post.comments"
+        ></CommentsBox>
+        <CommentsBox
+          class="col-12 large-screen-only q-px-sm"
+          :comments="post.comments"
+        ></CommentsBox>
       </div>
     </div>
 
