@@ -16,6 +16,7 @@
     "core-js": "^3.6.5",
     "md-gum-polyfill": "^1.0.0",
     "quasar": "^1.0.0",
+    "vue-googlemaps": "^0.1.2",
     "vue-i18n": "^8.0.0",
     "vue-social-sharing": "^3.0.3",
     "vue2-google-maps": "^0.10.7",
