@@ -97,17 +97,19 @@ exports.getAllPosts = (req, res) => {
 exports.getPostDetails = (req, res) => {
     const postId = req.params.id;
 
-    Post.findById(postId, (err, post) => {
-        if (err) {
-            return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
+    Post.findById(postId)
+        .populate({ path: 'comments', model: 'PostComment' })
+        .exec((err, post) => {
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
 
-        if (!post) {
-            return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
-        }
+            if (!post) {
+                return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+            }
 
-        res.json(post);
-    });
+            res.json(post);
+        });
 };
 
 exports.getFilteredPosts = (req, res) => {
