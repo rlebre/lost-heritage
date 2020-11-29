@@ -1,7 +1,7 @@
 const VueGoogleMaps2 = require('vue2-google-maps');
+const VueGoogleMaps = require('vue-googlemaps');
 
-import 'vue-googlemaps/dist/vue-googlemaps.css'
-import VueGoogleMaps from 'vue-googlemaps'
+import 'vue-googlemaps/dist/vue-googlemaps.css';
 
 import { boot } from 'quasar/wrappers';
 
