@@ -1,5 +1,7 @@
 <template>
-  <GmapMap
+  <googlemaps-map
+    ref="map"
+    class="map fit googlemaps-map"
     :center="{ lat: 39.7330017, lng: -7.6897566 }"
     :zoom="7"
     :options="{
@@ -10,35 +12,27 @@
       disableDefaultUI: false,
       styles: $q.dark.isActive ? styleDark : styleLight
     }"
+    @click="closeInfoWindows"
   >
-    <GmapMarker
-      :key="index"
+    <googlemaps-marker
+      :key="`marker-${index}`"
+      :ref="`marker-${index}`"
       v-for="(post, index) in posts"
       :position="{ lat: post.lat, lng: post.lng }"
       :clickable="true"
       :draggable="false"
-      @click="
-        center = { lat: post.lat, lng: post.lng };
-        post.clicked = !post.clicked;
-      "
       :icon="
         `http://maps.google.com/mapfiles/ms/icons/${
           post.isRecovered ? 'green' : 'red'
         }-dot.png`
       "
+      @click="selectMarker(`marker-${index}`, post)"
     >
-      <gmap-info-window :opened="post.clicked">
-        <q-img class="col" style="width:200px" :src="post.images[0]" />
-        <p><b>Title:</b> {{ post.title }}</p>
-        <p><b>Details:</b> {{ post.details }}</p>
-      </gmap-info-window>
-    </GmapMarker>
-  </GmapMap>
+    </googlemaps-marker>
+  </googlemaps-map>
 </template>
 
 <script>
-import * as VueGoogleMaps from 'vue2-google-maps';
-
 export default {
   name: 'Map',
 
@@ -50,6 +44,7 @@ export default {
 
   data() {
     return {
+      infoWindowList: [],
       styleLight: [
         {
           featureType: 'administrative.neighborhood',
@@ -391,6 +386,35 @@ export default {
   filters: {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D, HH:mm');
+    }
+  },
+
+  methods: {
+    selectMarker(marker, post) {
+      this.closeInfoWindows();
+      var map = this.$refs.map.$_map;
+      var marker_ele = this.$refs[marker][0].$_marker;
+      var contentString = `\
+        <img
+          class="rounded-borders"
+          src="${post.images[0]}"
+          style="height:100px"
+        />\
+        <p><b>Title:</b> ${post.title}</p>\
+        <p><b>Details:</b> ${post.details}</p>\
+        `;
+
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+      infowindow.open(map, marker_ele);
+
+      this.infoWindowList.push(infowindow);
+    },
+
+    closeInfoWindows() {
+      this.infoWindowList.forEach(infoWindow => infoWindow.close());
     }
   }
 };
