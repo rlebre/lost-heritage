@@ -1,8 +1,9 @@
 <template>
-  <GmapMap
+  <googlemaps-map
     ref="mapLocationPicker"
-    @center_changed="updateCenter($event)"
-    :center="{ lat: 39.7330017, lng: -7.6897566 }"
+    class="map fit googlemaps-map"
+    style="position:unset"
+    :center.sync="pickedLocation"
     :zoom="7"
     :options="{
       mapTypeControl: true,
@@ -13,17 +14,16 @@
       styles: $q.dark.isActive ? styleDark : styleLight
     }"
   >
-    <GmapMarker
+    <googlemaps-marker
       :position="pickedLocation"
       :draggable="false"
       icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-    />
-  </GmapMap>
+    >
+    </googlemaps-marker>
+  </googlemaps-map>
 </template>
 
 <script>
-import * as VueGoogleMaps from 'vue2-google-maps';
-
 export default {
   name: 'Map',
 
@@ -381,6 +381,12 @@ export default {
         lng: newLocation.lng()
       };
 
+      this.$emit('centerUpdated', this.pickedLocation);
+    }
+  },
+
+  watch: {
+    pickedLocation(newValue, oldValue) {
       this.$emit('centerUpdated', this.pickedLocation);
     }
   },
