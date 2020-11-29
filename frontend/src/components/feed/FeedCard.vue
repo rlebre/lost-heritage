@@ -20,7 +20,7 @@
           <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-6" v-if="url && post">
         <q-btn
           class="q-mr-xs float-right"
           round
@@ -33,10 +33,9 @@
 
         <ShareNetwork
           network="twitter"
-          url="https://news.vuejs.org/issues/180"
-          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-          quote="The hot reload is so fast it\'s near instant. - Evan You"
-          hashtags="lostheritage"
+          :url="url"
+          :title="`${post.title} - ${post.details}`"
+          hashtags="PatrimonioEsquecido,LostHeritage"
         >
           <q-btn
             class="q-mr-xs float-right"
@@ -50,11 +49,10 @@
 
         <ShareNetwork
           network="facebook"
-          url="https://news.vuejs.org/issues/180"
-          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
-          quote="The hot reload is so fast it\'s near instant. - Evan You"
-          hashtags="lostheritage"
+          :url="url"
+          :title="post.title"
+          :quote="post.details"
+          hashtags="PatrimonioEsquecido,LostHeritage"
         >
           <q-btn
             class="q-mr-xs float-right"
@@ -148,7 +146,9 @@ export default {
 
   data() {
     return {
-      newComment: ''
+      newComment: '',
+      url: null,
+      clipboardMessage: ''
     };
   },
 
@@ -156,7 +156,7 @@ export default {
     ...mapActions('posts', ['likePost', 'commentPost']),
 
     copyToClipboardHandler() {
-      copyToClipboard('some text')
+      copyToClipboard(this.clipboardMessage)
         .then(() => {
           this.$q.notify({
             message: 'Copied to clipboard.',
@@ -191,6 +191,11 @@ export default {
         comment: this.newComment
       });
     }
+  },
+
+  mounted() {
+    this.url = `${process.env.PRODUCTION_URL}/#/post/${this.post._id}`;
+    this.clipboardMessage = `${this.post.title}\n${this.post.details}\n\n${this.url}`;
   }
 };
 </script>

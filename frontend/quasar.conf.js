@@ -9,6 +9,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
 
+const PRODUCTION_URL = 'https://patrimonioesquecido.ruilebre.com';
 let API_LOCAL = 'http://localhost:3000', API_PRODUCTION = 'https://lost-heritage.herokuapp.com';
 let API = API_PRODUCTION;
 
@@ -61,7 +62,8 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
-        API
+        API,
+        PRODUCTION_URL
       },
       // transpile: false,
 
