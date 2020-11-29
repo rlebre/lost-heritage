@@ -1,4 +1,5 @@
 import { boot } from 'quasar/wrappers';
+import { date } from 'quasar';
 
 export default boot(({ Vue }) => {
     Vue.filter('str_limit', (value: string, size: any) => {
@@ -22,4 +23,8 @@ export default boot(({ Vue }) => {
 
         return values.map((value: any) => value.toString().charAt(0).toUpperCase() + value.slice(1))
     })
+
+    Vue.filter('commentDate', (value: string) => {
+        return date.formatDate(value, 'D/MM/YY, H:mm');
+    });
 });
