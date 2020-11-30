@@ -17,7 +17,7 @@
       color="primary"
       label="Submit"
       class="q-mt-xs"
-      @click="addPost"
+      @click="addComment"
     ></q-btn>
 
     <template v-if="comments && comments.length > 0">
@@ -79,12 +79,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'CommentsBox',
 
   props: {
     comments: {
       type: Array
+    },
+    postId: {
+      type: String,
+      required: true
     }
   },
 
@@ -95,9 +101,16 @@ export default {
   },
 
   methods: {
+    ...mapActions('posts', ['commentPost']),
+
     addLike() {},
 
-    addPost() {}
+    addComment() {
+      this.commentPost({
+        postId: this.postId,
+        comment: this.newComment
+      });
+    }
   }
 };
 </script>
