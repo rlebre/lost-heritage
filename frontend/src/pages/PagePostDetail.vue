@@ -1,5 +1,5 @@
 <template>
-  <q-page class="constrain q-pa-md">
+  <q-page class="constrain q-pa-md" v-if="post">
     <div class="upper-section">
       <div class="row">
         <div class="col-12 col-md-6 q-pa-sm">
@@ -35,10 +35,7 @@
           </q-carousel>
         </div>
 
-        <div
-          class="col-12 col-md-6 q-pa-sm"
-          v-if="post && post.lat && post.lng"
-        >
+        <div class="col-12 col-md-6 q-pa-sm" v-if="post.lat && post.lng">
           <googlemaps-map
             ref="map"
             class="map fit googlemaps-map"
@@ -123,15 +120,24 @@
         <CommentsBox
           class="col-12 small-screen-only q-px-xs"
           :comments="post.comments"
+          :postId="post._id"
         ></CommentsBox>
         <CommentsBox
           class="col-12 large-screen-only q-px-sm"
           :comments="post.comments"
+          :postId="post._id"
         ></CommentsBox>
       </div>
     </div>
+  </q-page>
 
-    <!-- <span>{{ post }}</span> -->
+  <q-page class="constrain q-pa-md" v-else>
+    <q-spinner
+      class="fixed-center"
+      color="primary"
+      size="3em"
+      :thickness="10"
+    />
   </q-page>
 </template>
 
@@ -145,7 +151,7 @@ export default {
 
   data() {
     return {
-      post: {},
+      post: null,
       slideNumber: 0,
       fullscreen: false,
 
