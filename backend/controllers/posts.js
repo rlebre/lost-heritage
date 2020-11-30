@@ -98,7 +98,12 @@ exports.getPostDetails = (req, res) => {
     const postId = req.params.id;
 
     Post.findById(postId)
-        .populate({ path: 'comments', model: 'PostComment' })
+        .populate({
+            path: 'comments',
+            model: 'PostComment',
+            select: 'comment createdAt',
+            match: { approved: { $eq: true } }
+        })
         .exec((err, post) => {
             if (err) {
                 return res.status(422).send({ errors: normalizeErrors(err.errors) });
