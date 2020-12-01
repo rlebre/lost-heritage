@@ -406,20 +406,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.align-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.camera-frame {
-  border: 1px solid $grey-5;
-  border-radius: 5px;
-}
-
-.remove-xtra-margin {
-  margin-bottom: -5px;
-}
-</style>
