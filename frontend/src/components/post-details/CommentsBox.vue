@@ -54,12 +54,13 @@
 
                   <q-btn
                     round
+                    :disabled="!comment._id"
                     class="q-ml-xs"
                     color="negative"
                     icon="eva-heart"
                     size="8px"
                     unelevated
-                    @click="addLike"
+                    @click="addLike(comment._id)"
                   />
                 </q-card-section>
               </div>
@@ -103,12 +104,38 @@ export default {
   methods: {
     ...mapActions('posts', ['commentPost']),
 
-    addLike() {},
+    ...mapActions('comments', ['likeComment']),
+
+    addLike(commentId) {
+      this.likeComment(commentId);
+      this.comments[this.comments.findIndex(comm => comm._id === commentId)]
+        .likes++;
+    },
 
     addComment() {
       this.commentPost({
         postId: this.postId,
         comment: this.newComment
+      });
+
+      this.comments.unshift({
+        comment: this.newComment,
+        createdAt: Date.now(),
+        likes: 0
+      });
+
+      this.newComment = null;
+
+      this.$q.notify({
+        message: '<p style="text-align:center">Comment created.<p>',
+        html: true,
+        timeout: 5000,
+        actions: [
+          {
+            icon: 'close',
+            color: 'white'
+          }
+        ]
       });
     }
   }
