@@ -98,11 +98,13 @@ exports.getPostDetails = (req, res) => {
     const postId = req.params.id;
 
     Post.findById(postId)
+        .select('-__v -approved -approvedAt -contributor')
         .populate({
             path: 'comments',
             model: 'PostComment',
-            select: 'comment createdAt',
-            match: { approved: { $eq: true } }
+            select: '_id comment likes createdAt',
+            match: { approved: { $eq: true } },
+            options: { sort: { 'createdAt': -1 } }
         })
         .exec((err, post) => {
             if (err) {
