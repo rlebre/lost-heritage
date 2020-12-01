@@ -25,6 +25,6 @@ export default boot(({ Vue }) => {
     })
 
     Vue.filter('commentDate', (value: string) => {
-        return date.formatDate(value, 'D/MM/YY, H:mm');
+        return date.formatDate(value, 'DD/MM/YY, HH:mm');
     });
 });
