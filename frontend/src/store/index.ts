@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import posts from './posts'
 import infos from './infos'
+import comments from './comments'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,8 @@ export default function () {
   const Store = new Vuex.Store({
     modules: {
       posts,
-      infos
+      infos,
+      comments
     },
   })
 
