@@ -17,6 +17,10 @@ const postCommentSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    likes: {
+        type: Number,
+        default: 0
+    },
     post: {
         type: Schema.Types.ObjectId,
         ref: 'Post'

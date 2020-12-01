@@ -8,6 +8,7 @@ const postRoutes = require('./routes/post');
 const imageUploadRoutes = require('./routes/images');
 const userRoutes = require('./routes/users');
 const infoRoutes = require('./routes/info');
+const commentsRoutes = require('./routes/comments');
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use('/api/v1/posts', postRoutes);
 app.use('/api/v1/image', imageUploadRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/infos', infoRoutes);
+app.use('/api/v1/comments', commentsRoutes);
 
 app.listen(process.env.PORT || 3000, function () {
     console.log("Server running");
