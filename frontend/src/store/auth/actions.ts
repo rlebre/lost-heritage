@@ -5,6 +5,7 @@ export function login(this: any, { commit }: any, credentials: any) {
         .post(`${process.env.API}/api/v1/users/login`, credentials)
         .then((response: any) => {
             const token = response.data;
+            this.$axios.defaults.headers.common['Authorization'] = token.jwt
             commit('loginSuccess', token);
             return Promise.resolve(token);
         })
@@ -22,12 +23,14 @@ export function logout(this: any, { commit }: any) {
 export function register(this: any, { commit }: any, userData: any) {
     commit('registerRequest');
 
-    this.$axios
+    return this.$axios
         .post(`${process.env.API}/api/v1/users/register`, userData)
         .then((response: any) => {
             commit('registerSuccess', response.data);
+            return Promise.resolve(response.data);
         })
         .catch((error: any) => {
             commit('registerFailure', error.response.data);
+            return Promise.reject(error.response.data.errors);
         })
 }
