@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import posts from './posts'
 import infos from './infos'
 import comments from './comments'
+import auth from './auth'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default function () {
     modules: {
       posts,
       infos,
-      comments
+      comments,
+      auth
     },
   })
 
