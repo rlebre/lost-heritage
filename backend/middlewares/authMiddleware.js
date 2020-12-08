@@ -32,7 +32,7 @@ exports.authMiddleware = function (req, res, next) {
 
 function parseToken(token) {
     try {
-        return jwt.verify(token.split(' ')[1], config.SECRET);
+        return jwt.verify(token.split(' ')[1], config.JWT_SECRET);
     } catch (err) {
         return null;
     }
