@@ -9,9 +9,11 @@ router.get("/filter", PostsCtrl.filterPosts);
 router.get("/all", AuthMiddleware.authMiddleware, PostsCtrl.getAllPosts);
 router.get("/filtered", PostsCtrl.getFilteredPosts);
 router.get("/search", PostsCtrl.searchPosts);
+router.get("/pending", AuthMiddleware.authMiddleware, PostsCtrl.getPendingPosts);
 router.get("", PostsCtrl.getPublicPosts);
 router.post("/:id/like", likeLimiter, PostsCtrl.likePost);
 router.post("/:id/comment", commentLimiter, PostsCtrl.commentPost);
+router.post("/:id/approve", AuthMiddleware.authMiddleware, PostsCtrl.approvePost);
 router.get("/:id", PostsCtrl.getPostDetails);
 
 module.exports = router;
