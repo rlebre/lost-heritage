@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const User = require('../models/user');
 const Contributor = require('../models/contributor');
 const Comment = require('../models/post-comment');
 const Image = require('../models/image');
@@ -80,7 +81,6 @@ exports.getPublicPosts = (req, res) => {
 
 exports.getAllPosts = (req, res) => {
     Post.find({})
-        .populate('images')
         .exec((err, posts) => {
             if (err) {
                 return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -197,6 +197,39 @@ exports.commentPost = async (req, res) => {
     });
 };
 
+exports.approvePost = (req, res) => {
+    const postId = req.params.id;
+    const user = res.locals.user;
+    console.log(postId, user);
+
+    if (!postId) {
+        return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide Post ID" }] });
+    }
+
+    User.findById(user.id, function (err, foundUser) {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        Post.findByIdAndUpdate(postId, { $set: { 'approved': true, 'approvedBy': foundUser, 'approvedAt': Date.now() } }, (err, post) => {
+            console.log(err);
+
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
+
+            if (!post) {
+                return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+            }
+
+            post.approvedBy = foundUser;
+            post.approved = true;
+            post.approvedAt = Date.now;
+            res.json(post);
+        });
+    });
+}
+
 exports.filterPosts = (req, res) => {
     const { countyList, sortBy, sortType } = req.body;
 
@@ -254,3 +287,18 @@ exports.searchPosts = (req, res) => {
         res.send(posts)
     });
 };
+
+exports.getPendingPosts = (req, res) => {
+    Post.find({ 'approved': false })
+        .exec((err, posts) => {
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
+
+            if (!posts) {
+                return res.json([]);
+            }
+
+            res.send(posts)
+        });
+}
