@@ -121,7 +121,7 @@
 
     <q-drawer show-if-above v-model="showDrawer" side="left" bordered>
       <q-list>
-        <q-item to="/" active-class="q-item-no-link-highlighting">
+        <q-item to="/admin" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
