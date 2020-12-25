@@ -14,7 +14,7 @@ export default boot(({ store, Vue }) => {
 
   const token = LocalStorage.getItem('user_token');
   if (token) {
-    Vue.prototype.$axios.defaults.headers.common['Authorization'] = token
+    Vue.prototype.$axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   }
 
   store.$axios = axios;
