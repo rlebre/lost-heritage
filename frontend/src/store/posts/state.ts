@@ -3,6 +3,9 @@ export default function () {
   return {
     postList: [],
     filteredPostList: [],
+
+    pendingPostsList: [],
+
     postDetails: {},
     loadingPosts: false,
 

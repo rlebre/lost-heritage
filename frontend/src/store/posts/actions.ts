@@ -24,6 +24,19 @@ export function fetchPostDetails(this: any, { commit }: any, postId: string) {
         })
 }
 
+export function fetchPendingPosts(this: any, { commit }: any) {
+    commit('getPendingPostsRequest');
+
+    this.$axios
+        .get(`${process.env.API}/api/v1/posts/pending`)
+        .then((response: any) => {
+            commit('getPendingPostsSuccess', response.data);
+        })
+        .catch((error: any) => {
+            commit('getPendingPostsFailure', error.response.data);
+        })
+}
+
 export function createPost(this: any, { commit }: any, newPost: any) {
     commit('createPostRequest');
 

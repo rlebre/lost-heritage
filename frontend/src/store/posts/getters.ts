@@ -3,6 +3,10 @@ export function postList(state: any) {
     return state.postList;
 }
 
+export function pendingPostsList(state: any) {
+    return state.pendingPostsList;
+}
+
 export function postDetails(state: any) {
     return state.postDetails;
 }

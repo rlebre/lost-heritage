@@ -31,6 +31,22 @@ export function getPostDetailsFailure(state: any, error: any) {
     state.errors = error.errors;
 }
 
+// ---------- POST PENDING FETCH --------------
+export function getPendingPostsRequest(state: any) {
+    state.loadingPosts = true;
+}
+
+export function getPendingPostsSuccess(state: any, newPostsList: any) {
+    state.loadingPosts = false;
+    state.pendingPostsList = newPostsList;
+    state.errors = [];
+}
+
+export function getPendingPostsFailure(state: any, error: any) {
+    state.loadingPosts = false;
+    state.pendingPostsList = [];
+    state.errors = error.errors;
+}
 
 
 // ---------- POST CREATE --------------
