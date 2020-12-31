@@ -26,21 +26,21 @@ const routes: RouteConfig[] = [
     children: [
       {
         path: '',
-        component: () => import('pages/PageAdmin.vue'),
+        component: () => import('pages/admin/Dashboard.vue'),
         meta: {
           requiresAuth: true
         }
       },
       {
         path: 'pending-posts',
-        component: () => import('pages/PageAdmin.vue'),
+        component: () => import('pages/admin/PendingPosts.vue'),
         meta: {
           requiresAuth: true
         }
       },
       {
         path: 'pending-comments',
-        component: () => import('pages/PageAdmin.vue'),
+        component: () => import('pages/admin/PendingComments.vue'),
         meta: {
           requiresAuth: true
         }
