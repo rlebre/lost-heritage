@@ -11,7 +11,7 @@
           >
             <template v-slot:body-cell-preview="props">
               <q-td :props="props">
-                <router-link class="no-link" :to="`/post/${props.row._id}`">
+                <router-link class="no-link" :to="`post/${props.row._id}`">
                   <q-btn dense round flat color="primary" icon="eva-search">
                     <q-tooltip>Preview post</q-tooltip>
                   </q-btn>
