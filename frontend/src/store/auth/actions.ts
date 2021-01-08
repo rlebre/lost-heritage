@@ -5,7 +5,7 @@ export function login(this: any, { commit }: any, credentials: any) {
         .post(`${process.env.API}/api/v1/users/login`, credentials)
         .then((response: any) => {
             const token = response.data;
-            this.$axios.defaults.headers.common['Authorization'] = token.jwt
+            this.$axios.defaults.headers.common['Authorization'] = `Bearer ${token.jwt}`
             commit('loginSuccess', token);
             return Promise.resolve(token);
         })
