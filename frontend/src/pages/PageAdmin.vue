@@ -48,7 +48,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import testData from 'assets/test-data.json';
 
 export default {
   name: 'PageAdmin',
@@ -82,7 +81,7 @@ export default {
         },
         { name: 'actions', label: 'Actions', field: '', align: 'center' }
       ],
-      posts: testData
+      posts: []
     };
   },
 
