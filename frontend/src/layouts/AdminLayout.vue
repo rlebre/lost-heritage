@@ -142,6 +142,7 @@
         </q-item>
         <q-item
           to="/admin/pending-comments"
+          disabled
           active-class="q-item-no-link-highlighting"
         >
           <q-item-section avatar>
