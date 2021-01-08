@@ -44,6 +44,13 @@ const routes: RouteConfig[] = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: 'post/:id',
+        component: () => import('pages/admin/AdminPostDetails.vue'),
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   },
