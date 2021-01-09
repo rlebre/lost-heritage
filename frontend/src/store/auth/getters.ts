@@ -1,5 +1,11 @@
+import * as jwt from 'jsonwebtoken';
+
 export function getJwtToken(state: any) {
     return state.jwtToken;
+}
+
+export function getUsername(state: any) {
+    return state.jwtToken ? jwt.decode(state.jwtToken).username : null;
 }
 
 export function isLoggingIn(state: any) {
