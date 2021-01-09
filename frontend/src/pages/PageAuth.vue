@@ -3,7 +3,7 @@
     <div class="column q-pa-lg">
       <div class="row">
         <q-card square class="shadow-24" style="width:300px;height:485px;">
-          <q-card-section class="bg-blue-6">
+          <q-card-section class="bg-blue-9">
             <h4 class="text-h5 text-white q-my-md">Património Esquecido</h4>
           </q-card-section>
           <q-card-section>
