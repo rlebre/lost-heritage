@@ -119,40 +119,94 @@
       </q-tabs>
     </q-footer>
 
-    <q-drawer show-if-above v-model="showDrawer" side="left" bordered>
-      <q-list>
-        <q-item to="/admin" active-class="q-item-no-link-highlighting">
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Dashboard</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          to="/admin/pending-posts"
-          active-class="q-item-no-link-highlighting"
-        >
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Pending Posts</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          to="/admin/pending-comments"
-          disabled
-          active-class="q-item-no-link-highlighting"
-        >
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Pending Comments</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+    <q-drawer
+      show-if-above
+      v-model="showDrawer"
+      side="left"
+      bordered
+      :breakpoint="400"
+    >
+      <q-scroll-area
+        style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
+      >
+        <q-list>
+          <q-item to="/admin" active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="dashboard" color="primary" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Dashboard</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-separator />
+
+          <q-item
+            to="/admin/pending-posts"
+            active-class="q-item-no-link-highlighting"
+          >
+            <q-item-section avatar>
+              <q-icon name="eva-email" color="primary" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Pending Posts</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item disabled active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="eva-trash-2" color="primary" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Declined Posts</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-separator />
+
+          <q-item
+            to="/admin/pending-comments"
+            disabled
+            active-class="q-item-no-link-highlighting"
+          >
+            <q-item-section avatar>
+              <q-icon name="eva-message-circle" color="primary" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Pending Comments</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item disabled active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="eva-trash-2" color="primary" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Declined Comments</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+
+      <q-img
+        class="absolute-top"
+        src="https://cdn.quasar.dev/img/material.png"
+        style="height: 150px"
+      >
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar size="56px" class="q-mb-sm">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+          </q-avatar>
+          <div class="q-ml-sm q-mb-sm text-weight-bolder" v-if="getUsername">
+            {{ getUsername }}
+          </div>
+          <q-btn
+            rounded
+            color="primary"
+            size="12px"
+            label="Logout"
+            @click="onLogout()"
+          />
+        </div>
+      </q-img>
     </q-drawer>
 
     <q-page-container :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'">
@@ -162,7 +216,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'MainLayout',
@@ -184,9 +238,20 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters('auth', ['getUsername'])
+  },
+
   methods: {
+    ...mapActions('auth', ['logout']),
+
     toggleDark() {
       this.$q.dark.toggle();
+    },
+
+    onLogout() {
+      this.logout();
+      this.$router.push('/login');
     }
   }
 };
