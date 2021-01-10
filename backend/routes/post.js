@@ -10,10 +10,12 @@ router.get("/all", AuthMiddleware.authMiddleware, PostsCtrl.getAllPosts);
 router.get("/filtered", PostsCtrl.getFilteredPosts);
 router.get("/search", PostsCtrl.searchPosts);
 router.get("/pending", AuthMiddleware.authMiddleware, PostsCtrl.getPendingPosts);
+router.get("/declined", AuthMiddleware.authMiddleware, PostsCtrl.getDeclinedPosts);
 router.get("", PostsCtrl.getPublicPosts);
 router.post("/:id/like", likeLimiter, PostsCtrl.likePost);
 router.post("/:id/comment", commentLimiter, PostsCtrl.commentPost);
 router.post("/:id/approve", AuthMiddleware.authMiddleware, PostsCtrl.approvePost);
+router.post("/:id/decline", AuthMiddleware.authMiddleware, PostsCtrl.declinePost);
 router.get("/:id", PostsCtrl.getPostDetails);
 
 module.exports = router;
