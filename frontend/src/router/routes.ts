@@ -39,6 +39,13 @@ const routes: RouteConfig[] = [
         }
       },
       {
+        path: 'declined-posts',
+        component: () => import('pages/admin/DeclinedPosts.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: 'pending-comments',
         component: () => import('pages/admin/PendingComments.vue'),
         meta: {
