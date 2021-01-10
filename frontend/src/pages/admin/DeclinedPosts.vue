@@ -36,17 +36,6 @@
                   dense
                   round
                   flat
-                  color="negative"
-                  icon="eva-close-circle"
-                  @click="onDeclinePostClick(props.row)"
-                >
-                  <q-tooltip>Decline post</q-tooltip>
-                </q-btn>
-
-                <q-btn
-                  dense
-                  round
-                  flat
                   color="green"
                   icon="eva-checkmark-circle-2"
                   @click="onApprovePostClick(props.row)"
@@ -134,11 +123,6 @@ export default {
       'declinePost'
     ]),
 
-    insertTestData(props) {
-      //this.createPost(props.row);
-      console.log('insert data clicked');
-    },
-
     onApprovePostClick(post) {
       this.$q
         .dialog({
@@ -149,19 +133,6 @@ export default {
         })
         .onOk(() => {
           this.doApprove(post);
-        });
-    },
-
-    onDeclinePostClick(post) {
-      this.$q
-        .dialog({
-          title: 'Confirm',
-          message: `Would you like to <b class='text-negative'>decline</b> the post "${post.title}"?`,
-          cancel: true,
-          html: true
-        })
-        .onOk(() => {
-          this.doDecline(post);
         });
     },
 

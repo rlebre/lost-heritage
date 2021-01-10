@@ -32,6 +32,13 @@ const routes: RouteConfig[] = [
         }
       },
       {
+        path: 'approved-posts',
+        component: () => import('pages/admin/ApprovedPosts.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: 'pending-posts',
         component: () => import('pages/admin/PendingPosts.vue'),
         meta: {
