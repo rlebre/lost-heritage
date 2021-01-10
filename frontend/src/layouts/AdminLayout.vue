@@ -142,6 +142,18 @@
           <q-separator />
 
           <q-item
+            to="/admin/approved-posts"
+            active-class="q-item-no-link-highlighting"
+          >
+            <q-item-section avatar>
+              <q-icon name="eva-list" color="primary" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Approved Posts</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item
             to="/admin/pending-posts"
             active-class="q-item-no-link-highlighting"
           >
@@ -152,6 +164,7 @@
               <q-item-label>Pending Posts</q-item-label>
             </q-item-section>
           </q-item>
+
           <q-item
             to="/admin/declined-posts"
             active-class="q-item-no-link-highlighting"

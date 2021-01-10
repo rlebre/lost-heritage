@@ -38,9 +38,9 @@
                   flat
                   color="negative"
                   icon="eva-close-circle"
-                  @click="onDeclinePostClick(props.row)"
+                  @click="onRemovePostClick(props.row)"
                 >
-                  <q-tooltip>Decline post</q-tooltip>
+                  <q-tooltip>Remove post</q-tooltip>
                 </q-btn>
               </q-td>
             </template>
@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       pagination: {
-        rowsPerPage: 8
+        rowsPerPage: 10
       },
       columns: [
         {
@@ -119,7 +119,7 @@ export default {
   methods: {
     ...mapActions('posts', ['fetchPosts', 'declinePost']),
 
-    onDeclinePostClick(post) {
+    onRemovePostClick(post) {
       this.$q
         .dialog({
           title: 'Confirm',
