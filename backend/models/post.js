@@ -48,6 +48,15 @@ const postSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    declined: { type: Boolean, default: false },
+    declinedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    declinedAt: {
+        type: Date,
+        default: Date.now
+    },
     likes: { type: Number, default: 0 },
     comments: {
         type: [Schema.Types.ObjectId],

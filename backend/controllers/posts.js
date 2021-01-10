@@ -200,7 +200,6 @@ exports.commentPost = async (req, res) => {
 exports.approvePost = (req, res) => {
     const postId = req.params.id;
     const user = res.locals.user;
-    console.log(postId, user);
 
     if (!postId) {
         return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide Post ID" }] });
@@ -211,7 +210,7 @@ exports.approvePost = (req, res) => {
             return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
 
-        Post.findByIdAndUpdate(postId, { $set: { 'approved': true, 'approvedBy': foundUser, 'approvedAt': Date.now() } }, (err, post) => {
+        Post.findByIdAndUpdate(postId, { $set: { 'approved': true, 'approvedBy': foundUser, 'approvedAt': Date.now(), 'declined': false } }, (err, post) => {
             console.log(err);
 
             if (err) {
@@ -225,6 +224,40 @@ exports.approvePost = (req, res) => {
             post.approvedBy = foundUser;
             post.approved = true;
             post.approvedAt = Date.now;
+            post.declined = false;
+            res.json(post);
+        });
+    });
+}
+
+exports.declinePost = (req, res) => {
+    const postId = req.params.id;
+    const user = res.locals.user;
+
+    if (!postId) {
+        return res.status(422).send({ errors: [{ title: "Data missing", detail: "Provide Post ID" }] });
+    }
+
+    User.findById(user.id, function (err, foundUser) {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        Post.findByIdAndUpdate(postId, { $set: { 'declined': true, 'declinedBy': foundUser, 'declinedAt': Date.now(), 'approved': false } }, (err, post) => {
+            console.log(err);
+
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
+
+            if (!post) {
+                return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+            }
+
+            post.declinedBy = foundUser;
+            post.declined = true;
+            post.declinedAt = Date.now;
+            post.approved = false;
             res.json(post);
         });
     });
@@ -289,7 +322,22 @@ exports.searchPosts = (req, res) => {
 };
 
 exports.getPendingPosts = (req, res) => {
-    Post.find({ 'approved': false })
+    Post.find({ 'approved': false, 'declined': false })
+        .exec((err, posts) => {
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
+
+            if (!posts) {
+                return res.json([]);
+            }
+
+            res.send(posts)
+        });
+}
+
+exports.getDeclinedPosts = (req, res) => {
+    Post.find({ 'approved': false, 'declined': true })
         .exec((err, posts) => {
             if (err) {
                 return res.status(422).send({ errors: normalizeErrors(err.errors) });
