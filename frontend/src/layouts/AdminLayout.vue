@@ -152,7 +152,10 @@
               <q-item-label>Pending Posts</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item disabled active-class="q-item-no-link-highlighting">
+          <q-item
+            to="/admin/declined-posts"
+            active-class="q-item-no-link-highlighting"
+          >
             <q-item-section avatar>
               <q-icon name="eva-trash-2" color="primary" />
             </q-item-section>
