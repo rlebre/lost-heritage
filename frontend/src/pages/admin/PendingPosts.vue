@@ -38,6 +38,7 @@
                   flat
                   color="negative"
                   icon="eva-close-circle"
+                  @click="onDeclinePostClick(props.row)"
                 >
                   <q-tooltip>Decline post</q-tooltip>
                 </q-btn>
@@ -48,7 +49,7 @@
                   flat
                   color="green"
                   icon="eva-checkmark-circle-2"
-                  @click="insertTestData(props)"
+                  @click="onApprovePostClick(props.row)"
                 >
                   <q-tooltip>Approve post</q-tooltip>
                 </q-btn>
@@ -111,11 +112,47 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['fetchPendingPosts']),
+    ...mapActions('posts', ['fetchPendingPosts', 'approvePost', 'declinePost']),
 
     insertTestData(props) {
       //this.createPost(props.row);
       console.log('insert data clicked');
+    },
+
+    onApprovePostClick(post) {
+      this.approvePost(post._id).then(
+        data => {
+          this.$q.notify({
+            message: 'Post approved successfully.',
+            timeout: 5000
+          });
+        },
+        errors => {
+          this.$q.notify({
+            message: errors[0].title,
+            caption: errors[0].detail,
+            timeout: 5000
+          });
+        }
+      );
+    },
+
+    onDeclinePostClick(post) {
+      this.declinePost(post._id).then(
+        data => {
+          this.$q.notify({
+            message: 'Post declined successfully.',
+            timeout: 5000
+          });
+        },
+        errors => {
+          this.$q.notify({
+            message: errors[0].title,
+            caption: errors[0].detail,
+            timeout: 5000
+          });
+        }
+      );
     }
   },
 
