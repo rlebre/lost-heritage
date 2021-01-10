@@ -338,6 +338,7 @@ exports.getPendingPosts = (req, res) => {
 
 exports.getDeclinedPosts = (req, res) => {
     Post.find({ 'approved': false, 'declined': true })
+        .populate('declinedBy')
         .exec((err, posts) => {
             if (err) {
                 return res.status(422).send({ errors: normalizeErrors(err.errors) });

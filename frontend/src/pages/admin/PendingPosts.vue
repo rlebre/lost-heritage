@@ -123,7 +123,7 @@ export default {
       this.$q
         .dialog({
           title: 'Confirm',
-          message: `Would you like to <b class='text-positive'>approve</b> the Post "${post.title}"?`,
+          message: `Would you like to <b class='text-positive'>approve</b> the post "${post.title}"?`,
           cancel: true,
           html: true
         })
@@ -136,7 +136,7 @@ export default {
       this.$q
         .dialog({
           title: 'Confirm',
-          message: `Would you like to <b class='text-negative'>decline</b> the Post "${post.title}"?`,
+          message: `Would you like to <b class='text-negative'>decline</b> the post "${post.title}"?`,
           cancel: true,
           html: true
         })
@@ -193,7 +193,6 @@ export default {
   },
 
   mounted() {
-    console.log('aaaa');
     this.fetchPendingPosts();
   }
 };

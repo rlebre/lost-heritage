@@ -1,3 +1,4 @@
+import { niceDate } from '../../helpers/niceDate';
 
 export function postList(state: any) {
     return state.postList;
@@ -8,7 +9,11 @@ export function pendingPostsList(state: any) {
 }
 
 export function declinedPostsList(state: any) {
-    return state.declinedPostsList;
+    return state.declinedPostsList.map((obj: any) => ({
+        ...obj,
+        declinedBy: obj.declinedBy.username,
+        declinedAt: niceDate(obj.declinedAt)
+    }));
 }
 
 export function postDetails(state: any) {

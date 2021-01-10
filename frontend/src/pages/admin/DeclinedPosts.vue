@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       pagination: {
-        rowsPerPage: 8
+        rowsPerPage: 10
       },
       columns: [
         {
