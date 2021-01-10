@@ -7,6 +7,10 @@ export function pendingPostsList(state: any) {
     return state.pendingPostsList;
 }
 
+export function declinedPostsList(state: any) {
+    return state.declinedPostsList;
+}
+
 export function postDetails(state: any) {
     return state.postDetails;
 }

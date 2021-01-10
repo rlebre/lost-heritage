@@ -5,6 +5,7 @@ export default function () {
     filteredPostList: [],
 
     pendingPostsList: [],
+    declinedPostsList: [],
 
     postDetails: {},
     loadingPosts: false,
@@ -14,6 +15,8 @@ export default function () {
 
     likingPost: false,
     commentingPost: false,
+    approvingPost: false,
+    decliningPost: false,
 
     uploadedImages: [],
     uploadingImages: false,
