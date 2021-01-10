@@ -48,6 +48,23 @@ export function getPendingPostsFailure(state: any, error: any) {
     state.errors = error.errors;
 }
 
+// ---------- POST DECLINED FETCH --------------
+export function getDeclinedPostsRequest(state: any) {
+    state.loadingPosts = true;
+}
+
+export function getDeclinedPostsSuccess(state: any, newPostsList: any) {
+    state.loadingPosts = false;
+    state.declinedPostsList = newPostsList;
+    state.errors = [];
+}
+
+export function getDeclinedPostsFailure(state: any, error: any) {
+    state.loadingPosts = false;
+    state.declinedPostsList = [];
+    state.errors = error.errors;
+}
+
 
 // ---------- POST CREATE --------------
 export function createPostRequest(state: any) {
@@ -118,6 +135,44 @@ export function getFilteredPostsSuccess(state: any, filteredPostList: any) {
 export function getFilteredPostsFailure(state: any, error: any) {
     state.loadingPosts = false;
     state.filteredPostList = state.postList;
+    state.errors = error.errors;
+}
+
+// ---------- POST APPROVE --------------
+export function approvePostRequest(state: any) {
+    state.approvingPost = true;
+}
+
+export function approvePostSuccess(state: any, newPost: any) {
+    state.approvingPost = false;
+    state.errors = [];
+
+    const index = state.pendingPostsList.map((post: any) => post._id).indexOf(newPost._id);
+    state.pendingPostsList.splice(index, 1);
+    state.postList.push(newPost)
+}
+
+export function approvePostFailure(state: any, error: any) {
+    state.approvingPost = false;
+    state.errors = error.errors;
+}
+
+// ---------- POST DECLINE --------------
+export function declinePostRequest(state: any) {
+    state.decliningPost = true;
+}
+
+export function declinePostSuccess(state: any, newPost: any) {
+    state.decliningPost = false;
+    state.errors = [];
+
+    const index = state.postList.map((post: any) => post._id).indexOf(newPost._id);
+    state.pendingPostsList.splice(index, 1);
+    state.postList.push(newPost)
+}
+
+export function declinePostFailure(state: any, error: any) {
+    state.decliningPost = false;
     state.errors = error.errors;
 }
 

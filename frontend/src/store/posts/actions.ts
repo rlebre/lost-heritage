@@ -37,6 +37,19 @@ export function fetchPendingPosts(this: any, { commit }: any) {
         })
 }
 
+export function fetchDeclinedPosts(this: any, { commit }: any) {
+    commit('getDeclinedPostsRequest');
+
+    this.$axios
+        .get(`${process.env.API}/api/v1/posts/declined`)
+        .then((response: any) => {
+            commit('getDeclinedPostsSuccess', response.data);
+        })
+        .catch((error: any) => {
+            commit('getDeclinedPostsFailure', error.response.data);
+        })
+}
+
 export function createPost(this: any, { commit }: any, newPost: any) {
     commit('createPostRequest');
 
@@ -135,5 +148,34 @@ export function removeImageFromList(this: any, { commit }: any, data: any) {
     this.$axios.post(`${process.env.API}/api/v1/image/remove`, { key: imageKey, postUid })
         .catch((error: any) => {
             commit('imageUploadFailure', error.response.data);
+        })
+}
+
+
+
+
+export function approvePost(this: any, { commit }: any, postId: string) {
+    commit('approvePostRequest');
+
+    this.$axios
+        .post(`${process.env.API}/api/v1/posts/${postId}/approve`)
+        .then((response: any) => {
+            commit('approvePostSuccess', response.data);
+        })
+        .catch((error: any) => {
+            commit('approvePostFailure', error.response.data);
+        })
+}
+
+export function declinePost(this: any, { commit }: any, postId: string) {
+    commit('declinePostRequest');
+
+    this.$axios
+        .post(`${process.env.API}/api/v1/posts/${postId}/decline`)
+        .then((response: any) => {
+            commit('declinePostSuccess', response.data);
+        })
+        .catch((error: any) => {
+            commit('declinePostFailure', error.response.data);
         })
 }
