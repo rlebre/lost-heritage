@@ -120,6 +120,32 @@ export default {
     },
 
     onApprovePostClick(post) {
+      this.$q
+        .dialog({
+          title: 'Confirm',
+          message: `Would you like to <b class='text-positive'>approve</b> the Post "${post.title}"?`,
+          cancel: true,
+          html: true
+        })
+        .onOk(() => {
+          this.doApprove(post);
+        });
+    },
+
+    onDeclinePostClick(post) {
+      this.$q
+        .dialog({
+          title: 'Confirm',
+          message: `Would you like to <b class='text-negative'>decline</b> the Post "${post.title}"?`,
+          cancel: true,
+          html: true
+        })
+        .onOk(() => {
+          this.doDecline(post);
+        });
+    },
+
+    doApprove(post) {
       this.approvePost(post._id).then(
         data => {
           this.$q.notify({
@@ -137,7 +163,7 @@ export default {
       );
     },
 
-    onDeclinePostClick(post) {
+    doDecline(post) {
       this.declinePost(post._id).then(
         data => {
           this.$q.notify({
