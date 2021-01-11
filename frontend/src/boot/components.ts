@@ -9,6 +9,8 @@ import LocationPickerDialog from 'components/new-post/LocationPickerDialog.vue';
 import PostFilter from 'components/common/PostFilter.vue';
 import ImagePicker from 'components/common/ImagePicker.vue';
 import CommentsBox from 'components/post-details/CommentsBox.vue';
+import PostCard from 'components/admin/PostCard.vue';
+import PendingPostsTable from 'components/admin/PendingPostsTable.vue';
 
 // "async" is optional;
 // more info on params: https://quasar.dev/quasar-cli/boot-files
@@ -22,4 +24,6 @@ export default boot(({ Vue }) => {
   Vue.component('PostFilter', PostFilter);
   Vue.component('ImagePicker', ImagePicker);
   Vue.component('CommentsBox', CommentsBox);
+  Vue.component('PostCard', PostCard);
+  Vue.component('PendingPostsTable', PendingPostsTable);
 })
