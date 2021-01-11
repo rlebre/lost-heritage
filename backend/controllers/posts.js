@@ -211,8 +211,6 @@ exports.approvePost = (req, res) => {
         }
 
         Post.findByIdAndUpdate(postId, { $set: { 'approved': true, 'approvedBy': foundUser, 'approvedAt': Date.now(), 'declined': false } }, (err, post) => {
-            console.log(err);
-
             if (err) {
                 return res.status(422).send({ errors: normalizeErrors(err.errors) });
             }
@@ -244,8 +242,6 @@ exports.declinePost = (req, res) => {
         }
 
         Post.findByIdAndUpdate(postId, { $set: { 'declined': true, 'declinedBy': foundUser, 'declinedAt': Date.now(), 'approved': false } }, (err, post) => {
-            console.log(err);
-
             if (err) {
                 return res.status(422).send({ errors: normalizeErrors(err.errors) });
             }
