@@ -147,8 +147,12 @@ export function approvePostSuccess(state: any, newPost: any) {
     state.approvingPost = false;
     state.errors = [];
 
-    const index = state.pendingPostsList.map((post: any) => post._id).indexOf(newPost._id);
+    let index = state.pendingPostsList.map((post: any) => post._id).indexOf(newPost._id);
     state.pendingPostsList.splice(index, 1);
+
+    index = state.declinedPostsList.map((post: any) => post._id).indexOf(newPost._id);
+    state.declinedPostsList.splice(index, 1);
+
     state.postList.push(newPost)
 }
 
@@ -166,9 +170,14 @@ export function declinePostSuccess(state: any, newPost: any) {
     state.decliningPost = false;
     state.errors = [];
 
-    const index = state.postList.map((post: any) => post._id).indexOf(newPost._id);
+    let index = state.pendingPostsList.map((post: any) => post._id).indexOf(newPost._id);
     state.pendingPostsList.splice(index, 1);
-    state.postList.push(newPost)
+
+    index = state.postList.map((post: any) => post._id).indexOf(newPost._id);
+    state.postList.splice(index, 1);
+
+
+    state.declinedPostsList.push(newPost)
 }
 
 export function declinePostFailure(state: any, error: any) {
