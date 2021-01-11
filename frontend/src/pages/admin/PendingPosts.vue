@@ -1,62 +1,39 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="row q-col-gutter-lg">
-      <div class="col-12">
-        <template v-if="posts">
-          <q-table
-            :data="posts"
-            :columns="columns"
-            row-key="index"
-            :pagination.sync="pagination"
+    <div class="large-screen-only">
+      <div class="row q-col-gutter-lg">
+        <div class="col-12">
+          <PendingPostsTable
+            :posts="posts"
+            @approvePost="onApprovePostClick"
+            @declinePost="onDeclinePostClick"
+          ></PendingPostsTable>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-screen-only">
+      <div
+        class="list-panel col-sm-4 col-md-4"
+        v-if="posts && posts.length > 0"
+      >
+        <template v-if="posts.length">
+          <div
+            class="col-12 q-ml-md q-mr-sm q-mb-sm"
+            v-for="post in posts"
+            :key="post.id"
           >
-            <template v-slot:body-cell-preview="props">
-              <q-td :props="props">
-                <router-link class="no-link" :to="`post/${props.row._id}`">
-                  <q-btn dense round flat color="primary" icon="eva-search">
-                    <q-tooltip>Preview post</q-tooltip>
-                  </q-btn>
-                </router-link>
-              </q-td>
-            </template>
-
-            <template v-slot:body-cell-actions="props">
-              <q-td :props="props">
-                <q-btn
-                  dense
-                  round
-                  flat
-                  color="warning"
-                  icon="eva-edit"
-                  disabled
-                >
-                  <q-tooltip>Edit post</q-tooltip>
-                </q-btn>
-
-                <q-btn
-                  dense
-                  round
-                  flat
-                  color="negative"
-                  icon="eva-close-circle"
-                  @click="onDeclinePostClick(props.row)"
-                >
-                  <q-tooltip>Decline post</q-tooltip>
-                </q-btn>
-
-                <q-btn
-                  dense
-                  round
-                  flat
-                  color="green"
-                  icon="eva-checkmark-circle-2"
-                  @click="onApprovePostClick(props.row)"
-                >
-                  <q-tooltip>Approve post</q-tooltip>
-                </q-btn>
-              </q-td>
-            </template>
-          </q-table>
+            <PostCard
+              :post="post"
+              @approvePost="onApprovePostClick"
+              @declinePost="onDeclinePostClick"
+            ></PostCard>
+          </div>
         </template>
+      </div>
+
+      <div class="col-12" v-else>
+        <h5 class="text-center text-grey">No pending posts.</h5>
       </div>
     </div>
   </q-page>
@@ -70,54 +47,12 @@ export default {
 
   data() {
     return {
-      pagination: {
-        rowsPerPage: 8
-      },
-      columns: [
-        {
-          name: 'preview',
-          label: 'Preview',
-          field: '',
-          align: 'center',
-          style: 'max-width: 1%; white-space: initial'
-        },
-        {
-          name: 'title',
-          label: 'Title',
-          field: 'title',
-          align: 'left',
-          sortable: true,
-          style: 'max-width: 10%; white-space: initial'
-        },
-        {
-          name: 'details',
-          label: 'Details',
-          field: 'details',
-          sortable: true,
-          align: 'left',
-          style: 'max-width: 20%; white-space: initial'
-        },
-        {
-          name: 'county',
-          label: 'County',
-          field: 'county',
-          align: 'left',
-          sortable: true,
-          style: 'max-width: 60%; white-space: initial'
-        },
-        { name: 'actions', label: 'Actions', field: '', align: 'center' }
-      ],
       posts: []
     };
   },
 
   methods: {
     ...mapActions('posts', ['fetchPendingPosts', 'approvePost', 'declinePost']),
-
-    insertTestData(props) {
-      //this.createPost(props.row);
-      console.log('insert data clicked');
-    },
 
     onApprovePostClick(post) {
       this.$q
