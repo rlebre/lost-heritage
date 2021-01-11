@@ -7,7 +7,7 @@
         flat
         color="primary"
         icon="eva-arrow-circle-left"
-        to="/admin/pending-posts"
+        @click="$router.go(-1)"
       >
         <q-tooltip>Return</q-tooltip>
       </q-btn>
