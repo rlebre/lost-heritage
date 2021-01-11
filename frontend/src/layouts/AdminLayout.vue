@@ -119,13 +119,7 @@
       </q-tabs>
     </q-footer>
 
-    <q-drawer
-      show-if-above
-      v-model="showDrawer"
-      side="left"
-      bordered
-      :breakpoint="400"
-    >
+    <q-drawer v-model="showDrawer" show-if-above bordered>
       <q-scroll-area
         style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
       >
