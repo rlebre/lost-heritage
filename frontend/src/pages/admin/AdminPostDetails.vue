@@ -1,6 +1,6 @@
 <template>
   <q-page class="constrain q-pa-md" v-if="post">
-    <div class="upper-section admin-banner bg-grey-2">
+    <div class="upper-section admin-banner bg-grey-2 rounded-borders">
       <q-btn
         size="18px"
         round
@@ -14,15 +14,38 @@
 
       <div class="q-space"></div>
 
-      <q-btn size="18px" round flat color="warning" icon="eva-edit" disabled>
+      <q-toggle
+        size="52px"
+        round
+        flat
+        dense
+        color="warning"
+        icon="eva-edit"
+        v-model="editable"
+        keep-color
+      >
         <q-tooltip>Edit post</q-tooltip>
-      </q-btn>
+      </q-toggle>
 
-      <q-btn size="18px" round flat color="negative" icon="eva-close-circle">
+      <q-btn
+        size="18px"
+        dense
+        round
+        flat
+        color="negative"
+        icon="eva-close-circle"
+      >
         <q-tooltip>Decline post</q-tooltip>
       </q-btn>
 
-      <q-btn size="18px" round flat color="green" icon="eva-checkmark-circle-2">
+      <q-btn
+        size="18px"
+        dense
+        round
+        flat
+        color="green"
+        icon="eva-checkmark-circle-2"
+      >
         <q-tooltip>Approve post</q-tooltip>
       </q-btn>
     </div>
@@ -87,60 +110,84 @@
     <div class="details-section q-ma-sm">
       <div class="details-section-header">
         <div class="row">
-          <h3
-            :class="
-              `col-12 building-status building-${
-                post.isRecovered ? 'recovered' : 'not-recovered'
-              }`
-            "
-          >
-            {{ post.isRecovered ? 'Recovered' : 'Needs recovery' }}
-          </h3>
-          <h1 class="col-12 q-my-sm building-title">
-            {{ post.title | capitalize }}
-          </h1>
-          <h2 class="col-12 building-county">
-            {{ post.county | capitalize }}
-          </h2>
+          <EditableSelect
+            :default="post.isRecovered"
+            entityField="isRecovered"
+            class="col-12 q-my-sm"
+            @inputChanged="inputChanged"
+            :doneState="inputDoneState.isRecovered"
+            :editable="editable"
+          />
+
+          <EditableInput
+            :defaultText="post.title"
+            placeholder="Title"
+            entityField="title"
+            class="col-12 q-my-sm"
+            className="building-title"
+            input-class="text-bold"
+            @inputChanged="inputChanged"
+            :doneState="inputDoneState.title"
+            :editable="editable"
+          />
+
+          <EditableInput
+            :defaultText="post.county"
+            placeholder="County"
+            entityField="county"
+            class="col-12 q-my-sm"
+            className="building-county text-capitalize"
+            input-class="text-bold text-capitalize"
+            @inputChanged="inputChanged"
+            :doneState="inputDoneState.county"
+            :editable="editable"
+          />
         </div>
       </div>
 
       <hr class="q-my-lg" />
 
       <div class="row">
-        <div class="col-12 col-md-8 q-pr-sm">
-          <h2 class="building-details-title">Details</h2>
-          <p class="rental-description">
-            {{ post.details }}
-          </p>
+        <div class="col-12 q-pr-sm">
+          <EditableInput
+            :defaultText="post.details"
+            title="Details"
+            placeholder="Details"
+            entityField="details"
+            @inputChanged="inputChanged"
+            :doneState="inputDoneState.details"
+            :editable="editable"
+          />
 
-          <h2 class="building-details-title">Stories</h2>
-          <p class="rental-description" v-if="post.stories">
-            {{ post.stories }}
-          </p>
-          <p class="rental-description text-grey-7 text-bold" v-else>
-            No stories inserted.
-          </p>
+          <EditableInput
+            :defaultText="post.stories || ''"
+            title="Stories"
+            placeholder="No stories inserted."
+            entityField="stories"
+            @inputChanged="inputChanged"
+            :doneState="inputDoneState.stories"
+            :editable="editable"
+          />
 
-          <h2 class="building-details-title">
-            Previous functions
-          </h2>
-          <p class="rental-description" v-if="post.previousFunctions">
-            {{ post.previousFunctions }}
-          </p>
-          <p class="rental-description text-grey-7 text-bold" v-else>
-            No previous functions inserted.
-          </p>
+          <EditableInput
+            :defaultText="post.previousFunctions || ''"
+            title="Previous functions"
+            placeholder="No previous functions inserted."
+            entityField="previousFunctions"
+            @inputChanged="inputChanged"
+            :doneState="inputDoneState.previousFunctions"
+            :editable="editable"
+          />
 
-          <h2 class="building-details-title">
-            Suggested functions
-          </h2>
-          <p class="rental-description" v-if="post.suggestedFunctions">
-            {{ post.suggestedFunctions }}
-          </p>
-          <p class="rental-description text-grey-7 text-bold" v-else>
-            No suggested functions inserted.
-          </p>
+          <EditableInput
+            :defaultText="post.previousFunctions || ''"
+            title="Suggested functions"
+            placeholder="No suggested functions inserted."
+            entityField="suggestedFunctions"
+            @inputChanged="inputChanged"
+            :doneState="inputDoneState.suggestedFunctions"
+            :editable="editable"
+          />
         </div>
       </div>
 
@@ -179,10 +226,12 @@ import MapComponent from '../../components/map/MapComponent.vue';
 
 export default {
   components: { MapComponent },
+
   name: 'AdminPostDetails',
 
   data() {
     return {
+      editable: false,
       post: null,
       slideNumber: 0,
       fullscreen: false,
@@ -204,6 +253,9 @@ export default {
       options: {},
       userPosition: null,
       zoom: 10,
+
+      inputLoadingState: false,
+      inputDoneState: {},
 
       styleLight: [
         {
@@ -550,7 +602,14 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['fetchPostDetails'])
+    ...mapActions('posts', ['fetchPostDetails']),
+
+    inputChanged(evt) {
+      this.$set(this.inputDoneState, evt.key, true);
+      this.$set(this.post, evt.key, evt.value);
+
+      // chamar API
+    }
   },
 
   computed: {
@@ -575,11 +634,23 @@ export default {
 }
 
 .upper-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .admin-banner {
   display: flex;
+
+  // @media (max-width: $breakpoint-xs-max) {
+  //   margin-top: 50px;
+  //   z-index: 100;
+  // }
+
+  // @media (min-width: $breakpoint-sm-min) {
+  //   position: fixed;
+  //   width: 100%;
+  //   top: 77px;
+  //   z-index: 100;
+  // }
 }
 
 .building {
