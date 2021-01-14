@@ -129,6 +129,7 @@
             @inputChanged="inputChanged"
             :doneState="inputDoneState.title"
             :editable="editable"
+            @editing="editableBeingEdited"
           />
 
           <EditableInput
@@ -141,6 +142,7 @@
             @inputChanged="inputChanged"
             :doneState="inputDoneState.county"
             :editable="editable"
+            @editing="editableBeingEdited"
           />
         </div>
       </div>
@@ -157,6 +159,7 @@
             @inputChanged="inputChanged"
             :doneState="inputDoneState.details"
             :editable="editable"
+            @editing="editableBeingEdited"
           />
 
           <EditableInput
@@ -167,6 +170,7 @@
             @inputChanged="inputChanged"
             :doneState="inputDoneState.stories"
             :editable="editable"
+            @editing="editableBeingEdited"
           />
 
           <EditableInput
@@ -177,6 +181,7 @@
             @inputChanged="inputChanged"
             :doneState="inputDoneState.previousFunctions"
             :editable="editable"
+            @editing="editableBeingEdited"
           />
 
           <EditableInput
@@ -187,6 +192,7 @@
             @inputChanged="inputChanged"
             :doneState="inputDoneState.suggestedFunctions"
             :editable="editable"
+            @editing="editableBeingEdited"
           />
         </div>
       </div>
@@ -605,15 +611,15 @@ export default {
     ...mapActions('posts', ['fetchPostDetails', 'editPost']),
 
     inputChanged(evt) {
-      this.$set(this.inputDoneState, evt.key, true);
       this.$set(this.post, evt.key, evt.value);
-
+      this.$set(this.inputDoneState, evt.key, true);
       this.editPost(this.post).then(
         data => {
           this.$q.notify({
             message: 'Post edited successfully',
             timeout: 3000
           });
+          this.$set(this.inputDoneState, evt.key, true);
         },
         errors => {
           this.$q.notify({
@@ -621,8 +627,13 @@ export default {
             caption: errors[0].detail,
             timeout: 3000
           });
+          this.$set(this.inputDoneState, evt.key, true);
         }
       );
+    },
+
+    editableBeingEdited(evt) {
+      this.$set(this.inputDoneState, evt, false);
     }
   },
 

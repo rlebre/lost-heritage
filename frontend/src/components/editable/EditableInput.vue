@@ -83,7 +83,10 @@ export default {
 
   methods: {
     inputChanged() {
-      this.inputDoneState = false;
+      if (!this.inputLoadingState) {
+        this.$emit('editing', this.entityField);
+      }
+
       this.inputLoadingState = true;
     }
   }
