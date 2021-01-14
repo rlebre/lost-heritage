@@ -119,6 +119,31 @@ exports.getPostDetails = (req, res) => {
         });
 };
 
+exports.editPostDetails = (req, res) => {
+    const postData = req.body;
+    const postId = req.params.id;
+
+    Post.findById(postId)
+        .exec((err, post) => {
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
+
+            if (!post) {
+                return res.status(422).send({ errors: [{ title: 'Invalid Post ID!', detail: 'Post does not exist.' }] });
+            }
+
+            post.set(postData);
+            post.save(function (err) {
+                if (err) {
+                    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+                }
+
+                return res.status(200).send(post);
+            });
+        });
+};
+
 exports.getFilteredPosts = (req, res) => {
     const { counties, orderBy, orderType, searchString } = req.body;
 
