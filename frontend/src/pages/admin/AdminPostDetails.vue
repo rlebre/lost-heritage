@@ -114,28 +114,33 @@
             {{ post.details }}
           </p>
 
-          <h2 class="building-details-title" v-if="post.stories">Stories</h2>
-          <p class="rental-description">
+          <h2 class="building-details-title">Stories</h2>
+          <p class="rental-description" v-if="post.stories">
             {{ post.stories }}
           </p>
+          <p class="rental-description text-grey-7 text-bold" v-else>
+            No stories inserted.
+          </p>
 
-          <h2 class="building-details-title" v-if="post.previousFunctions">
+          <h2 class="building-details-title">
             Previous functions
           </h2>
-          <p class="rental-description">
+          <p class="rental-description" v-if="post.previousFunctions">
             {{ post.previousFunctions }}
           </p>
-
-          <h2 class="building-details-title" v-if="post.suggestedFunctions">
-            Suggested functions
-          </h2>
-          <p class="rental-description">
-            {{ post.suggestedFunctions }}
+          <p class="rental-description text-grey-7 text-bold" v-else>
+            No previous functions inserted.
           </p>
 
-          <div class="rental-rating">
-            <span>2 / 5</span>
-          </div>
+          <h2 class="building-details-title">
+            Suggested functions
+          </h2>
+          <p class="rental-description" v-if="post.suggestedFunctions">
+            {{ post.suggestedFunctions }}
+          </p>
+          <p class="rental-description text-grey-7 text-bold" v-else>
+            No suggested functions inserted.
+          </p>
         </div>
       </div>
 
