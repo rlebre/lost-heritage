@@ -17,5 +17,6 @@ router.post("/:id/comment", commentLimiter, PostsCtrl.commentPost);
 router.post("/:id/approve", AuthMiddleware.authMiddleware, PostsCtrl.approvePost);
 router.post("/:id/decline", AuthMiddleware.authMiddleware, PostsCtrl.declinePost);
 router.get("/:id", PostsCtrl.getPostDetails);
+router.patch("/:id", AuthMiddleware.authMiddleware, PostsCtrl.editPostDetails);
 
 module.exports = router;
