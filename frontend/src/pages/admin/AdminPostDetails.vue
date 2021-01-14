@@ -602,13 +602,27 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['fetchPostDetails']),
+    ...mapActions('posts', ['fetchPostDetails', 'editPost']),
 
     inputChanged(evt) {
       this.$set(this.inputDoneState, evt.key, true);
       this.$set(this.post, evt.key, evt.value);
 
-      // chamar API
+      this.editPost(this.post).then(
+        data => {
+          this.$q.notify({
+            message: 'Post edited successfully',
+            timeout: 3000
+          });
+        },
+        errors => {
+          this.$q.notify({
+            message: errors[0].title,
+            caption: errors[0].detail,
+            timeout: 3000
+          });
+        }
+      );
     }
   },
 

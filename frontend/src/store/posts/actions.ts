@@ -63,6 +63,18 @@ export function createPost(this: any, { commit }: any, newPost: any) {
         })
 }
 
+export function editPost(this: any, { commit }: any, newPost: any) {
+    commit('editPostRequest');
+
+    this.$axios
+        .patch(`${process.env.API}/api/v1/posts/${newPost._id}`, newPost)
+        .then((response: any) => {
+            commit('editPostSuccess', response.data);
+        })
+        .catch((error: any) => {
+            commit('editPostFailure', error.response.data);
+        })
+}
 
 export function likePost(this: any, { commit }: any, postId: string) {
     commit('likePostRequest');
