@@ -84,6 +84,28 @@ export function createPostFailure(state: any, error: any) {
     state.errors = error.errors;
 }
 
+
+// ---------- POST EDIT --------------
+export function editPostRequest(state: any) {
+    state.creatingPost = true;
+}
+
+export function editPostSuccess(state: any, newPost: any) {
+    const index = state.postList.map((post: any) => post._id).indexOf(newPost._id);
+    state.postList.splice(index, 1, newPost);
+
+    state.errors = [];
+    state.editPostSuccess = true;
+    state.editingPost = false;
+}
+
+export function editPostFailure(state: any, error: any) {
+    state.editPostSuccess = false;
+    state.editingPost = false;
+    state.errors = error.errors;
+}
+
+
 // ---------- POST LIKE --------------
 export function likePostRequest(state: any) {
     state.likingPost = true;

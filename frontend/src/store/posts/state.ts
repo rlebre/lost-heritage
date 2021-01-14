@@ -12,11 +12,13 @@ export default function () {
 
     creatingPost: false,
     createPostSuccess: false,
+    editPostSuccess: false,
 
     likingPost: false,
     commentingPost: false,
     approvingPost: false,
     decliningPost: false,
+    editingPost: false,
 
     uploadedImages: [],
     uploadingImages: false,
