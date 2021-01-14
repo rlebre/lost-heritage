@@ -2,6 +2,7 @@
   <div>
     <h2 class="building-details-title" v-if="title">{{ title }}</h2>
     <q-input
+      v-if="editable"
       v-model="inputData"
       filled
       :class="className || ''"
@@ -16,6 +17,9 @@
         <q-icon color="positive" name="eva-checkmark-circle" />
       </template>
     </q-input>
+    <p :class="className || ''" v-else>
+      {{ defaultText || placeholder }}
+    </p>
   </div>
 </template>
 
@@ -48,6 +52,10 @@ export default {
     },
     className: {
       type: String
+    },
+    editable: {
+      type: Boolean,
+      required: true
     }
   },
 

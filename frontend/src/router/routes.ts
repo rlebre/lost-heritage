@@ -65,13 +65,6 @@ const routes: RouteConfig[] = [
         meta: {
           requiresAuth: true
         }
-      },
-      {
-        path: 'post/:id/edit',
-        component: () => import('pages/admin/EditablePostDetails.vue'),
-        meta: {
-          requiresAuth: true
-        }
       }
     ]
   },
