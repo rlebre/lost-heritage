@@ -13,6 +13,8 @@ import PostCard from 'components/admin/PostCard.vue';
 import PendingPostsTable from 'components/admin/PendingPostsTable.vue';
 import ApprovedPostsTable from 'components/admin/ApprovedPostsTable.vue';
 import DeclinedPostsTable from 'components/admin/DeclinedPostsTable.vue';
+import EditableInput from 'components/editable/EditableInput.vue';
+import EditableSelect from 'components/editable/EditableSelect.vue';
 
 // "async" is optional;
 // more info on params: https://quasar.dev/quasar-cli/boot-files
@@ -30,4 +32,6 @@ export default boot(({ Vue }) => {
   Vue.component('PendingPostsTable', PendingPostsTable);
   Vue.component('ApprovedPostsTable', ApprovedPostsTable);
   Vue.component('DeclinedPostsTable', DeclinedPostsTable);
+  Vue.component('EditableInput', EditableInput);
+  Vue.component('EditableSelect', EditableSelect);
 })
