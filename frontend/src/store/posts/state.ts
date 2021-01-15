@@ -4,6 +4,7 @@ export default function () {
     postList: [],
     filteredPostList: [],
 
+    approvedPostsList: [],
     pendingPostsList: [],
     declinedPostsList: [],
 

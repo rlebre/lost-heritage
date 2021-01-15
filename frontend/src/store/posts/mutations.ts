@@ -31,6 +31,23 @@ export function getPostDetailsFailure(state: any, error: any) {
     state.errors = error.errors;
 }
 
+// ---------- POST APPROVED FETCH --------------
+export function getApprovedPostsRequest(state: any) {
+    state.loadingPosts = true;
+}
+
+export function getApprovedPostsSuccess(state: any, newPostsList: any) {
+    state.loadingPosts = false;
+    state.approvedPostsList = newPostsList;
+    state.errors = [];
+}
+
+export function getApprovedPostsFailure(state: any, error: any) {
+    state.loadingPosts = false;
+    state.approvedPostsList = [];
+    state.errors = error.errors;
+}
+
 // ---------- POST PENDING FETCH --------------
 export function getPendingPostsRequest(state: any) {
     state.loadingPosts = true;
