@@ -53,24 +53,17 @@
           class="large-screen-only q-mr-lg"
         />
 
-        <q-toggle
-          v-model="$q.dark.isActive"
-          @toggle="toggleDark"
-          checked-icon="eva-moon-outline"
-          unchecked-icon="eva-sun-outline"
-          color="orange"
+        <q-btn
+          flat
+          round
+          icon="eva-settings-2-outline"
+          size="18px"
+          dense
+          @click="showSettingsDialog = true"
+          class="large-screen-only q-mr-lg"
         />
 
-        <q-select
-          class="text-uppercase text-weight-bold"
-          v-model="lang"
-          :options="langOptions"
-          dense
-          borderless
-          emit-value
-          map-options
-          options-dense
-        />
+        <Settings :show="showSettingsDialog" @onClose="settingsClosed" />
       </q-toolbar>
     </q-header>
 
@@ -124,30 +117,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   name: 'MainLayout',
 
   data() {
     return {
-      langOptions: [
-        { value: 'en-us', label: 'EN' },
-        { value: 'pt-pt', label: 'PT' }
-      ],
-      lang: 'EN'
+      showSettingsDialog: false
     };
   },
 
-  watch: {
-    lang(lang) {
-      this.$i18n.locale = lang;
-    }
-  },
-
   methods: {
-    toggleDark() {
-      this.$q.dark.toggle();
+    settingsClosed() {
+      this.showSettingsDialog = false;
     }
   }
 };
