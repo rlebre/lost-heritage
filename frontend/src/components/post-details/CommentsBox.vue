@@ -148,7 +148,4 @@ export default {
     background: $grey-10;
   }
 }
-
-.body--light {
-}
 </style>
