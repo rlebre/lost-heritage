@@ -105,10 +105,6 @@
           <p class="rental-description">
             {{ post.suggestedFunctions }}
           </p>
-
-          <div class="rental-rating">
-            <span>2 / 5</span>
-          </div>
         </div>
       </div>
 
