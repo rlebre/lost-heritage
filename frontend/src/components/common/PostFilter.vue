@@ -37,7 +37,7 @@
 
           <q-footer
             :class="
-              'align-center col-12 '.concat(
+              'flex flex-center '.concat(
                 $q.dark.isActive
                   ? 'bg-grey-9 text-grey-13'
                   : 'bg-grey-1 text-grey-10'
@@ -45,7 +45,7 @@
             "
           >
             <q-btn
-              class="col-6 q-pa-md q-px-xl"
+              class="q-pa-md q-px-xl"
               flat
               @click="showFilterModal = false"
               dense
@@ -53,7 +53,7 @@
               >Apply</q-btn
             >
             <q-btn
-              class="col-6 q-pa-md q-px-xl float-right"
+              class="q-pa-md q-px-xl float-right"
               flat
               dense
               @click="resetModalFilter"

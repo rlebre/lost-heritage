@@ -23,7 +23,7 @@
 
       <q-footer
         :class="
-          'align-center '.concat(
+          'flex flex-center '.concat(
             $q.dark.isActive
               ? 'bg-grey-9 text-grey-13'
               : 'bg-grey-1 text-grey-10'
