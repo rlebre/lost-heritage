@@ -127,7 +127,7 @@ export default {
       sliders: this.show,
       instructionsModal: false,
       aboutModal: false,
-      darkMode: false,
+      darkMode: this.$q.dark.isActive,
       langOptions: [
         { value: 'en-us', label: 'English' },
         { value: 'pt-pt', label: 'Portuguese (Portugal)' }
