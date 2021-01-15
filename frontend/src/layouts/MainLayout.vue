@@ -60,7 +60,6 @@
           size="18px"
           dense
           @click="showSettingsDialog = true"
-          class="large-screen-only q-mr-lg"
         />
 
         <Settings :show="showSettingsDialog" @onClose="settingsClosed" />
