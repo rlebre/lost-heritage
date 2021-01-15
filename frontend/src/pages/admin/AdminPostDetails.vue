@@ -110,7 +110,7 @@
     <div class="details-section q-ma-sm">
       <div class="details-section-header">
         <div class="row">
-          <EditableSelect
+          <EditableToggle
             :default="post.isRecovered"
             entityField="isRecovered"
             class="col-12 q-my-sm"
@@ -125,24 +125,21 @@
             entityField="title"
             class="col-12 q-my-sm"
             className="building-title"
-            input-class="text-bold"
+            inputClass="text-bold"
             @inputChanged="inputChanged"
             :doneState="inputDoneState.title"
             :editable="editable"
             @editing="editableBeingEdited"
           />
 
-          <EditableInput
-            :defaultText="post.county"
-            placeholder="County"
+          <EditableSelect
+            :default="post.county"
             entityField="county"
             class="col-12 q-my-sm"
-            className="building-county text-capitalize"
-            input-class="text-bold text-capitalize"
+            inputClass="text-bold text-capitalize"
             @inputChanged="inputChanged"
             :doneState="inputDoneState.county"
             :editable="editable"
-            @editing="editableBeingEdited"
           />
         </div>
       </div>
