@@ -88,12 +88,13 @@ export default {
           field: 'county',
           align: 'left',
           sortable: true,
-          style: 'max-width: 60%; white-space: initial'
+          style:
+            'max-width: 60%; white-space: initial; text-transform: capitalize'
         },
         {
           name: 'approvedBy',
           label: 'Approved By',
-          field: 'approvedBy',
+          field: 'approvedByUsername',
           align: 'left',
           sortable: true,
           style: 'max-width: 60%; white-space: initial'

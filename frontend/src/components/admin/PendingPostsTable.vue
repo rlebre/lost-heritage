@@ -99,7 +99,8 @@ export default {
           field: 'county',
           align: 'left',
           sortable: true,
-          style: 'max-width: 60%; white-space: initial'
+          style:
+            'max-width: 60%; white-space: initial; text-transform: capitalize'
         },
         { name: 'actions', label: 'Actions', field: '', align: 'center' }
       ]
