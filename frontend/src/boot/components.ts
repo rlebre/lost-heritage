@@ -14,6 +14,7 @@ import PendingPostsTable from 'components/admin/PendingPostsTable.vue';
 import ApprovedPostsTable from 'components/admin/ApprovedPostsTable.vue';
 import DeclinedPostsTable from 'components/admin/DeclinedPostsTable.vue';
 import EditableInput from 'components/editable/EditableInput.vue';
+import EditableToggle from 'components/editable/EditableToggle.vue';
 import EditableSelect from 'components/editable/EditableSelect.vue';
 
 // "async" is optional;
@@ -34,4 +35,5 @@ export default boot(({ Vue }) => {
   Vue.component('DeclinedPostsTable', DeclinedPostsTable);
   Vue.component('EditableInput', EditableInput);
   Vue.component('EditableSelect', EditableSelect);
+  Vue.component('EditableToggle', EditableToggle);
 })
