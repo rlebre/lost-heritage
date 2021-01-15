@@ -41,7 +41,14 @@
           <q-tooltip>Preview post</q-tooltip>
         </q-btn>
 
-        <q-btn size="18px" round flat color="warning" icon="eva-edit" disabled>
+        <q-btn
+          size="18px"
+          round
+          flat
+          color="warning"
+          icon="eva-edit"
+          :to="`post/${post._id}/edit`"
+        >
           <q-tooltip>Edit post</q-tooltip>
         </q-btn>
 

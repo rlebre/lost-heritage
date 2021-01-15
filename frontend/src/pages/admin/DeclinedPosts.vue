@@ -1,11 +1,34 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="row q-col-gutter-lg">
-      <div class="col-12">
-        <DeclinedPostsTable
-          :posts="posts"
-          @approvePost="onApprovePostClick"
-        ></DeclinedPostsTable>
+    <div class="large-screen-only">
+      <div class="row q-col-gutter-lg">
+        <div class="col-12">
+          <DeclinedPostsTable
+            :posts="posts"
+            @approvePost="onApprovePostClick"
+          ></DeclinedPostsTable>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-screen-only">
+      <div
+        class="list-panel col-sm-4 col-md-4"
+        v-if="posts && posts.length > 0"
+      >
+        <template v-if="posts.length">
+          <div
+            class="col-12 q-ml-md q-mr-sm q-mb-sm"
+            v-for="post in posts"
+            :key="post.id"
+          >
+            <PostCard :post="post" @approvePost="onApprovePostClick"></PostCard>
+          </div>
+        </template>
+      </div>
+
+      <div class="col-12" v-else>
+        <h5 class="text-center text-grey">No pending posts.</h5>
       </div>
     </div>
   </q-page>
