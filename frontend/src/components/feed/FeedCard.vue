@@ -1,12 +1,8 @@
 <template>
-  <q-card
-    :class="'card-post q-mb-md '.concat($q.dark.isActive ? 'bg-grey-10' : '')"
-    flat
-    bordered
-  >
+  <q-card class="card-post q-mb-md " flat bordered>
     <q-card-section horizontal>
       <q-card-section class="q-pt-xs q-pb-xs">
-        <div class="text-h5 q-mt-sm text-weight-bold">
+        <div class="text-h5 q-mt-sm text-weight-bold q-card-title">
           <router-link class="no-link" :to="`/post/${post._id}`">
             {{ post.title }}
           </router-link>
@@ -16,7 +12,7 @@
 
     <div class="row q-mt-sm q-mx-md">
       <div class="col-6">
-        <div class="text-subtitle2">
+        <div class="text-subtitle2 likes-counter">
           <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
         </div>
       </div>
@@ -199,3 +195,20 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.body--dark {
+  .q-card {
+    &-body {
+      background: $grey-10;
+    }
+    &-title {
+      color: $grey-13;
+    }
+  }
+
+  .likes-counter {
+    color: $grey-13;
+  }
+}
+</style>

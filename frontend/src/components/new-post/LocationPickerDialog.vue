@@ -1,11 +1,7 @@
 <template>
   <q-dialog v-model="showLocationPickerDialog">
     <q-layout view="Lhh lpR fff" container class="bg-white">
-      <q-header
-        :class="
-          $q.dark.isActive ? 'bg-grey-9 text-grey-13' : 'bg-grey-1 text-grey-10'
-        "
-      >
+      <q-header>
         <q-toolbar>
           <q-toolbar-title>
             <h6 class="text-h6 q-ma-sm">Pick Location on map</h6>
@@ -21,15 +17,7 @@
         </q-toolbar>
       </q-header>
 
-      <q-footer
-        :class="
-          'flex flex-center '.concat(
-            $q.dark.isActive
-              ? 'bg-grey-9 text-grey-13'
-              : 'bg-grey-1 text-grey-10'
-          )
-        "
-      >
+      <q-footer class="flex flex-center">
         <q-btn
           class="q-ma-sm q-pa-md q-px-xl"
           flat
@@ -75,3 +63,18 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.body--dark {
+  .page-container {
+    background: $grey-9;
+  }
+
+  .q-header,
+  .q-footer,
+  .q-route-tab {
+    background: $grey-10;
+    color: $grey-13 !important;
+  }
+}
+</style>
