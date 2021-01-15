@@ -173,11 +173,7 @@
 
           <q-separator />
 
-          <q-item
-            to="/admin/pending-comments"
-            disabled
-            active-class="q-item-no-link-highlighting"
-          >
+          <q-item disabled active-class="q-item-no-link-highlighting">
             <q-item-section avatar>
               <q-icon name="eva-message-circle" color="primary" />
             </q-item-section>
