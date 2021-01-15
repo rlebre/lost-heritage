@@ -117,7 +117,4 @@ export default {
     }
   }
 }
-
-.body--light {
-}
 </style>

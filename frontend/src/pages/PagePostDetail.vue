@@ -242,7 +242,4 @@ export default {
     color: $grey-13 !important;
   }
 }
-
-.body--light {
-}
 </style>
