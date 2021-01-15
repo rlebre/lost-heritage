@@ -17,6 +17,7 @@ exports.createPost = (req, res) => {
         lat,
         lng,
         stories,
+        previousFunctions,
         suggestedFunctions,
         isRecovered,
         images,
@@ -51,7 +52,7 @@ exports.createPost = (req, res) => {
                 return res.status(422).send({ errors: normalizeErrors(err.errors) });
             }
 
-            const newPost = new Post({ contributor: foundContributor, title, details, county, lat, lng, stories, suggestedFunctions, isRecovered, images })
+            const newPost = new Post({ contributor: foundContributor, title, details, county, lat, lng, stories, previousFunctions, suggestedFunctions, isRecovered, images })
 
             Post.create(newPost, (err, createdPost) => {
                 if (err) {
