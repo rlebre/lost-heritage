@@ -27,6 +27,10 @@ const postSchema = new Schema({
         type: String,
         max: [500, "Stories field too long. Max: 500 characters."]
     },
+    previousFunctions: {
+        type: String,
+        max: [500, "Previous functions field too long. Max: 500 characters."]
+    },
     suggestedFunctions: {
         type: String,
         max: [500, "Suggested functions field too long. Max: 500 characters."]
