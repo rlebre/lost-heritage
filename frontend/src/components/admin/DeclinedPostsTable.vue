@@ -88,6 +88,23 @@ export default {
           field: 'county',
           align: 'left',
           sortable: true,
+          style:
+            'max-width: 60%; white-space: initial; text-transform: capitalize'
+        },
+        {
+          name: 'declinedBy',
+          label: 'Declined By',
+          field: 'declinedByUsername',
+          align: 'left',
+          sortable: true,
+          style: 'max-width: 60%; white-space: initial'
+        },
+        {
+          name: 'declinedAt',
+          label: 'Declined At',
+          field: 'declinedAt',
+          align: 'left',
+          sortable: true,
           style: 'max-width: 60%; white-space: initial'
         },
         { name: 'actions', label: 'Actions', field: '', align: 'center' }
