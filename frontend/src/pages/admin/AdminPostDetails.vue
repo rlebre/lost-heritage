@@ -182,7 +182,7 @@
           />
 
           <EditableInput
-            :defaultText="post.previousFunctions || ''"
+            :defaultText="post.suggestedFunctions || ''"
             title="Suggested functions"
             placeholder="No suggested functions inserted."
             entityField="suggestedFunctions"
