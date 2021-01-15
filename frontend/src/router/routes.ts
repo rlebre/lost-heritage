@@ -60,6 +60,16 @@ const routes: RouteConfig[] = [
         }
       },
       {
+        path: 'post/:id/edit',
+        component: () => import('pages/admin/AdminPostDetails.vue'),
+        meta: {
+          requiresAuth: true
+        },
+        props: {
+          editModeOn: true
+        }
+      },
+      {
         path: 'post/:id',
         component: () => import('pages/admin/AdminPostDetails.vue'),
         meta: {

@@ -23,7 +23,14 @@
 
     <template v-slot:body-cell-actions="props">
       <q-td :props="props">
-        <q-btn dense round flat color="warning" icon="eva-edit" disabled>
+        <q-btn
+          dense
+          round
+          flat
+          color="warning"
+          icon="eva-edit"
+          :to="`post/${props.row._id}/edit`"
+        >
           <q-tooltip>Edit post</q-tooltip>
         </q-btn>
 
