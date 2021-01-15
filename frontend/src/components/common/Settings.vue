@@ -15,8 +15,8 @@
           </q-item-section>
           <q-item-section>
             <q-toggle
-              v-model="$q.dark.isActive"
-              @toggle="toggleDark"
+              v-model="darkMode"
+              @input="$q.dark.toggle"
               checked-icon="eva-moon-outline"
               unchecked-icon="eva-sun-outline"
               color="orange"
@@ -34,11 +34,9 @@
               class="text-capitalize"
               v-model="lang"
               :options="langOptions"
-              dense
-              borderless
               emit-value
+              dense
               map-options
-              options-dense
             />
           </q-item-section>
         </q-item>
@@ -129,7 +127,7 @@ export default {
       sliders: this.show,
       instructionsModal: false,
       aboutModal: false,
-
+      darkMode: false,
       langOptions: [
         { value: 'en-us', label: 'English' },
         { value: 'pt-pt', label: 'Portuguese (Portugal)' }
@@ -154,10 +152,6 @@ export default {
   },
 
   methods: {
-    toggleDark() {
-      this.$q.dark.toggle();
-    },
-
     onClose() {
       this.$emit('onClose');
     }

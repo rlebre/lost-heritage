@@ -1,24 +1,13 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header
-      :class="
-        $q.dark.isActive ? 'bg-grey-10 text-grey-13' : 'bg-white text-grey-10'
-      "
-      bordered
-    >
+    <q-header bordered>
       <q-toolbar class="constrain">
         <!-- <q-separator vertical spaced class="large-screen-only" /> -->
 
         <q-btn flat @click="showDrawer = !showDrawer" round icon="menu" />
 
         <router-link class="no-link q-px-lg" to="/">
-          <q-toolbar-title
-            :class="
-              'text-grand-hotel text-bold '.concat(
-                $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
-              )
-            "
-          >
+          <q-toolbar-title class="text-grand-hotel text-bold ">
             {{ $t('header.appName') }}
           </q-toolbar-title>
         </router-link>
@@ -55,66 +44,31 @@
           class="large-screen-only q-mr-lg"
         />
 
-        <q-toggle
-          v-model="$q.dark.isActive"
-          @toggle="toggleDark"
-          checked-icon="eva-moon-outline"
-          unchecked-icon="eva-sun-outline"
-          color="orange"
+        <q-btn
+          flat
+          round
+          icon="eva-settings-2-outline"
+          size="18px"
+          dense
+          @click="showSettingsDialog = true"
         />
 
-        <q-select
-          class="text-uppercase text-weight-bold"
-          v-model="lang"
-          :options="langOptions"
-          dense
-          borderless
-          emit-value
-          map-options
-          options-dense
-        />
+        <Settings :show="showSettingsDialog" @onClose="settingsClosed" />
       </q-toolbar>
     </q-header>
 
-    <q-footer
-      :class="
-        'small-screen-only '.concat(
-          $q.dark.isActive ? 'bg-grey-10 text-grey-13' : 'bg-white text-grey-10'
-        )
-      "
-      bordered
-    >
+    <q-footer class="small-screen-only " bordered>
       <q-tabs
         class="text-grey-10"
         active-color="primary"
         indicator-color="transparent"
       >
-        <q-route-tab
-          to="/"
-          icon="eva-home-outline"
-          :class="
-            $q.dark.isActive
-              ? 'bg-grey-10 text-grey-13'
-              : 'bg-white text-grey-10'
-          "
-        />
-        <q-route-tab
-          to="/map"
-          icon="eva-map-outline"
-          :class="
-            $q.dark.isActive
-              ? 'bg-grey-10 text-grey-13'
-              : 'bg-white text-grey-10'
-          "
-        />
+        <q-route-tab to="/" icon="eva-home-outline" class="q-route-tab" />
+        <q-route-tab to="/map" icon="eva-map-outline" class="q-route-tab" />
         <q-route-tab
           to="/new-post"
           icon="eva-plus-circle-outline"
-          :class="
-            $q.dark.isActive
-              ? 'bg-grey-10 text-grey-13'
-              : 'bg-white text-grey-10'
-          "
+          class="q-route-tab"
         />
       </q-tabs>
     </q-footer>
@@ -215,7 +169,7 @@
       </q-img>
     </q-drawer>
 
-    <q-page-container :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'">
+    <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -230,11 +184,7 @@ export default {
   data() {
     return {
       showDrawer: false,
-      langOptions: [
-        { value: 'en-us', label: 'EN' },
-        { value: 'pt-pt', label: 'PT' }
-      ],
-      lang: 'EN'
+      showSettingsDialog: false
     };
   },
 
@@ -251,8 +201,8 @@ export default {
   methods: {
     ...mapActions('auth', ['logout']),
 
-    toggleDark() {
-      this.$q.dark.toggle();
+    settingsClosed() {
+      this.showSettingsDialog = false;
     },
 
     onLogout() {
@@ -281,6 +231,40 @@ export default {
 
   @media (max-width: $breakpoint-xs-max) {
     text-align: center;
+  }
+}
+
+.body--light {
+  .page-container {
+    background: $grey-1;
+  }
+
+  .q-header,
+  .q-footer,
+  .q-route-tab {
+    background: white;
+    color: $grey-10 !important;
+  }
+
+  .toolbar-title {
+    color: $grey-10;
+  }
+}
+
+.body--dark {
+  .q-page-container {
+    background: $grey-9;
+  }
+
+  .q-header,
+  .q-footer,
+  .q-route-tab {
+    background: $grey-10;
+    color: $grey-13;
+  }
+
+  .toolbar-title {
+    color: $grey-13;
   }
 }
 </style>

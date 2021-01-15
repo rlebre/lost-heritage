@@ -1,25 +1,13 @@
 <template>
   <q-page class="constrain-more q-pa-md">
     <div>
-      <h4
-        :class="
-          'text-h4 q-ma-sm '.concat(
-            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
-          )
-        "
-      >
+      <h4 class="text-h4 q-ma-sm">
         Create new post
       </h4>
     </div>
 
     <div>
-      <h6
-        :class="
-          'text-weight-light q-ma-sm '.concat(
-            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
-          )
-        "
-      >
+      <h6 class="text-weight-light q-ma-sm">
         Contributor Information
       </h6>
     </div>
@@ -52,13 +40,7 @@
     </div>
 
     <div>
-      <h6
-        :class="
-          'text-weight-light q-ma-sm ) '.concat(
-            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
-          )
-        "
-      >
+      <h6 class="text-weight-light q-ma-sm">
         Building Information
       </h6>
     </div>
@@ -194,25 +176,17 @@
       <ImagePicker :postUid="newPost.uid"></ImagePicker>
     </div>
 
-    <div class="q-ma-sm text-grey-9">
+    <div class="q-ma-sm">
       <q-checkbox
-        :class="
-          'col col-sm-10 '.concat(
-            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
-          )
-        "
+        class="col col-sm-10"
         v-model="newPost.newsletterAgree"
         label="I want to receive e-mails with news."
       />
     </div>
 
-    <div class="q-ma-sm text-grey-9">
+    <div class="q-ma-sm">
       <q-checkbox
-        :class="
-          'col col-sm-10 '.concat(
-            $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
-          )
-        "
+        class="col col-sm-10"
         v-model="tncAgree"
         label="I agree with the T&C, recognizing that the personal data will be stored for validation and possible future contact."
       />
@@ -406,3 +380,22 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.body--light {
+  h4,
+  h6,
+  .q-checkbox {
+    color: $grey-10 !important;
+  }
+}
+
+.body--dark {
+  h4,
+  h6,
+  .q-checkbox,
+  .q-btn {
+    color: $grey-13 !important;
+  }
+}
+</style>

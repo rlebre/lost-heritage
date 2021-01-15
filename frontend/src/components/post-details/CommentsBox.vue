@@ -22,13 +22,7 @@
 
     <template v-if="comments && comments.length > 0">
       <div class="col-12 q-mt-lg" v-for="comment in comments" :key="comment.id">
-        <q-card
-          :class="
-            'card-post q-mb-md '.concat($q.dark.isActive ? 'bg-grey-10' : '')
-          "
-          flat
-          bordered
-        >
+        <q-card class="card-post q-mb-md " flat bordered>
           <div class="row">
             <q-card-section class="col-8">
               <div class="text-caption text-grey-7 small-screen-only">
@@ -145,5 +139,16 @@ export default {
 <style lang="scss" scoped>
 .comment-date {
   font-size: 11px;
+}
+
+.body--dark {
+  color: $grey-13;
+
+  .q-card {
+    background: $grey-10;
+  }
+}
+
+.body--light {
 }
 </style>

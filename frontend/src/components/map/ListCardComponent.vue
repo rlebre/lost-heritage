@@ -1,9 +1,5 @@
 <template>
-  <q-card
-    :class="'card-post q-mb-md '.concat($q.dark.isActive ? 'bg-grey-10' : '')"
-    flat
-    bordered
-  >
+  <q-card class="card-post q-mb-md" flat bordered>
     <q-card-section horizontal>
       <q-card-section class="q-pt-xs col-7 q-mt-sm">
         <div class="text-h6 text-weight-bold">
@@ -80,3 +76,22 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.body--dark {
+  .q-card {
+    color: $grey-13;
+
+    &-body {
+      background: $grey-10;
+    }
+    &-title {
+      color: $grey-13;
+    }
+  }
+
+  .likes-counter {
+    color: $grey-13;
+  }
+}
+</style>

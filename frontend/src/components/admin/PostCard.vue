@@ -1,11 +1,7 @@
 <template>
-  <q-card
-    :class="'card-post q-mb-md '.concat($q.dark.isActive ? 'bg-grey-10' : '')"
-    flat
-    bordered
-  >
+  <q-card class="card-post q-mb-md q-card-body" flat bordered>
     <q-card-section horizontal>
-      <q-card-section class="q-pt-xs col-7 q-mt-sm">
+      <q-card-section class="q-pt-xs col-7 q-mt-sm q-card-title">
         <div class="text-h6 text-weight-bold q-mb-sm">
           {{ post.title }}
         </div>
@@ -108,5 +104,20 @@ export default {
 <style lang="scss" scoped>
 .center-buttons {
   margin: 0 auto;
+}
+
+.body--dark {
+  .q-card {
+    &-body {
+      background: $grey-10;
+    }
+
+    &-title {
+      color: $grey-13;
+    }
+  }
+}
+
+.body--light {
 }
 </style>

@@ -13,13 +13,7 @@
       </div>
       <q-dialog v-if="showFilterModal" v-model="showFilterModal">
         <q-layout view="Lhh lpR fff" container class="bg-white">
-          <q-header
-            :class="
-              $q.dark.isActive
-                ? 'bg-grey-9 text-grey-13'
-                : 'bg-grey-1 text-grey-10'
-            "
-          >
+          <q-header>
             <q-toolbar>
               <q-toolbar-title>
                 <h6 class="text-h6 q-ma-sm">Apply filters</h6>
@@ -35,15 +29,7 @@
             </q-toolbar>
           </q-header>
 
-          <q-footer
-            :class="
-              'flex flex-center '.concat(
-                $q.dark.isActive
-                  ? 'bg-grey-9 text-grey-13'
-                  : 'bg-grey-1 text-grey-10'
-              )
-            "
-          >
+          <q-footer>
             <q-btn
               class="q-pa-md q-px-xl"
               flat
@@ -99,7 +85,7 @@
               <div class="col-12 q-px-md">
                 <span class="q-ml-sm">Sort</span>
                 <q-btn
-                  class="q-mt-xs primary"
+                  class="q-mt-xs primary q-btn-sort"
                   unelevated
                   size="md"
                   :icon="sortDesc ? 'eva-arrow-down' : 'eva-arrow-up'"
@@ -285,3 +271,22 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.body--dark {
+  .q-page {
+    background: $grey-9;
+  }
+
+  .q-header,
+  .q-footer,
+  .q-btn {
+    background: $grey-10;
+    color: $grey-13;
+
+    &-sort {
+      background: $grey-9;
+    }
+  }
+}
+</style>

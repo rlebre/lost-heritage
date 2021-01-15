@@ -1,22 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header
-      :class="
-        $q.dark.isActive ? 'bg-grey-10 text-grey-13' : 'bg-white text-grey-10'
-      "
-      bordered
-    >
+    <q-header class="q-header" bordered>
       <q-toolbar class="constrain">
         <!-- <q-separator vertical spaced class="large-screen-only" /> -->
 
         <router-link class="no-link" to="/">
-          <q-toolbar-title
-            :class="
-              'text-grand-hotel text-bold '.concat(
-                $q.dark.isActive ? 'text-grey-13' : 'text-grey-10'
-              )
-            "
-          >
+          <q-toolbar-title class="text-grand-hotel text-bold toolbar-title">
             {{ $t('header.appName') }}
           </q-toolbar-title>
         </router-link>
@@ -66,50 +55,23 @@
       </q-toolbar>
     </q-header>
 
-    <q-footer
-      :class="
-        'small-screen-only '.concat(
-          $q.dark.isActive ? 'bg-grey-10 text-grey-13' : 'bg-white text-grey-10'
-        )
-      "
-      bordered
-    >
+    <q-footer class="small-screen-only q-footer" bordered>
       <q-tabs
         class="text-grey-10"
         active-color="primary"
         indicator-color="transparent"
       >
-        <q-route-tab
-          to="/"
-          icon="eva-home-outline"
-          :class="
-            $q.dark.isActive
-              ? 'bg-grey-10 text-grey-13'
-              : 'bg-white text-grey-10'
-          "
-        />
-        <q-route-tab
-          to="/map"
-          icon="eva-map-outline"
-          :class="
-            $q.dark.isActive
-              ? 'bg-grey-10 text-grey-13'
-              : 'bg-white text-grey-10'
-          "
-        />
+        <q-route-tab to="/" icon="eva-home-outline" class="q-route-tab" />
+        <q-route-tab to="/map" icon="eva-map-outline" class="q-route-tab" />
         <q-route-tab
           to="/new-post"
           icon="eva-plus-circle-outline"
-          :class="
-            $q.dark.isActive
-              ? 'bg-grey-10 text-grey-13'
-              : 'bg-white text-grey-10'
-          "
+          class="q-route-tab"
         />
       </q-tabs>
     </q-footer>
 
-    <q-page-container :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'">
+    <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -151,6 +113,40 @@ export default {
 
   @media (max-width: $breakpoint-xs-max) {
     text-align: center;
+  }
+}
+
+.body--light {
+  .page-container {
+    background: $grey-1;
+  }
+
+  .q-header,
+  .q-footer,
+  .q-route-tab {
+    background: white;
+    color: $grey-10 !important;
+  }
+
+  .toolbar-title {
+    color: $grey-10;
+  }
+}
+
+.body--dark {
+  .q-page-container {
+    background: $grey-9;
+  }
+
+  .q-header,
+  .q-footer,
+  .q-route-tab {
+    background: $grey-10;
+    color: $grey-13;
+  }
+
+  .toolbar-title {
+    color: $grey-13;
   }
 }
 </style>
