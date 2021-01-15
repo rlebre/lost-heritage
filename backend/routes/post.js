@@ -9,6 +9,7 @@ router.get("/filter", PostsCtrl.filterPosts);
 router.get("/all", AuthMiddleware.authMiddleware, PostsCtrl.getAllPosts);
 router.get("/filtered", PostsCtrl.getFilteredPosts);
 router.get("/search", PostsCtrl.searchPosts);
+router.get("/approved", AuthMiddleware.authMiddleware, PostsCtrl.getApprovedPosts);
 router.get("/pending", AuthMiddleware.authMiddleware, PostsCtrl.getPendingPosts);
 router.get("/declined", AuthMiddleware.authMiddleware, PostsCtrl.getDeclinedPosts);
 router.get("", PostsCtrl.getPublicPosts);

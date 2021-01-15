@@ -342,6 +342,22 @@ exports.searchPosts = (req, res) => {
     });
 };
 
+exports.getApprovedPosts = (req, res) => {
+    Post.find({ approved: true })
+        .populate('approvedBy')
+        .exec((err, posts) => {
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
+
+            if (!posts) {
+                return res.json([]);
+            }
+
+            res.send(posts)
+        });
+}
+
 exports.getPendingPosts = (req, res) => {
     Post.find({ 'approved': false, 'declined': false })
         .exec((err, posts) => {
