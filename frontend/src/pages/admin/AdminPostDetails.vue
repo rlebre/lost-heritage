@@ -232,9 +232,16 @@ export default {
 
   name: 'AdminPostDetails',
 
+  props: {
+    editModeOn: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   data() {
     return {
-      editable: false,
+      editable: this.editModeOn,
       post: null,
       slideNumber: 0,
       fullscreen: false,
