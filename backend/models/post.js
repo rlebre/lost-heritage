@@ -39,7 +39,7 @@ const postSchema = new Schema({
         type: [String]
     },
     createdAt: { type: Date, default: Date.now },
-    approved: { type: Boolean, default: true },
+    approved: { type: Boolean, default: false },
     approvedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
