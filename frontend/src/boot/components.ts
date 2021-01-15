@@ -8,6 +8,8 @@ import MapLocationPicker from 'components/new-post/MapLocationPicker.vue';
 import LocationPickerDialog from 'components/new-post/LocationPickerDialog.vue';
 import PostFilter from 'components/common/PostFilter.vue';
 import ImagePicker from 'components/common/ImagePicker.vue';
+import Settings from 'components/common/Settings.vue';
+
 import CommentsBox from 'components/post-details/CommentsBox.vue';
 import PostCard from 'components/admin/PostCard.vue';
 import PendingPostsTable from 'components/admin/PendingPostsTable.vue';
@@ -36,4 +38,5 @@ export default boot(({ Vue }) => {
   Vue.component('EditableInput', EditableInput);
   Vue.component('EditableSelect', EditableSelect);
   Vue.component('EditableToggle', EditableToggle);
+  Vue.component('Settings', Settings);
 })
