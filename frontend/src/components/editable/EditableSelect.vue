@@ -1,35 +1,37 @@
 <template>
   <div>
-    <q-btn-toggle
+    <q-select
       v-if="editable"
+      filled
+      use-input
+      label="Concelho"
       v-model="inputData"
-      spread
-      no-caps
-      :class="
-        `col-12 q-my-sm building-status building-${
-          inputData ? 'recovered' : 'not-recovered'
-        }`
-      "
-      unelevated
-      toggle-color="primary"
-      color="grey-4"
-      text-color="grey-9"
-      :options="[
-        { label: 'Recovered', value: true },
-        { label: 'Needs recovery', value: false }
-      ]"
+      :options="filteredConcelhos"
+      @filter="filterConcelho"
+      behavior="menu"
+      input-debounce="0"
+      max-values="1"
       @input="inputChanged"
-    />
-    <h3
-      v-else
-      :class="
-        `col-12 building-status building-${
-          this.default ? 'recovered' : 'not-recovered'
-        }`
-      "
     >
-      {{ this.default ? 'Recovered' : 'Needs recovery' }}
-    </h3>
+      <template v-slot:no-option>
+        <q-item>
+          <q-item-section class="text-grey">
+            No results
+          </q-item-section>
+        </q-item>
+      </template>
+
+      <template v-if="inputData" v-slot:append>
+        <q-icon
+          name="cancel"
+          @click.stop="inputData = null"
+          class="cursor-pointer"
+        />
+      </template>
+    </q-select>
+    <h2 v-else class="col-12 building-county text-capitalize">
+      {{ this.default }}
+    </h2>
   </div>
 </template>
 
@@ -37,11 +39,11 @@
 import { debounce } from 'quasar';
 
 export default {
-  name: 'EditableToggle',
+  name: 'EditableSelect',
 
   props: {
     default: {
-      type: Boolean,
+      type: String,
       required: true
     },
     entityField: {
@@ -67,7 +69,8 @@ export default {
     return {
       inputData: this.default,
       inputLoadingState: this.loadingState,
-      inputDoneState: !!this.doneState
+      inputDoneState: !!this.doneState,
+      filteredConcelhos: []
     };
   },
 
@@ -77,7 +80,29 @@ export default {
         key: this.entityField,
         value: this.inputData
       });
+    },
+
+    filterConcelho(val, update) {
+      if (val === '') {
+        update(() => {
+          this.filteredConcelhos = this.concelhos;
+        });
+        return;
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        this.filteredConcelhos = this.concelhos.filter(
+          v => v.toLowerCase().indexOf(needle) > -1
+        );
+      });
     }
+  },
+
+  created() {
+    let concelhosDictionary = require('assets/concelhos.json');
+    this.concelhos = Object.keys(concelhosDictionary);
+    this.filteredConcelhos = this.concelhos;
   }
 };
 </script>
@@ -87,6 +112,12 @@ export default {
   &-status {
     font-size: 14px;
     font-weight: 500;
+    line-height: 0;
+  }
+
+  &-county {
+    font-size: 16px;
+    font-weight: 600;
     line-height: 0;
   }
 }

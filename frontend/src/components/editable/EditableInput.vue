@@ -107,12 +107,6 @@ export default {
     line-height: 2rem;
   }
 
-  &-county {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 0;
-  }
-
   &-details-title {
     font-size: 18px;
     font-weight: 700;
