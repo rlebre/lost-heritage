@@ -24,7 +24,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['fetchPosts', 'declinePost']),
+    ...mapActions('posts', ['fetchApprovedPosts', 'declinePost']),
 
     onRemovePostClick(post) {
       this.$q
@@ -59,17 +59,17 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', ['postList'])
+    ...mapGetters('posts', ['approvedPostsList'])
   },
 
   watch: {
-    postList(newValue, oldValue) {
+    approvedPostsList(newValue, oldValue) {
       this.posts = newValue;
     }
   },
 
   mounted() {
-    this.fetchPosts();
+    this.fetchApprovedPosts();
   }
 };
 </script>
