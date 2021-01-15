@@ -215,6 +215,8 @@ export function declinePostSuccess(state: any, newPost: any) {
     index = state.postList.map((post: any) => post._id).indexOf(newPost._id);
     state.postList.splice(index, 1);
 
+    index = state.approvedPostsList.map((post: any) => post._id).indexOf(newPost._id);
+    state.approvedPostsList.splice(index, 1);
 
     state.declinedPostsList.push(newPost)
 }
