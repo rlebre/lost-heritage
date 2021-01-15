@@ -29,7 +29,7 @@
             </q-toolbar>
           </q-header>
 
-          <q-footer>
+          <q-footer class="flex flex-center">
             <q-btn
               class="q-pa-md q-px-xl"
               flat
