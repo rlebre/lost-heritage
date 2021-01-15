@@ -7,9 +7,9 @@ export function postList(state: any) {
 export function approvedPostsList(state: any) {
     return state.approvedPostsList.map((obj: any) => ({
         ...obj,
-        approvedByUsername: obj.approvedBy.username,
-        approvedByEmail: obj.approvedBy.email,
-        approvedAt: niceDate(obj.approvedAt)
+        approvedByUsername: obj.approvedBy && obj.approvedBy.username,
+        approvedByEmail: obj.approvedBy && obj.approvedBy.email,
+        approvedAt: obj.approvedBy && niceDate(obj.approvedAt)
     }));
 }
 
@@ -20,9 +20,9 @@ export function pendingPostsList(state: any) {
 export function declinedPostsList(state: any) {
     return state.declinedPostsList.map((obj: any) => ({
         ...obj,
-        declinedByUsername: obj.declinedBy.username,
-        declinedByEmail: obj.declinedBy.email,
-        declinedAt: niceDate(obj.declinedAt)
+        declinedByUsername: obj.declinedBy && obj.declinedBy.username || '',
+        declinedByEmail: obj.declinedBy && obj.declinedBy.email || '',
+        declinedAt: obj.declinedAt && niceDate(obj.declinedAt)
     }));
 }
 
