@@ -11,13 +11,7 @@ const routes: RouteConfig[] = [
       { path: '/map', component: PageMap },
       { path: '/new-post', component: () => import('pages/PageCreatePost.vue') },
       { path: '/post/:id', component: () => import('pages/PagePostDetail.vue') },
-    ]
-  },
-  {
-    path: '/login',
-    component: () => import('layouts/AuthLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/PageAuth.vue') }
+      { path: '/login', component: () => import('pages/PageAuth.vue') }
     ]
   },
   {
