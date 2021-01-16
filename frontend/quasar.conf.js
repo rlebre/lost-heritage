@@ -34,7 +34,6 @@ module.exports = configure(function (ctx) {
       'axios',
       'google-maps',
       'filters',
-      'components',
       'social-sharing',
       'helpers',
       'authentication'
