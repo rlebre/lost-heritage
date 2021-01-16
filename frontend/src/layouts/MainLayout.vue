@@ -78,8 +78,14 @@
 </template>
 
 <script>
+import Settings from 'components/common/Settings';
+
 export default {
   name: 'MainLayout',
+
+  components: {
+    Settings
+  },
 
   data() {
     return {
