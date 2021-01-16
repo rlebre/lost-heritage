@@ -69,11 +69,11 @@
           >
             {{ post.isRecovered ? 'Recovered' : 'Needs recovery' }}
           </h3>
-          <h1 class="col-12 q-my-sm building-title">
-            {{ post.title | capitalize }}
+          <h1 class="col-12 q-my-sm building-title text-capitalize">
+            {{ post.title }}
           </h1>
-          <h2 class="col-12 building-county">
-            {{ post.county | capitalize }}
+          <h2 class="col-12 building-county text-capitalize">
+            {{ post.county }}
           </h2>
         </div>
       </div>
@@ -139,12 +139,17 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import MapComponent from '../components/map/MapComponent.vue';
 import { styleLight, styleDark } from '../helpers/map-styles';
+import MapComponent from 'components/map/MapComponent.vue';
+import CommentsBox from 'components/post-details/CommentsBox';
 
 export default {
-  components: { MapComponent },
   name: 'PagePost',
+
+  components: {
+    MapComponent,
+    CommentsBox
+  },
 
   data() {
     return {
