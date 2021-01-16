@@ -185,12 +185,17 @@
     </div>
 
     <div class="q-ma-sm">
-      <q-checkbox
-        class="col col-sm-10"
-        v-model="tncAgree"
-        label="I agree with the T&C, recognizing that the personal data will be stored for validation and possible future contact."
-      />
+      <q-checkbox class="col col-sm-10" v-model="tncAgree"
+        >I agree with the
+        <q-btn dense flat unelevated label="T&C" @click="tcModal = true" />,
+        recognizing that the personal data will be stored for validation and
+        possible future contact.</q-checkbox
+      >
     </div>
+
+    <q-dialog v-model="tcModal">
+      <TermsAndConditions />
+    </q-dialog>
 
     <div class="row justify-center q-mt-lg">
       <q-btn
@@ -217,13 +222,15 @@ import { mapGetters, mapActions } from 'vuex';
 import { isCreatePostSuccess, isCreatingPost } from '../store/posts/getters';
 import LocationPickerDialog from 'components/new-post/LocationPickerDialog';
 import ImagePicker from 'components/common/ImagePicker';
+import TermsAndConditions from 'components/common/TermsAndConditions';
 
 export default {
   name: 'PageCreatePost',
 
   components: {
     LocationPickerDialog,
-    ImagePicker
+    ImagePicker,
+    TermsAndConditions
   },
 
   data() {
@@ -250,6 +257,7 @@ export default {
       locationLoading: false,
       tncAgree: false,
       showLocationPickerDialog: false,
+      tcModal: false,
       concelhos: [],
       filteredConcelhos: []
     };
