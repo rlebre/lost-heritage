@@ -40,8 +40,14 @@
 </template>
 
 <script>
+import MapLocationPicker from 'components/new-post/MapLocationPicker';
+
 export default {
   name: 'LocationPickerDialog',
+
+  components: {
+    MapLocationPicker
+  },
 
   data() {
     return {
