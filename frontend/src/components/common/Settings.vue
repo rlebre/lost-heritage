@@ -89,8 +89,8 @@
     <q-dialog v-model="aboutModal">
       <q-card>
         <q-toolbar>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
+          <q-avatar rounded>
+            <img src="lost-heritage.png" />
           </q-avatar>
 
           <q-toolbar-title class="text-weight-bold"
