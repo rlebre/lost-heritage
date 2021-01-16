@@ -52,12 +52,6 @@ export default {
     };
   },
 
-  filters: {
-    niceDate(value) {
-      return date.formatDate(value, 'MMMM D, HH:mm');
-    }
-  },
-
   methods: {
     selectMarker(marker, post) {
       this.closeInfoWindows();

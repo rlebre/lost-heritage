@@ -37,12 +37,6 @@ export default {
     };
   },
 
-  filters: {
-    niceDate(value) {
-      return date.formatDate(value, 'MMMM D, HH:mm');
-    }
-  },
-
   methods: {
     updateCenter(newLocation) {
       this.pickedLocation = {
