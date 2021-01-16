@@ -33,9 +33,16 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import FeedCard from 'components/feed/FeedCard';
+import PostFilter from 'components/common/PostFilter';
 
 export default {
   name: 'PageHome',
+
+  components: {
+    FeedCard,
+    PostFilter
+  },
 
   computed: {
     ...mapGetters('posts', ['postList', 'isLoadingPosts', 'filteredPostList'])

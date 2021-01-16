@@ -215,9 +215,17 @@
 import { uid } from 'quasar';
 import { mapGetters, mapActions } from 'vuex';
 import { isCreatePostSuccess, isCreatingPost } from '../store/posts/getters';
+import LocationPickerDialog from 'components/new-post/LocationPickerDialog';
+import ImagePicker from 'components/common/ImagePicker';
 
 export default {
   name: 'PageCreatePost',
+
+  components: {
+    LocationPickerDialog,
+    ImagePicker
+  },
+
   data() {
     return {
       newPost: {
