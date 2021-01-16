@@ -36,9 +36,16 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import PostCard from 'components/admin/PostCard';
+import DeclinedPostsTable from 'components/admin/DeclinedPostsTable';
 
 export default {
   name: 'PageAdmin',
+
+  components: {
+    PostCard,
+    DeclinedPostsTable
+  },
 
   data() {
     return {

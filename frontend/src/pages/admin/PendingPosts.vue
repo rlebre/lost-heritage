@@ -41,9 +41,16 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import PostCard from 'components/admin/PostCard';
+import PendingPostsTable from 'components/admin/PendingPostsTable';
 
 export default {
   name: 'PageAdmin',
+
+  components: {
+    PostCard,
+    PendingPostsTable
+  },
 
   data() {
     return {
