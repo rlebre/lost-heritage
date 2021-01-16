@@ -158,13 +158,24 @@
           <div class="q-ml-sm q-mb-sm text-weight-bolder" v-if="getUsername">
             {{ getUsername }}
           </div>
-          <q-btn
-            rounded
-            color="primary"
-            size="12px"
-            label="Logout"
-            @click="onLogout()"
-          />
+          <div class="flex flex-center">
+            <q-btn
+              rounded
+              class="q-mx-sm"
+              color="primary"
+              size="12px"
+              label="Profile"
+              disabled
+            />
+            <q-btn
+              rounded
+              color="primary"
+              class="q-mx-sm"
+              size="12px"
+              label="Logout"
+              @click="onLogout()"
+            />
+          </div>
         </div>
       </q-img>
     </q-drawer>
@@ -177,9 +188,14 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Settings from 'components/common/Settings';
 
 export default {
   name: 'MainLayout',
+
+  components: {
+    Settings
+  },
 
   data() {
     return {
