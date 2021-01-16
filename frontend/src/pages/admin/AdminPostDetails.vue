@@ -225,13 +225,23 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import MapComponent from '../../components/map/MapComponent.vue';
 import { styleLight, styleDark } from '../../helpers/map-styles';
+import MapComponent from 'components/map/MapComponent.vue';
+import CommentsBox from 'components/post-details/CommentsBox';
+import EditableInput from 'components/post-details/editable/EditableInput';
+import EditableSelect from 'components/post-details/editable/EditableSelect';
+import EditableToggle from 'components/post-details/editable/EditableToggle';
 
 export default {
-  components: { MapComponent },
-
   name: 'AdminPostDetails',
+
+  components: {
+    MapComponent,
+    CommentsBox,
+    EditableInput,
+    EditableSelect,
+    EditableToggle
+  },
 
   props: {
     editModeOn: {
