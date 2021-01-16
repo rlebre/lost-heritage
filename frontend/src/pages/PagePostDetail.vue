@@ -2,6 +2,28 @@
   <q-page class="constrain q-pa-md" v-if="post">
     <div class="upper-section">
       <div class="row">
+        <div class="small-screen-only details-section q-ma-sm">
+          <div class="details-section-header">
+            <div class="row">
+              <h3
+                :class="
+                  `col-12 building-status building-${
+                    post.isRecovered ? 'recovered' : 'not-recovered'
+                  }`
+                "
+              >
+                {{ post.isRecovered ? 'Recovered' : 'Needs recovery' }}
+              </h3>
+              <h1 class="col-12 q-my-sm building-title text-capitalize">
+                {{ post.title }}
+              </h1>
+              <h2 class="col-12 building-county text-capitalize">
+                {{ post.county }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
         <div class="col-12 col-md-6 q-pa-sm">
           <q-carousel
             swipeable
@@ -58,7 +80,7 @@
     </div>
 
     <div class="details-section q-ma-sm">
-      <div class="details-section-header">
+      <div class="large-screen-only details-section-header">
         <div class="row">
           <h3
             :class="
