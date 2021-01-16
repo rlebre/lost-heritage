@@ -33,9 +33,18 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import MapComponent from 'components/map/MapComponent';
+import ListCardComponent from 'components/map/ListCardComponent';
+import PostFilter from 'components/common/PostFilter';
 
 export default {
   name: 'PageMap',
+
+  components: {
+    MapComponent,
+    ListCardComponent,
+    PostFilter
+  },
 
   data() {
     return {
