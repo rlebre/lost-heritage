@@ -8,7 +8,7 @@ const postCommentSchema = new Schema({
         max: [240, "Details too long. Max: 240 characters."]
     },
     createdAt: { type: Date, default: Date.now },
-    approved: { type: Boolean, default: false },
+    approved: { type: Boolean, default: true },
     approvedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
