@@ -13,19 +13,28 @@
               v-for="post in filteredPosts"
               :key="post.id"
             >
-              <ListCardComponent :post="post"></ListCardComponent>
+              <ListCardComponent
+                :post="post"
+                @viewOnMap="onListCardViewOnMap"
+              ></ListCardComponent>
             </div>
           </template>
         </div>
         <div class="col-sm-8 col-md-8 q-pr-md">
-          <MapComponent :posts="filteredPosts"></MapComponent>
+          <MapComponent
+            :posts="filteredPosts"
+            :focusOnPost="focusedPostId"
+          ></MapComponent>
         </div>
       </div>
     </div>
 
     <div class="small-screen-only">
       <div class="app-panel row" style="padding-bottom:48px">
-        <MapComponent :posts="filteredPosts"></MapComponent>
+        <MapComponent
+          :posts="filteredPosts"
+          :focusOnPost="focusedPostId"
+        ></MapComponent>
       </div>
     </div>
   </q-page>
@@ -48,7 +57,8 @@ export default {
 
   data() {
     return {
-      filteredPosts: []
+      filteredPosts: [],
+      focusedPostId: null
     };
   },
 
@@ -103,6 +113,10 @@ export default {
       this.filteredPosts.sort(
         this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1)
       );
+    },
+
+    onListCardViewOnMap(post) {
+      this.focusedPostId = post;
     }
   }
 };
