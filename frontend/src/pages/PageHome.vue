@@ -50,7 +50,6 @@ export default {
 
   data() {
     return {
-      activeComment: '',
       filteredPosts: []
     };
   },

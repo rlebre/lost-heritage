@@ -182,9 +182,31 @@ export default {
     },
 
     addComment() {
+      this.newComment = '';
+
       this.commentPost({
         postId: this.post._id,
         comment: this.newComment
+      });
+
+      this.$q.notify({
+        message: 'Comment created.',
+        html: true,
+        timeout: 5000,
+        actions: [
+          {
+            icon: 'close',
+            color: 'white'
+          },
+          {
+            icon: 'eva-arrow-circle-right',
+            color: 'white',
+            handler: () => {
+              this.$router.push(`/post/${this.post._id}`);
+              this.$forceUpdate();
+            }
+          }
+        ]
       });
     }
   },
