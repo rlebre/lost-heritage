@@ -121,7 +121,7 @@ export default {
       this.newComment = null;
 
       this.$q.notify({
-        message: '<p style="text-align:center">Comment created.<p>',
+        message: 'Comment created.',
         html: true,
         timeout: 5000,
         actions: [
