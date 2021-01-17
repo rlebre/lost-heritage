@@ -15,9 +15,9 @@
     @click="closeInfoWindows"
   >
     <googlemaps-marker
-      :key="`marker-${index}`"
-      :ref="`marker-${index}`"
-      v-for="(post, index) in posts"
+      :key="`marker-${post._id}`"
+      :ref="`marker-${post._id}`"
+      v-for="post in posts"
       :position="{ lat: post.lat, lng: post.lng }"
       :clickable="true"
       :draggable="false"
@@ -26,7 +26,7 @@
           post.isRecovered ? 'green' : 'red'
         }-dot.png`
       "
-      @click="selectMarker(`marker-${index}`, post)"
+      @click="selectMarker(post)"
     >
     </googlemaps-marker>
   </googlemaps-map>
@@ -34,6 +34,8 @@
 
 <script>
 import { styleLight, styleDark } from '../../helpers/map-styles';
+import PinInfoWindow from 'components/map/PinInfoWindow';
+import Vue from 'vue';
 
 export default {
   name: 'Map',
@@ -41,7 +43,15 @@ export default {
   props: {
     posts: {
       type: Array
+    },
+
+    focusOnPost: {
+      type: Object
     }
+  },
+
+  components: {
+    PinInfoWindow
   },
 
   data() {
@@ -52,23 +62,29 @@ export default {
     };
   },
 
-  methods: {
-    selectMarker(marker, post) {
-      this.closeInfoWindows();
-      var map = this.$refs.map.$_map;
-      var marker_ele = this.$refs[marker][0].$_marker;
-      var contentString = `\
-        <img
-          class="rounded-borders"
-          src="${post.images[0]}"
-          style="height:100px"
-        />\
-        <p><b>Title:</b> ${post.title}</p>\
-        <p><b>Details:</b> ${post.details}</p>\
-        `;
+  watch: {
+    focusOnPost(newValue, oldValue) {
+      this.selectMarker(newValue);
+    }
+  },
 
-      var infowindow = new google.maps.InfoWindow({
-        content: contentString
+  methods: {
+    selectMarker(post) {
+      this.closeInfoWindows();
+      const map = this.$refs.map.$_map;
+      const marker_ele = this.$refs[`marker-${post._id}`][0].$_marker;
+
+      const ComponentClass = Vue.extend(PinInfoWindow);
+      const PinInfoWindowInstance = new ComponentClass({
+        propsData: {
+          post: post
+        }
+      });
+
+      PinInfoWindowInstance.$mount();
+
+      const infowindow = new google.maps.InfoWindow({
+        content: PinInfoWindowInstance.$el
       });
 
       infowindow.open(map, marker_ele);

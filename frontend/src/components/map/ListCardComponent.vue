@@ -22,40 +22,47 @@
       </q-card-section>
     </q-card-section>
 
-    <div class="row q-mb-sm q-mx-md q-pb-xs">
-      <div class="col-6">
-        <div class="text-subtitle2">
-          <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
-        </div>
+    <div class="row q-mb-sm q-mx-md q-pb-xs flex flex-center">
+      <div class="text-subtitle2 q-mx-sm">
+        <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
       </div>
-      <div class="col-6">
-        <q-btn
-          class="q-mr-xs float-right"
-          round
-          color="primary"
-          icon="eva-facebook-outline"
-          size="xs"
-          unelevated
-        />
 
-        <q-btn
-          class="q-mr-xs float-right"
-          round
-          color="primary"
-          icon="eva-twitter-outline"
-          size="xs"
-          unelevated
-        />
+      <q-btn
+        class="q-mx-xl float-right "
+        round
+        color="primary"
+        icon="eva-eye-outline"
+        size="xs"
+        unelevated
+        @click="onViewOnMapClick"
+      />
 
-        <q-btn
-          class="q-mr-xs float-right"
-          round
-          color="primary"
-          icon="eva-share-outline"
-          size="xs"
-          unelevated
-        />
-      </div>
+      <q-btn
+        class="q-mx-xs float-right "
+        round
+        color="primary"
+        icon="eva-facebook-outline"
+        size="xs"
+        unelevated
+      />
+
+      <q-btn
+        class="q-mx-xs float-right"
+        round
+        color="primary"
+        icon="eva-twitter-outline"
+        size="xs"
+        unelevated
+      />
+
+      <q-btn
+        class="q-mx-xs float-right"
+        round
+        color="primary"
+        icon="eva-share-outline"
+        size="xs"
+        unelevated
+      />
     </div>
   </q-card>
 </template>
@@ -73,6 +80,12 @@ export default {
 
   data() {
     return {};
+  },
+
+  methods: {
+    onViewOnMapClick() {
+      this.$emit('viewOnMap', this.post);
+    }
   }
 };
 </script>
