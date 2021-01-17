@@ -37,37 +37,57 @@
         @click="onViewOnMapClick"
       />
 
-      <q-btn
-        class="q-mx-xs float-right "
-        round
-        color="primary"
-        icon="eva-facebook-outline"
-        size="xs"
-        unelevated
-      />
+      <div class="flex" v-if="url && post">
+        <q-btn
+          class="q-mr-xs float-right"
+          round
+          color="primary"
+          icon="eva-share-outline"
+          size="xs"
+          unelevated
+          @click="copyToClipboardHandler"
+        />
 
-      <q-btn
-        class="q-mx-xs float-right"
-        round
-        color="primary"
-        icon="eva-twitter-outline"
-        size="xs"
-        unelevated
-      />
+        <ShareNetwork
+          network="twitter"
+          :url="url"
+          :title="`${post.title} - ${post.details}`"
+          hashtags="PatrimonioEsquecido,LostHeritage"
+        >
+          <q-btn
+            class="q-mr-xs float-right"
+            round
+            color="primary"
+            icon="eva-twitter-outline"
+            size="xs"
+            unelevated
+          />
+        </ShareNetwork>
 
-      <q-btn
-        class="q-mx-xs float-right"
-        round
-        color="primary"
-        icon="eva-share-outline"
-        size="xs"
-        unelevated
-      />
+        <ShareNetwork
+          network="facebook"
+          :url="url"
+          :title="post.title"
+          :quote="post.details"
+          hashtags="PatrimonioEsquecido,LostHeritage"
+        >
+          <q-btn
+            class="q-mr-xs float-right"
+            round
+            color="primary"
+            icon="eva-facebook-outline"
+            size="xs"
+            unelevated
+          />
+        </ShareNetwork>
+      </div>
     </div>
   </q-card>
 </template>
 
 <script>
+import { copyToClipboard } from 'quasar';
+
 export default {
   name: 'ListCardComponent',
 
@@ -79,13 +99,47 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      url: null,
+      clipboardMessage: ''
+    };
   },
 
   methods: {
+    copyToClipboardHandler() {
+      copyToClipboard(this.clipboardMessage)
+        .then(() => {
+          this.$q.notify({
+            message: 'Copied to clipboard.',
+            actions: [
+              {
+                icon: 'close',
+                color: 'white'
+              }
+            ]
+          });
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: 'Failed.',
+            actions: [
+              {
+                icon: 'close',
+                color: 'white'
+              }
+            ]
+          });
+        });
+    },
+
     onViewOnMapClick() {
       this.$emit('viewOnMap', this.post);
     }
+  },
+
+  mounted() {
+    this.url = `${process.env.PRODUCTION_URL}/#/post/${this.post._id}`;
+    this.clipboardMessage = `${this.post.title}\n${this.post.details}\n\n${this.url}`;
   }
 };
 </script>
