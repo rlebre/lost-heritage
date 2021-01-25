@@ -3,7 +3,9 @@
     <q-card-section horizontal>
       <q-card-section class="q-pt-xs col-7 q-mt-sm">
         <div class="text-h6 text-weight-bold">
-          {{ post.title }}
+          <router-link class="no-link" :to="`/post/${post._id}`">
+            {{ post.title }}
+          </router-link>
         </div>
         <div class="text-caption text-grey-7 small-screen-only">
           {{ post.details | str_limit(50) }}
