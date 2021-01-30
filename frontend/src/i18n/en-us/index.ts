@@ -9,12 +9,17 @@ export default {
   c: {
     filter: {
       filters: 'filters',
+      counties: 'counties',
       county: 'county',
+      countyHint: 'Max 5 selections',
       date: 'date',
       sort: 'sort',
       search: 'search',
       likes: 'likes',
       like: 'like',
+      applyFilters: 'apply filters',
+      apply: 'apply',
+      reset: 'reset'
     },
 
     settings: {

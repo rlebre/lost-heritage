@@ -3,20 +3,23 @@
     <div class="small-screen-only">
       <div class="col-12">
         <q-btn
-          class="full-width q-mb-sm"
+          class="full-width q-mb-sm text-capitalize"
           flat
           dense
           @click="showFilterModal = true"
           icon="eva-funnel-outline"
-          >Filters</q-btn
         >
+          {{ $t('c.filter.filters') }}
+        </q-btn>
       </div>
       <q-dialog v-if="showFilterModal" v-model="showFilterModal">
         <q-layout view="Lhh lpR fff" container class="bg-white">
           <q-header>
             <q-toolbar>
               <q-toolbar-title>
-                <h6 class="text-h6 q-ma-sm">Apply filters</h6>
+                <h6 class="text-h6 q-ma-sm text-capitalize">
+                  {{ $t('c.filter.applyFilters') }}
+                </h6>
               </q-toolbar-title>
               <q-btn
                 class="float-right"
@@ -31,20 +34,20 @@
 
           <q-footer class="flex flex-center">
             <q-btn
-              class="q-pa-md q-px-xl"
+              class="q-pa-md q-px-xl text-capitalize"
               flat
               @click="showFilterModal = false"
               dense
               icon="eva-checkmark-circle-2-outline"
-              >Apply</q-btn
+              >{{ $t('c.filter.apply') }}</q-btn
             >
             <q-btn
-              class="q-pa-md q-px-xl float-right"
+              class="q-pa-md q-px-xl float-right text-capitalize"
               flat
               dense
               @click="resetModalFilter"
               icon="eva-close-circle-outline"
-              >Reset</q-btn
+              >{{ $t('c.filter.reset') }}</q-btn
             >
           </q-footer>
 
@@ -62,11 +65,12 @@
                   :options="existingCountiesList | capitalize_array"
                   @filter="filterConcelhos"
                   max-values="5"
-                  label="Concelhos"
+                  :label="$t('c.filter.counties')"
+                  class="text-capitalize"
                   style="width: 100%"
                   @input="filterChanged"
                   counter
-                  hint="Max 5 selections"
+                  :hint="$t('c.filter.countyHint')"
                 />
               </div>
 
@@ -76,14 +80,16 @@
                   bottom-slots
                   v-model="sortBy"
                   :options="optionsSort"
-                  label="Sort"
+                  :label="$t('c.filter.sort')"
                   style="width: 90%"
                   @input="filterChanged"
                 />
               </div>
 
               <div class="col-12 q-px-md">
-                <span class="q-ml-sm">Sort</span>
+                <span class="q-ml-sm text-capitalize">
+                  {{ $t('c.filter.sort') }}
+                </span>
                 <q-btn
                   class="q-mt-xs primary q-btn-sort"
                   unelevated
@@ -95,12 +101,12 @@
 
               <div class="col-12 q-pa-md">
                 <q-input
-                  class="col col-sm-10 float-right"
+                  class="col col-sm-10 float-right text-capitalize"
                   v-model="search"
                   filled
                   clearable
                   style="width:100%"
-                  label="Search"
+                  :label="$t('c.filter.search')"
                   @input="filterChanged"
                 >
                   <template v-slot:append>
@@ -124,12 +130,13 @@
             v-model="selectedOptions"
             multiple
             use-input
+            class="text-capitalize"
             options-dense
             clearable
             :options="existingCountiesList | capitalize_array"
             @filter="filterConcelhos"
             max-values="5"
-            label="Concelhos"
+            :label="$t('c.filter.counties')"
             style="width: 100%"
             @input="filterChanged"
           />
@@ -137,20 +144,21 @@
             hint="Max 5 selections" -->
         </div>
 
-        <div class="col-md-3 ">
+        <div class="col-md-3">
           <q-select
             dense
             filled
             bottom-slots
             v-model="sortBy"
-            :options="optionsSort"
-            label="Sort"
+            :options="optionsSort | capitalize_array"
+            class="text-capitalize"
+            :label="$t('c.filter.sort')"
             style="width: 90%"
             @input="filterChanged"
           />
         </div>
 
-        <div class="col-md-1">
+        <div class="col-md-1 q-mr-sm">
           <q-btn
             class="q-mt-xs primary"
             dense
@@ -163,13 +171,13 @@
 
         <div class="col">
           <q-input
-            class="col col-sm-10 float-right"
+            class="col col-sm-10 float-right text-capitalize"
             v-model="search"
             filled
             dense
             clearable
             style="width:100%"
-            label="Search"
+            :label="$t('c.filter.search')"
             @input="filterChanged"
             debounce="1000"
           >
@@ -194,15 +202,22 @@ export default {
       selectedOptions: [],
       optionsConcelhos: [],
       optionsConcelhosFiltered: [],
-      optionsSort: ['Concelho', 'Data', 'Likes'],
+      optionsSort: [
+        this.$t('c.filter.county'),
+        this.$t('c.filter.date'),
+        this.$t('c.filter.likes')
+      ],
       search: '',
-      sortBy: 'Data',
+      sortBy: this.$t('c.filter.date'),
       sortDesc: true,
 
       sortTranslation: {
         Data: 'date',
         Concelho: 'county',
-        Likes: 'likes'
+        Likes: 'likes',
+        Date: 'date',
+        County: 'county',
+        Gostos: 'likes'
       },
 
       showFilterModal: false
