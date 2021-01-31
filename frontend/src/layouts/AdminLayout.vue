@@ -8,7 +8,7 @@
 
         <router-link class="no-link q-px-lg" to="/">
           <q-toolbar-title class="text-grand-hotel text-bold ">
-            {{ $t('header.appName') }}
+            {{ $t('appName') }}
           </q-toolbar-title>
         </router-link>
 
