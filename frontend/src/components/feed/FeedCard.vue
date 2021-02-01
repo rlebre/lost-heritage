@@ -99,7 +99,8 @@
         <q-input
           outlined
           filled
-          placeholder="Comment"
+          class="first-letter-uppercase"
+          :placeholder="$t('c.card.comment')"
           dense
           autogrow
           v-model="newComment"
@@ -108,8 +109,8 @@
             <q-btn
               flat
               rounded
-              color="primary large-screen-only"
-              label="Add Comment"
+              color="primary  large-screen-only"
+              :label="$t('c.card.addComment')"
               @click="addComment"
             />
             <q-btn

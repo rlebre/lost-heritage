@@ -7,7 +7,7 @@
       dense
       :input-style="{ 'font-size': '14px' }"
       class="col-12"
-      label="Create new comment"
+      :label="$t('c.commentBox.createComment')"
       type="textarea"
     />
 
@@ -15,8 +15,8 @@
       v-if="newComment"
       unelevated
       color="primary"
-      label="Submit"
-      class="q-mt-xs"
+      :label="$t('c.commentBox.submit')"
+      class="q-mt-xs text-capitalize"
       @click="addComment"
     ></q-btn>
 
@@ -66,7 +66,9 @@
     <template v-else>
       <div class="row">
         <div class="col-12">
-          <h5 class="text-center text-grey">No comments yet.</h5>
+          <h5 class="text-center text-grey">
+            {{ $t('c.commentBox.noComments') }}
+          </h5>
         </div>
       </div>
     </template>

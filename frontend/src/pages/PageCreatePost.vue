@@ -1,22 +1,22 @@
 <template>
   <q-page class="constrain-more q-pa-md">
     <div>
-      <h4 class="text-h4 q-ma-sm">
-        Create new post
+      <h4 class="text-h4 q-ma-sm first-letter-uppercase">
+        {{ $t('create.createNewPost') }}
       </h4>
     </div>
 
     <div>
-      <h6 class="text-weight-light q-ma-sm">
-        Contributor Information
+      <h6 class="text-weight-light q-ma-sm text-capitalize">
+        {{ $t('create.contributorInfo') }}
       </h6>
     </div>
 
     <div class=" q-ma-md">
       <q-input
         v-model="newPost.contributorName"
-        class="col col-sm-10"
-        label="Contributor Name"
+        class="col col-sm-10 text-capitalize"
+        :label="$t('create.contributorName')"
         filled
       />
     </div>
@@ -24,8 +24,8 @@
     <div class=" q-ma-md">
       <q-input
         v-model="newPost.contributorEmail"
-        class="col col-sm-10"
-        label="Contributor Email"
+        class="col col-sm-10 text-capitalize"
+        :label="$t('create.contributorEmail')"
         filled
       />
     </div>
@@ -33,23 +33,23 @@
     <div class=" q-ma-md">
       <q-input
         v-model="newPost.contributorCity"
-        class="col col-sm-10"
-        label="Contributor City"
+        class="col col-sm-10 text-capitalize"
+        :label="$t('create.contributorInfo')"
         filled
       />
     </div>
 
     <div>
-      <h6 class="text-weight-light q-ma-sm">
-        Building Information
+      <h6 class="text-weight-light q-ma-sm text-capitalize">
+        {{ $t('create.buildingInfo') }}
       </h6>
     </div>
 
     <div class=" q-ma-md">
       <q-input
         v-model="newPost.title"
-        class="col col-sm-10"
-        label="Title"
+        class="col col-sm-10 text-capitalize"
+        :label="$t('create.buildTitle')"
         filled
       />
     </div>
@@ -59,17 +59,17 @@
         v-model="newPost.details"
         filled
         autogrow
-        class="col col-sm-10"
-        label="Details"
+        class="col col-sm-10 text-capitalize"
+        :label="$t('create.buildDetails')"
         type="textarea"
       />
     </div>
 
     <q-select
-      class="q-ma-md"
+      class="q-ma-md text-capitalize"
       filled
       use-input
-      label="Concelho"
+      :label="$t('create.buildCounty')"
       v-model="newPost.county"
       :options="filteredConcelhos"
       @filter="filterConcelho"
@@ -80,7 +80,7 @@
       <template v-slot:no-option>
         <q-item>
           <q-item-section class="text-grey">
-            No results
+            {{ $t('create.buildCountyNoResults') }}
           </q-item-section>
         </q-item>
       </template>
@@ -91,28 +91,29 @@
         :loading="locationLoading"
         v-model="location"
         class="col col-sm-10"
-        label="Pick or Locate Below"
+        :label="$t('create.buildLocation')"
         filled
         disable
       >
       </q-input>
       <q-btn-group flat spread class="q-mt-sm">
         <q-btn
-          class="q-mr-sm"
+          class="q-mr-sm text-uppercase"
           dense
           flat
           color="primary"
           icon="eva-pin-outline"
-          label="Pick"
+          :label="$t('create.pick')"
           @click="toggleShowLocationPickerDialog"
         />
 
         <q-btn
           dense
           flat
+          class="text-uppercase"
           color="primary"
           icon="eva-navigation-2-outline"
-          label="Locate"
+          :label="$t('create.locate')"
           @click="getLocation"
         />
       </q-btn-group>
@@ -129,8 +130,8 @@
         v-model="newPost.previousFunctions"
         filled
         autogrow
-        class="col col-sm-10"
-        label="Previous Functions"
+        class="col col-sm-10 text-capitalize"
+        :label="$t('create.buildPrevFunctions')"
         type="textarea"
       />
     </div>
@@ -140,8 +141,8 @@
         v-model="newPost.stories"
         filled
         autogrow
-        class="col col-sm-10"
-        label="Relevant Stories"
+        class="col col-sm-10 text-capitalize"
+        :label="$t('create.buildRelevStories')"
         type="textarea"
       />
     </div>
@@ -151,8 +152,8 @@
         v-model="newPost.suggestedFunctions"
         filled
         autogrow
-        class="col col-sm-10"
-        label="Suggested Functions"
+        class="col col-sm-10 text-capitalize"
+        :label="$t('create.buildSuggestFunctions')"
         type="textarea"
       />
     </div>
@@ -160,15 +161,15 @@
     <q-btn-toggle
       v-model="newPost.isRecovered"
       spread
-      class="q-ma-sm q-mx-md text-grey-9"
+      class="q-ma-sm q-mx-md text-grey-9 text-capitalize"
       no-caps
       unelevated
       toggle-color="primary"
       color="grey-4"
       text-color="grey-9"
       :options="[
-        { label: 'Recovered', value: true },
-        { label: 'Needs recovery', value: false }
+        { label: $t('create.recovered'), value: true },
+        { label: $t('create.needsRecovery'), value: false }
       ]"
     />
 
@@ -180,17 +181,17 @@
       <q-checkbox
         class="col col-sm-10"
         v-model="newPost.newsletterAgree"
-        label="I want to receive e-mails with news."
+        :label="$t('create.newsletter')"
       />
     </div>
 
     <div class="q-ma-sm">
-      <q-checkbox class="col col-sm-10" v-model="tncAgree"
-        >I agree with the
-        <q-btn dense flat unelevated label="T&C" @click="tcModal = true" />,
-        recognizing that the personal data will be stored for validation and
-        possible future contact.</q-checkbox
-      >
+      <q-checkbox class="col col-sm-10" v-model="tncAgree">
+        {{ $t('create.agreeTC1') }}
+        <q-btn dense flat unelevated label="T&C" @click="tcModal = true" />{{
+          $t('create.agreeTC2')
+        }}
+      </q-checkbox>
     </div>
 
     <q-dialog v-model="tcModal">
@@ -201,7 +202,8 @@
       <q-btn
         unelevated
         color="primary"
-        label="Submit"
+        class="text-uppercase"
+        :label="$t('create.submit')"
         @click="addPost"
         :disable="
           !newPost.contributorEmail ||
