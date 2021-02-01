@@ -25,18 +25,25 @@ export default {
       portuguese: 'portuguese',
       instructions: 'instructions',
       about: 'about',
-      tc: 'terms and conditions',
+      tc: 'terms & conditions',
       show: 'show',
     },
 
     card: {
-      comment: 'comment',
+      comment: 'Comment',
       addComment: 'add comment'
     },
 
     commentBox: {
       comments: 'comments',
-      createComment: 'create new comment'
+      createComment: 'Create new comment',
+      submit: 'submit',
+      noComments: 'No comments yet.'
+    },
+
+    locationPicker: {
+      set: 'Set',
+      pickLocation: 'Pick Location on map',
     }
   },
 
@@ -50,13 +57,15 @@ export default {
     buildTitle: 'title',
     buildDetails: 'details',
     buildCounty: 'county',
+    buildCountyNoResults: 'No results',
     buildLocation: 'Pick or Locate Below',
     pick: 'pick',
     locate: 'locate',
-    buildPrevFunctions: 'building previous functions',
-    buildSugestFunctions: 'building suggested functions',
-    recovered: 'recovered',
-    needsRecovery: 'needs recovery',
+    buildPrevFunctions: 'previous functions',
+    buildRelevStories: 'stories you might want to share',
+    buildSuggestFunctions: 'suggested functions',
+    recovered: 'Recovered',
+    needsRecovery: 'Needs Recovery',
     chooseImage: 'choose an image',
     newsletter: 'I want to receive e-mails with news.',
     agreeTC1: 'I agree with the',
@@ -68,6 +77,10 @@ export default {
     recovered: 'recovered',
     needsRecovery: 'needs recovery',
     details: 'details',
+    stories: 'stories',
+    previousFunctions: 'previous functions',
+    suggestedFunctions: 'suggested functions',
+    comments: 'comments'
   },
 
   instructions: {
