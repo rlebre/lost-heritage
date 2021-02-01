@@ -11,39 +11,51 @@
     </q-toolbar>
 
     <q-card-section class="text-justify">
-      <p v-for="(p, index) in $t('termsandconditions.intro')" :key="index">
+      <p
+        v-for="(p, index) in $t('termsandconditions.intro')"
+        :key="`intro-${index}`"
+      >
         {{ p }}
       </p>
 
       <div class="text-h6">{{ $t('termsandconditions.cookiesTitle') }}</div>
 
-      <p v-for="(p, index) in $t('termsandconditions.cookiesP')" :key="index">
+      <p
+        v-for="(p, index) in $t('termsandconditions.cookiesP')"
+        :key="`cookies-p-${index}`"
+      >
         {{ p }}
       </p>
 
       <div class="text-h6">{{ $t('termsandconditions.licenseTitle') }}</div>
 
-      <p v-for="(p, index) in $t('termsandconditions.licenseP1')" :key="index">
+      <p
+        v-for="(p, index) in $t('termsandconditions.licenseP1')"
+        :key="`license-p1-${index}`"
+      >
         {{ p }}
       </p>
 
       <ul>
         <li
           v-for="(p, index) in $t('termsandconditions.licenseLi1')"
-          :key="index"
+          :key="`license-li1-${index}`"
         >
           {{ p }}
         </li>
       </ul>
 
-      <p v-for="(p, index) in $t('termsandconditions.licenseP2')" :key="index">
+      <p
+        v-for="(p, index) in $t('termsandconditions.licenseP2')"
+        :key="`license-p2-${index}`"
+      >
         {{ p }}
       </p>
 
       <ul>
         <li
           v-for="(p, index) in $t('termsandconditions.licenseLi2')"
-          :key="index"
+          :key="`license-li2-${index}`"
         >
           {{ p }}
         </li>
@@ -60,7 +72,10 @@
       </p>
 
       <ul>
-        <li v-for="(p, index) in $t('termsandconditions.hyperLi')" :key="index">
+        <li
+          v-for="(p, index) in $t('termsandconditions.hyperLi')"
+          :key="`hyper-li-${index}`"
+        >
           {{ p }}
         </li>
       </ul>
@@ -87,7 +102,10 @@
 
       <div class="text-h6">{{ $t('termsandconditions.removalTitle') }}</div>
 
-      <p v-for="(p, index) in $t('termsandconditions.removal')" :key="index">
+      <p
+        v-for="(p, index) in $t('termsandconditions.removal')"
+        :key="`removal-${index}`"
+      >
         {{ p }}
       </p>
 
@@ -100,7 +118,7 @@
       <ul>
         <li
           v-for="(p, index) in $t('termsandconditions.disclaimerUl')"
-          :key="index"
+          :key="`disclaimer-li-${index}`"
         >
           {{ p }}
         </li>
@@ -108,7 +126,7 @@
 
       <p
         v-for="(p, index) in $t('termsandconditions.disclaimerP2')"
-        :key="index"
+        :key="`disclaimer-p2-${index}`"
       >
         {{ p }}
       </p>
