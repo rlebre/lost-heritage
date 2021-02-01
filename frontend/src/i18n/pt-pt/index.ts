@@ -1,5 +1,5 @@
 export default {
-    appName: 'Lost Heritage',
+    appName: 'Património Esquecido',
 
     c: {
         filter: {
@@ -18,25 +18,32 @@ export default {
         },
 
         settings: {
-            settings: 'settings',
-            nightMode: 'night mode',
-            language: 'language',
-            english: 'english',
-            portuguese: 'portuguese',
-            instructions: 'instructions',
-            about: 'about',
-            tc: 'terms and conditions',
-            show: 'show',
+            settings: 'definições',
+            nightMode: 'modo noturno',
+            language: 'lingua',
+            english: 'inglês',
+            portuguese: 'português',
+            instructions: 'instruções',
+            about: 'acerca',
+            tc: 'termos & condições',
+            show: 'mostrar',
         },
 
         card: {
-            comment: 'comment',
-            addComment: 'add comment'
+            comment: 'Comentário',
+            addComment: 'adicionar comentário'
         },
 
         commentBox: {
-            comments: 'comments',
-            createComment: 'create new comment'
+            comments: 'comentários',
+            createComment: 'Criar novo comentário',
+            submit: 'submeter',
+            noComments: 'Sem comentários.'
+        },
+
+        locationPicker: {
+            set: 'Fixar',
+            pickLocation: 'Escolher localização no mapa',
         }
     },
 
@@ -50,13 +57,15 @@ export default {
         buildTitle: 'title',
         buildDetails: 'details',
         buildCounty: 'county',
+        buildCountyNoResults: 'No results',
         buildLocation: 'Pick or Locate Below',
         pick: 'pick',
         locate: 'locate',
-        buildPrevFunctions: 'building previous functions',
-        buildSugestFunctions: 'building suggested functions',
-        recovered: 'recovered',
-        needsRecovery: 'needs recovery',
+        buildPrevFunctions: 'previous functions',
+        buildRelevStories: 'stories you might want to share',
+        buildSuggestFunctions: 'suggested functions',
+        recovered: 'Recovered',
+        needsRecovery: 'Needs Recovery',
         chooseImage: 'choose an image',
         newsletter: 'I want to receive e-mails with news.',
         agreeTC1: 'I agree with the',
@@ -68,6 +77,10 @@ export default {
         recovered: 'recovered',
         needsRecovery: 'needs recovery',
         details: 'details',
+        stories: 'stories',
+        previousFunctions: 'previous functions',
+        suggestedFunctions: 'suggested functions',
+        comments: 'comments'
     },
 
     instructions: {
