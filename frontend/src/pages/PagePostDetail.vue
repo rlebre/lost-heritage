@@ -91,10 +91,10 @@
           >
             {{ post.isRecovered ? 'Recovered' : 'Needs recovery' }}
           </h3>
-          <h1 class="col-12 q-my-sm building-title text-capitalize">
+          <h1 class="col-12 q-my-sm building-title first-letter-uppercase">
             {{ post.title }}
           </h1>
-          <h2 class="col-12 building-county text-capitalize">
+          <h2 class="col-12 building-county first-letter-uppercase">
             {{ post.county }}
           </h2>
         </div>
@@ -104,25 +104,38 @@
 
       <div class="row">
         <div class="col-12 col-md-8 q-pr-sm">
-          <h2 class="building-details-title">Details</h2>
+          <h2 class="building-details-title first-letter-uppercase">
+            {{ $t('details.details') }}
+          </h2>
           <p class="rental-description">
             {{ post.details }}
           </p>
 
-          <h2 class="building-details-title" v-if="post.stories">Stories</h2>
+          <h2
+            class="building-details-title first-letter-uppercase"
+            v-if="post.stories"
+          >
+            {{ $t('details.stories') }}
+          </h2>
           <p class="rental-description">
             {{ post.stories }}
           </p>
 
-          <h2 class="building-details-title" v-if="post.previousFunctions">
-            Previous functions
+          <h2
+            class="building-details-title first-letter-uppercase"
+            v-if="post.previousFunctions"
+          >
+            {{ $t('details.previousFunctions') }}
           </h2>
           <p class="rental-description">
             {{ post.previousFunctions }}
           </p>
 
-          <h2 class="building-details-title" v-if="post.suggestedFunctions">
-            Suggested functions
+          <h2
+            class="building-details-title first-letter-uppercase"
+            v-if="post.suggestedFunctions"
+          >
+            {{ $t('details.suggestedFunctions') }}
           </h2>
           <p class="rental-description">
             {{ post.suggestedFunctions }}
@@ -133,7 +146,9 @@
       <hr class="q-my-lg q-mb-lg" />
 
       <div class="row">
-        <h2 class="building-details-title">Comments</h2>
+        <h2 class="building-details-title first-letter-uppercase">
+          {{ $t('details.comments') }}
+        </h2>
 
         <CommentsBox
           class="col-12 small-screen-only q-px-xs"

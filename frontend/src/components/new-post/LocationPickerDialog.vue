@@ -4,7 +4,9 @@
       <q-header>
         <q-toolbar>
           <q-toolbar-title>
-            <h6 class="text-h6 q-ma-sm">Pick Location on map</h6>
+            <h6 class="text-h6 q-ma-sm first-letter-uppercase">
+              {{ $t('c.locationPicker.pickLocation') }}
+            </h6>
           </q-toolbar-title>
           <q-btn
             class="float-right"
@@ -24,8 +26,9 @@
           @click="emitLocation()"
           dense
           icon="eva-checkmark-circle-2-outline"
-          >Set</q-btn
         >
+          {{ $t('c.locationPicker.set') }}
+        </q-btn>
       </q-footer>
 
       <q-page-container>
