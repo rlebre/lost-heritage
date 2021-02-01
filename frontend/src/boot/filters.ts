@@ -21,4 +21,8 @@ export default boot(({ Vue }) => {
     Vue.filter('commentDate', (value: string) => {
         return date.formatDate(value, 'DD/MM/YY, HH:mm');
     });
+
+    Vue.filter('capitalizeFirstLetter', (value: String) => {
+        return value.charAt(0).toUpperCase() + value.slice(1);
+    })
 });
