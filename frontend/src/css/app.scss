@@ -3,6 +3,10 @@
     sans-serif;
 }
 
+.first-letter-uppercase::first-letter {
+  text-transform: uppercase;
+}
+
 .small-screen-only {
   @media (max-width: $breakpoint-xs-max) {
     display: block;
