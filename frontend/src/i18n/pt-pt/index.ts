@@ -1,6 +1,10 @@
 export default {
     appName: 'Património Esquecido',
 
+    notifications: {
+        maxLikes: 'Atingido máximo de gostos para este património.'
+    },
+
     c: {
         filter: {
             filters: 'filtros',
@@ -48,70 +52,76 @@ export default {
     },
 
     create: {
-        createNewPost: 'create new post',
-        contributorInfo: 'contributor information',
-        contributorName: 'contributor name',
-        contributorEmail: 'contributor email',
-        contributorCity: 'contributor city',
-        buildingInfo: 'building information',
-        buildTitle: 'title',
-        buildDetails: 'details',
-        buildCounty: 'county',
-        buildCountyNoResults: 'No results',
-        buildLocation: 'Pick or Locate Below',
-        pick: 'pick',
-        locate: 'locate',
-        buildPrevFunctions: 'previous functions',
-        buildRelevStories: 'stories you might want to share',
-        buildSuggestFunctions: 'suggested functions',
-        recovered: 'Recovered',
-        needsRecovery: 'Needs Recovery',
-        chooseImage: 'choose an image',
-        newsletter: 'I want to receive e-mails with news.',
-        agreeTC1: 'I agree with the',
-        agreeTC2: ', recognizing that the personal data will be stored for validation and possible future contact.',
-        submit: 'submit'
+        createNewPost: 'criar nova entrada',
+        contributorInfo: 'informação do colaborador',
+        contributorName: 'nome',
+        contributorEmail: 'email',
+        contributorCity: 'cidade',
+        buildingInfo: 'informação do edifício',
+        buildTitle: 'titulo',
+        buildDetails: 'detalhes',
+        buildCounty: 'concelho',
+        buildCountyNoResults: 'Sem resultados',
+        buildLocation: 'Escolha ou Localize abaixo',
+        pick: 'escolher',
+        locate: 'localizar',
+        buildPrevFunctions: 'funções anteriores',
+        buildRelevStories: 'histórias que gostaria de partilhar',
+        buildSuggestFunctions: 'funções sugeridas',
+        recovered: 'Recuperado',
+        needsRecovery: 'Necessita de recuperação',
+        chooseImage: 'escolher imagens',
+        newsletter: 'Desejo receber e-mails com newsletter.',
+        agreeTC1: 'Concordo com os ',
+        agreeTC2: ', reconhecendo que a minha informação pessoal vai ser guardada para validação e para um possível futuro contacto.',
+        submit: 'Submeter'
     },
 
     details: {
-        recovered: 'recovered',
-        needsRecovery: 'needs recovery',
-        details: 'details',
-        stories: 'stories',
-        previousFunctions: 'previous functions',
-        suggestedFunctions: 'suggested functions',
-        comments: 'comments'
+        recovered: 'Recuperado',
+        needsRecovery: 'Necessida de recuperação',
+        details: 'detalhes',
+        stories: 'histórias',
+        previousFunctions: 'funções anteriores',
+        suggestedFunctions: 'funções sugeridas',
+        comments: 'comentários'
     },
 
     instructions: {
-        wantSubmit: 'Want to submit?',
+        wantSubmit: 'Deseja submeter?',
         wantTopics: [
-            'Go to Create Post page',
-            'Fill in at least the required fields',
-            'If you have, upload some images of the building',
-            'Accept our terms and conditions, if you agree with them',
-            'Submit and... it\'s done!'
+            'Navegue até à página de criar uma publicação',
+            'Preencha os campos obrigatórios, pelo menos',
+            'Se tiver, envie algumas imagens do edifício',
+            'Aceite os nossos termos e condições, se concordar com eles',
+            'Submita e... já está!'
         ],
-        want1: 'Now, our curators will look into your post. If the building was already posted, don\'t worry, we will look into it and update with the awesome informations you sent.',
-        want2: 'If everything fits our T&C, your post will be available for everyone soon! Bear in mind that posts containing racism, nudity or some sort of discrimination will not be tolerated and the submitter will be banned.',
+        want1: 'Agora, os nossos curadores vão rever a sua submissão. Se o edifício já tiver sido submetido, não se preocupe, nós vamos avaliar e adicionar as novas e importantes informações que submeteu.',
 
-        stillSearching: 'Still searching for help?',
-        still1: 'Need more help with the platform? Found a bug? Want to contribute with you programming skills? Have a suggestion? E-mail us:'
+        want2: 'Se tudo estiver de acordo com os nossos T&C, a sua submissão irá estar disponível o mais rapidamente possível! Tenha em atenção que submissões contendo racismo, pornografia ou algum tipo de discriminação não serão tolerados e o contribuidor será banido.',
+
+
+        stillSearching: 'Ainda a procurar ajuda?',
+
+        still1: 'Necessita de mais ajuda com a plataforma? Reportar um erro? Quer contribuir com as suas habilidades de programador informático? Tem alguma sugestão? Envie-nos um e-mail:'
     },
 
     about: {
         paragraphs: [
-            'Lost Heritage is a non-profit project. The main goal of the project is to map and gather information about abandoned public buildings in Portugal.',
+            'O Património Esquecido é um projeto sem fins lucrativos. Os principais objetivos são mapear e recolher informação acerca de património público abandonado em Portugal',
 
-            'Once the information about the buildings is centralized, it can be used to develop plans and public discussion about the recovering of such legacy.',
+            'Assim que as informações sobre os edifícios estejam centralizadas, estas podem ser usadas para desenvolver planos e discussão pública sobre a recuperação de tal património.',
 
-            'In fact, there are many good examples in the field. Our platform maps also heritage which was once forgotten but nowadays has gained a new purpose.',
+            'De facto, são vários os bons exemplos neste campo. A nossa plataforma mapeia também património que fora outrora esquecido mas que hoje em dia ganhou um novo propósito.',
 
-            'Feel free to contribute! Lost Heritage platform is open to any citizen of the world, because there are no boundaries and we all are seeking for a common goal. The maintainers of the project thank for your contribution. However, please bear in mind that for quality purposes, the contributions will be curated and may be edited before approval by our curators.'
+            'Sinta-se livre para contribuir! A plataforma Patriimónio Esquecido está aberta a qualquer cidadão do mundo, porque afinal de contas não há fronteiras e procuramos todos um objetivo comum. Os responsáveis do projeto agradencem a sua contribuição. Todavida, tenha em mente que por razões de controlo de qualidade, as contribuições serão curadas e poderão ser editadas antes da aprovação dos nossos curadores.'
         ],
-        checknews: 'Check out the news:',
-        follow: 'Follow us on social media:',
-        contribute: 'Contribute for this open-source platform:'
+
+        checknews: 'Veja-nos nas notícias:',
+
+        follow: 'Siga-nos nas redes sociais:',
+
+        contribute: 'Contribua para esta plataforma open-source:'
     },
 
     termsandconditions: {
@@ -225,6 +235,6 @@ export default {
     },
 
     error: {
-        message: 'Oops. Nothing here...'
+        message: 'Oops. Nada aqui...'
     }
 };
