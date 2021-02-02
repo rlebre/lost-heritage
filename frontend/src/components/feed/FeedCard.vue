@@ -93,7 +93,17 @@
           size="sm"
           unelevated
           @click="addLike"
-        />
+        >
+          <q-tooltip
+            ref="tooltip"
+            :hide-delay="500"
+            no-parent-event
+            anchor="center right"
+            self="center left"
+          >
+            {{ `+${likesClicked}` }}
+          </q-tooltip>
+        </q-btn>
       </div>
       <div class="col-10 q-ml-sm">
         <q-input
@@ -129,7 +139,7 @@
 
 <script>
 import { copyToClipboard } from 'quasar';
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'FeedCard',
@@ -145,7 +155,8 @@ export default {
     return {
       newComment: '',
       url: null,
-      clipboardMessage: ''
+      clipboardMessage: '',
+      likesClicked: 0
     };
   },
 
@@ -179,36 +190,61 @@ export default {
     },
 
     addLike() {
-      this.likePost(this.post._id);
+      this.likePost(this.post._id).then(
+        data => {
+          this.likesClicked++;
+          this.$refs['tooltip'].show();
+          setTimeout(this.$refs['tooltip'].hide, 3000);
+        },
+        errors => {
+          this.$refs['tooltip'].show();
+          setTimeout(this.$refs['tooltip'].hide, 3000);
+
+          this.$q.notify({
+            message: errors[0].title,
+            caption: this.$t('notifications.maxLikes'),
+            timeout: 3000
+          });
+        }
+      );
     },
 
     addComment() {
-      this.newComment = '';
-
       this.commentPost({
         postId: this.post._id,
         comment: this.newComment
-      });
+      }).then(
+        data => {
+          this.newComment = '';
 
-      this.$q.notify({
-        message: 'Comment created.',
-        html: true,
-        timeout: 5000,
-        actions: [
-          {
-            icon: 'close',
-            color: 'white'
-          },
-          {
-            icon: 'eva-arrow-circle-right',
-            color: 'white',
-            handler: () => {
-              this.$router.push(`/post/${this.post._id}`);
-              this.$forceUpdate();
-            }
-          }
-        ]
-      });
+          this.$q.notify({
+            message: 'Comment created.',
+            html: true,
+            timeout: 5000,
+            actions: [
+              {
+                icon: 'close',
+                color: 'white'
+              },
+              {
+                icon: 'eva-arrow-circle-right',
+                color: 'white',
+                handler: () => {
+                  this.$router.push(`/post/${this.post._id}`);
+                  this.$forceUpdate();
+                }
+              }
+            ]
+          });
+        },
+        errors => {
+          this.$q.notify({
+            message: errors[0].title,
+            caption: '',
+            timeout: 3000
+          });
+        }
+      );
     }
   },
 
