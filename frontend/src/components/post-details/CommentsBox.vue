@@ -9,58 +9,23 @@
       class="col-12"
       :label="$t('c.commentBox.createComment')"
       type="textarea"
-    />
-
-    <q-btn
-      v-if="newComment"
-      unelevated
-      color="primary"
-      :label="$t('c.commentBox.submit')"
-      class="q-mt-xs text-capitalize"
-      @click="addComment"
-    ></q-btn>
+    >
+      <template v-slot:after>
+        <q-btn
+          v-if="newComment"
+          unelevated
+          class="q-ml-md text-uppercase"
+          color="primary"
+          icon="send"
+          :label="$t('c.commentBox.submit')"
+          @click="addComment"
+        ></q-btn>
+      </template>
+    </q-input>
 
     <template v-if="comments && comments.length > 0">
       <div class="col-12 q-mt-lg" v-for="comment in comments" :key="comment.id">
-        <q-card class="card-post q-mb-md " flat bordered>
-          <div class="row">
-            <q-card-section class="col-8">
-              <div class="text-caption text-grey-7 small-screen-only">
-                {{ comment.comment | str_limit(200) }}
-              </div>
-              <div class="text-caption text-grey-7 large-screen-only">
-                {{ comment.comment }}
-              </div>
-            </q-card-section>
-
-            <div class="col-4">
-              <div class="row">
-                <q-card-section class="col-6 text-right">
-                  <div class="text-caption text-grey-7 comment-date">
-                    {{ comment.createdAt | commentDate }}
-                  </div>
-                </q-card-section>
-
-                <q-card-section
-                  class="col-6 text-right text-caption text-grey-7 comment-date"
-                >
-                  {{ comment.likes }}
-
-                  <q-btn
-                    round
-                    :disabled="!comment._id"
-                    class="q-ml-xs"
-                    color="negative"
-                    icon="eva-heart"
-                    size="8px"
-                    unelevated
-                    @click="addLike(comment._id)"
-                  />
-                </q-card-section>
-              </div>
-            </div>
-          </div>
-        </q-card>
+        <CommentCard :comment="comment"></CommentCard>
       </div>
     </template>
     <template v-else>
@@ -77,9 +42,14 @@
 
 <script>
 import { mapActions } from 'vuex';
+import CommentCard from 'components/post-details/CommentCard';
 
 export default {
   name: 'CommentsBox',
+
+  components: {
+    CommentCard
+  },
 
   props: {
     comments: {
@@ -100,54 +70,41 @@ export default {
   methods: {
     ...mapActions('posts', ['commentPost']),
 
-    ...mapActions('comments', ['likeComment']),
-
-    addLike(commentId) {
-      this.likeComment(commentId);
-      this.comments[this.comments.findIndex(comm => comm._id === commentId)]
-        .likes++;
-    },
-
     addComment() {
       this.commentPost({
         postId: this.postId,
         comment: this.newComment
-      });
+      }).then(
+        data => {
+          this.comments.unshift({
+            comment: this.newComment,
+            createdAt: Date.now(),
+            likes: 0
+          });
 
-      this.comments.unshift({
-        comment: this.newComment,
-        createdAt: Date.now(),
-        likes: 0
-      });
+          this.$q.notify({
+            message: this.$t('notifications.commentCreated'),
+            html: true,
+            timeout: 5000,
+            actions: [
+              {
+                icon: 'close',
+                color: 'white'
+              }
+            ]
+          });
 
-      this.newComment = null;
-
-      this.$q.notify({
-        message: 'Comment created.',
-        html: true,
-        timeout: 5000,
-        actions: [
-          {
-            icon: 'close',
-            color: 'white'
-          }
-        ]
-      });
+          this.newComment = '';
+        },
+        errors => {
+          this.$q.notify({
+            message: this.$t('notifications.errorComment'),
+            caption: errors[0].title,
+            timeout: 3000
+          });
+        }
+      );
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.comment-date {
-  font-size: 11px;
-}
-
-.body--dark {
-  color: $grey-13;
-
-  .q-card {
-    background: $grey-10;
-  }
-}
-</style>
