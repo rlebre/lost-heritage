@@ -34,6 +34,7 @@
         flat
         color="negative"
         icon="eva-close-circle"
+        @click="onDeclinePostClick"
       >
         <q-tooltip>Decline post</q-tooltip>
       </q-btn>
@@ -45,6 +46,7 @@
         flat
         color="green"
         icon="eva-checkmark-circle-2"
+        @click="onApprovePostClick"
       >
         <q-tooltip>Approve post</q-tooltip>
       </q-btn>
@@ -290,7 +292,12 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['fetchPostDetails', 'editPost']),
+    ...mapActions('posts', [
+      'fetchPostDetails',
+      'editPost',
+      'approvePost',
+      'declinePost'
+    ]),
 
     inputChanged(evt) {
       this.$set(this.post, evt.key, evt.value);
@@ -316,6 +323,68 @@ export default {
 
     editableBeingEdited(evt) {
       this.$set(this.inputDoneState, evt, false);
+    },
+
+    onApprovePostClick() {
+      this.$q
+        .dialog({
+          title: 'Confirm',
+          message: `Would you like to <b class='text-positive'>approve</b> the post "${this.post.title}"?`,
+          cancel: true,
+          html: true
+        })
+        .onOk(() => {
+          this.doApprove();
+        });
+    },
+
+    onDeclinePostClick() {
+      this.$q
+        .dialog({
+          title: 'Confirm',
+          message: `Would you like to <b class='text-negative'>decline</b> the post "${this.post.title}"?`,
+          cancel: true,
+          html: true
+        })
+        .onOk(() => {
+          this.doDecline();
+        });
+    },
+
+    doApprove() {
+      this.approvePost(this.post._id).then(
+        data => {
+          this.$q.notify({
+            message: 'Post approved successfully.',
+            timeout: 5000
+          });
+        },
+        errors => {
+          this.$q.notify({
+            message: errors[0].title,
+            caption: errors[0].detail,
+            timeout: 5000
+          });
+        }
+      );
+    },
+
+    doDecline() {
+      this.declinePost(this.post._id).then(
+        data => {
+          this.$q.notify({
+            message: 'Post declined successfully.',
+            timeout: 5000
+          });
+        },
+        errors => {
+          this.$q.notify({
+            message: errors[0].title,
+            caption: errors[0].detail,
+            timeout: 5000
+          });
+        }
+      );
     }
   },
 
