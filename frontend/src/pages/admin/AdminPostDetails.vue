@@ -1,56 +1,10 @@
 <template>
   <q-page class="constrain q-pa-md" v-if="post">
-    <div class="upper-section admin-banner bg-grey-2 rounded-borders">
-      <q-btn
-        size="18px"
-        round
-        flat
-        color="primary"
-        icon="eva-arrow-circle-left"
-        @click="$router.go(-1)"
-      >
-        <q-tooltip>Return</q-tooltip>
-      </q-btn>
-
-      <div class="q-space"></div>
-
-      <q-toggle
-        size="52px"
-        round
-        flat
-        dense
-        color="warning"
-        icon="eva-edit"
-        v-model="editable"
-        keep-color
-      >
-        <q-tooltip>Edit post</q-tooltip>
-      </q-toggle>
-
-      <q-btn
-        size="18px"
-        dense
-        round
-        flat
-        color="negative"
-        icon="eva-close-circle"
-        @click="onDeclinePostClick"
-      >
-        <q-tooltip>Decline post</q-tooltip>
-      </q-btn>
-
-      <q-btn
-        size="18px"
-        dense
-        round
-        flat
-        color="green"
-        icon="eva-checkmark-circle-2"
-        @click="onApprovePostClick"
-      >
-        <q-tooltip>Approve post</q-tooltip>
-      </q-btn>
-    </div>
+    <AdminBar
+      :post="post"
+      :editModeOn="editable"
+      @editModeChanged="editable = !editable"
+    />
 
     <div class="upper-section">
       <div class="row">
@@ -233,6 +187,7 @@ import CommentsBox from 'components/post-details/CommentsBox';
 import EditableInput from 'components/post-details/editable/EditableInput';
 import EditableSelect from 'components/post-details/editable/EditableSelect';
 import EditableToggle from 'components/post-details/editable/EditableToggle';
+import AdminBar from 'components/admin/AdminBar';
 
 export default {
   name: 'AdminPostDetails',
@@ -242,7 +197,8 @@ export default {
     CommentsBox,
     EditableInput,
     EditableSelect,
-    EditableToggle
+    EditableToggle,
+    AdminBar
   },
 
   props: {
@@ -323,68 +279,6 @@ export default {
 
     editableBeingEdited(evt) {
       this.$set(this.inputDoneState, evt, false);
-    },
-
-    onApprovePostClick() {
-      this.$q
-        .dialog({
-          title: 'Confirm',
-          message: `Would you like to <b class='text-positive'>approve</b> the post "${this.post.title}"?`,
-          cancel: true,
-          html: true
-        })
-        .onOk(() => {
-          this.doApprove();
-        });
-    },
-
-    onDeclinePostClick() {
-      this.$q
-        .dialog({
-          title: 'Confirm',
-          message: `Would you like to <b class='text-negative'>decline</b> the post "${this.post.title}"?`,
-          cancel: true,
-          html: true
-        })
-        .onOk(() => {
-          this.doDecline();
-        });
-    },
-
-    doApprove() {
-      this.approvePost(this.post._id).then(
-        data => {
-          this.$q.notify({
-            message: 'Post approved successfully.',
-            timeout: 5000
-          });
-        },
-        errors => {
-          this.$q.notify({
-            message: errors[0].title,
-            caption: errors[0].detail,
-            timeout: 5000
-          });
-        }
-      );
-    },
-
-    doDecline() {
-      this.declinePost(this.post._id).then(
-        data => {
-          this.$q.notify({
-            message: 'Post declined successfully.',
-            timeout: 5000
-          });
-        },
-        errors => {
-          this.$q.notify({
-            message: errors[0].title,
-            caption: errors[0].detail,
-            timeout: 5000
-          });
-        }
-      );
     }
   },
 
