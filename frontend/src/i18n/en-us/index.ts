@@ -1,6 +1,10 @@
 export default {
   appName: 'Lost Heritage',
 
+  notifications: {
+    maxLikes: 'Maximum likes reached.'
+  },
+
   c: {
     filter: {
       filters: 'filters',
