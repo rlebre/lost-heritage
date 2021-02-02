@@ -2,7 +2,17 @@ export default {
   appName: 'Lost Heritage',
 
   notifications: {
-    maxLikes: 'Maximum likes reached.'
+    maxLikes: 'Maximum likes reached.',
+    commentCreated: 'Comment created.',
+    errorComment: 'Error creating comment.',
+    copiedClipboard: 'Copied to clipboard.',
+    failedCopying: 'Copy to clipboard failed'
+  },
+
+  tooltips: {
+    shareFacebook: 'Share on Facebook',
+    shareTwitter: 'Share on Twitter',
+    copyClipboard: 'Copy to clipboard'
   },
 
   c: {
