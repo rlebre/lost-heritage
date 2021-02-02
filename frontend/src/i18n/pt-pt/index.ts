@@ -2,8 +2,19 @@ export default {
     appName: 'Património Esquecido',
 
     notifications: {
-        maxLikes: 'Atingido máximo de gostos para este património.'
+        maxLikes: 'Atingido máximo de gostos para este património.',
+        commentCreated: 'Comentário criado.',
+        errorComment: 'Erro ao criar comentário.',
+        copiedClipboard: 'Copiado para a área de transferência.',
+        failedCopying: 'Copiar falhou.'
     },
+
+    tooltips: {
+        shareFacebook: 'Partilhar no Facebook',
+        shareTwitter: 'Partilhar no Twitter',
+        copyClipboard: 'Copiar'
+    },
+
 
     c: {
         filter: {
