@@ -22,7 +22,7 @@ export default {
             counties: 'concelhos',
             county: 'concelho',
             countyHint: 'Max 5 seleções',
-            date: 'date',
+            date: 'data',
             sort: 'ordenar',
             search: 'pesquisar',
             likes: 'gostos',
