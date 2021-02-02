@@ -25,7 +25,11 @@
           size="xs"
           unelevated
           @click="copyToClipboardHandler"
-        />
+        >
+          <q-tooltip anchor="bottom middle" self="top middle">
+            {{ $t('tooltips.copyClipboard') }}
+          </q-tooltip>
+        </q-btn>
 
         <ShareNetwork
           network="twitter"
@@ -40,7 +44,11 @@
             icon="eva-twitter-outline"
             size="xs"
             unelevated
-          />
+          >
+            <q-tooltip anchor="bottom middle" self="top middle">
+              {{ $t('tooltips.shareTwitter') }}
+            </q-tooltip>
+          </q-btn>
         </ShareNetwork>
 
         <ShareNetwork
@@ -57,7 +65,11 @@
             icon="eva-facebook-outline"
             size="xs"
             unelevated
-          />
+          >
+            <q-tooltip anchor="bottom middle" self="top middle">
+              {{ $t('tooltips.shareFacebook') }}
+            </q-tooltip>
+          </q-btn>
         </ShareNetwork>
       </div>
     </div>
@@ -83,29 +95,8 @@
 
     <q-separator />
 
-    <q-card-actions>
-      <div class="col-1 q-mr-sm">
-        <q-btn
-          class="q-ml-sm"
-          round
-          color="negative"
-          icon="eva-heart"
-          size="sm"
-          unelevated
-          @click="addLike"
-        >
-          <q-tooltip
-            ref="tooltip"
-            :hide-delay="500"
-            no-parent-event
-            anchor="center right"
-            self="center left"
-          >
-            {{ `+${likesClicked}` }}
-          </q-tooltip>
-        </q-btn>
-      </div>
-      <div class="col-10 q-ml-sm">
+    <q-card-actions class="flex">
+      <div class="q-px-sm full-width">
         <q-input
           outlined
           filled
@@ -115,19 +106,36 @@
           autogrow
           v-model="newComment"
         >
+          <template v-slot:before>
+            <q-btn
+              class="q-mr-md"
+              :loading="isLikingPost()"
+              round
+              color="negative"
+              icon="eva-heart"
+              size="10px"
+              unelevated
+              @click="addLike"
+            >
+              <q-tooltip
+                ref="tooltip"
+                :hide-delay="500"
+                no-parent-event
+                anchor="center right"
+                self="center left"
+              >
+                {{ `+${likesClicked}` }}
+              </q-tooltip>
+            </q-btn>
+          </template>
+
           <template v-slot:after>
             <q-btn
-              flat
-              rounded
-              color="primary  large-screen-only"
-              :label="$t('c.card.addComment')"
-              @click="addComment"
-            />
-            <q-btn
-              flat
-              rounded
-              color="primary small-screen-only"
+              class="q-ml-md"
+              color="primary"
               icon="send"
+              :loading="isCommentingPost()"
+              unelevated
               @click="addComment"
             />
           </template>
@@ -139,7 +147,7 @@
 
 <script>
 import { copyToClipboard } from 'quasar';
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'FeedCard',
@@ -162,12 +170,13 @@ export default {
 
   methods: {
     ...mapActions('posts', ['likePost', 'commentPost']),
+    ...mapGetters('posts', ['isLikingPost', 'isCommentingPost']),
 
     copyToClipboardHandler() {
       copyToClipboard(this.clipboardMessage)
         .then(() => {
           this.$q.notify({
-            message: 'Copied to clipboard.',
+            message: this.$t('notifications.copiedClipboard'),
             actions: [
               {
                 icon: 'close',
@@ -178,7 +187,7 @@ export default {
         })
         .catch(() => {
           this.$q.notify({
-            message: 'Failed.',
+            message: this.$t('notifications.failedCopying'),
             actions: [
               {
                 icon: 'close',
@@ -218,7 +227,7 @@ export default {
           this.newComment = '';
 
           this.$q.notify({
-            message: 'Comment created.',
+            message: this.$t('notifications.commentCreated'),
             html: true,
             timeout: 5000,
             actions: [
@@ -239,8 +248,8 @@ export default {
         },
         errors => {
           this.$q.notify({
-            message: errors[0].title,
-            caption: '',
+            message: this.$t('notifications.errorComment'),
+            caption: errors[0].title,
             timeout: 3000
           });
         }
