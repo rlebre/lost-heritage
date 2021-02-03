@@ -13,7 +13,21 @@ export default defineComponent({
     ...mapActions('posts', ['fetchPosts'])
   },
   mounted() {
-    this.fetchPosts();
+    this.fetchPosts().then(
+      data => {
+        this.$q.notify({
+          message: 'Posts updated successfully.',
+          timeout: 1000
+        });
+      },
+      errors => {
+        this.$q.notify({
+          message: errors[0].title,
+          caption: errors[0].detail,
+          timeout: 1000
+        });
+      }
+    );
   }
 });
 </script>

@@ -1,5 +1,4 @@
 import { boot } from 'quasar/wrappers'
-import { LocalStorage } from 'quasar'
 import * as jwt from 'jsonwebtoken';
 import moment from 'moment';
 
@@ -9,9 +8,8 @@ export default boot(async ({ router, store, Vue }) => {
   router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       const storeJwt = store.getters['auth/getJwtToken'];
-      const localStorageJwt = LocalStorage.getItem('user_token');
 
-      if (storeJwt == null || localStorageJwt == null || storeJwt != localStorageJwt) {
+      if (storeJwt == null) {
         next({
           path: '/login',
           params: { nextUrl: to.fullPath }

@@ -6,7 +6,6 @@ export function loginRequest(state: any) {
 export function loginSuccess(state: any, jwtToken: any) {
     state.loggingIn = false;
     state.jwtToken = jwtToken.jwt;
-    localStorage.setItem("user_token", jwtToken.jwt);
     state.errors = [];
 }
 
@@ -19,7 +18,6 @@ export function loginFailure(state: any, error: any) {
 export function logout(state: any) {
     state.loggingoOut = false;
     state.jwtToken = null;
-    localStorage.removeItem("user_token");
     state.errors = [];
 }
 
