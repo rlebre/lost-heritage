@@ -2,7 +2,9 @@
   <div class="row text-center">
     <div v-if="isUploadingImages" class="col-12 q-mt-lg q-mb-sm">
       <q-spinner color="primary" size="xl" :thickness="10" />
-      <q-tooltip :offset="[0, 8]">Uploading images</q-tooltip>
+      <q-tooltip :offset="[0, 8]">
+        {{ $t('tooltips.uploadingImages') }}
+      </q-tooltip>
     </div>
     <div
       v-else
@@ -27,9 +29,9 @@
 
     <q-file
       outlined
-      class="q-mx-md q-ma-lg"
+      class="q-mx-md q-ma-lg text-capitalize"
       v-model="selectedImageFiles"
-      label="Choose an image"
+      :label="$t('create.chooseImage')"
       accept="image/*"
       multiple
       use-chips

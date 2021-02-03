@@ -12,7 +12,9 @@ export default {
     tooltips: {
         shareFacebook: 'Partilhar no Facebook',
         shareTwitter: 'Partilhar no Twitter',
-        copyClipboard: 'Copiar'
+        copyClipboard: 'Copiar',
+        uploadingImages: 'A enviar imagens',
+        sendComment: 'Publicar comentário'
     },
 
 
@@ -45,8 +47,7 @@ export default {
         },
 
         card: {
-            comment: 'Comentário',
-            addComment: 'adicionar comentário'
+            comment: 'Comentário'
         },
 
         commentBox: {

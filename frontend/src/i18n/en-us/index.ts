@@ -12,7 +12,9 @@ export default {
   tooltips: {
     shareFacebook: 'Share on Facebook',
     shareTwitter: 'Share on Twitter',
-    copyClipboard: 'Copy to clipboard'
+    copyClipboard: 'Copy to clipboard',
+    uploadingImages: 'Uploading images',
+    sendComment: 'Publish comment'
   },
 
   c: {
