@@ -1,6 +1,6 @@
 export default function () {
   return {
-    jwtToken: localStorage.getItem("user_token") || null,
+    jwtToken: '',
 
     loggingIn: false,
     loggingOut: false,
