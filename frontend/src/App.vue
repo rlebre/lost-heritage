@@ -15,10 +15,10 @@ export default defineComponent({
   mounted() {
     this.fetchPosts().then(
       data => {
-        this.$q.notify({
-          message: 'Posts updated successfully.',
-          timeout: 1000
-        });
+        // this.$q.notify({
+        //   message: 'Posts updated successfully.',
+        //   timeout: 1000
+        // });
       },
       errors => {
         this.$q.notify({

@@ -36,7 +36,8 @@ module.exports = configure(function (ctx) {
       'filters',
       'social-sharing',
       'helpers',
-      'authentication'
+      'authentication',
+      'persistence'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -131,7 +132,7 @@ module.exports = configure(function (ctx) {
         'Dialog',
         'Notify',
         'Loading',
-        'LocalStorage'
+        'Cookies'
       ]
     },
 
