@@ -12,7 +12,11 @@
                   }`
                 "
               >
-                {{ post.isRecovered ? 'Recovered' : 'Needs recovery' }}
+                {{
+                  post.isRecovered
+                    ? $t('create.recovered')
+                    : $t('create.needsRecovered')
+                }}
               </h3>
               <h1 class="col-12 q-my-sm building-title text-capitalize">
                 {{ post.title }}
@@ -89,7 +93,11 @@
               }`
             "
           >
-            {{ post.isRecovered ? 'Recovered' : 'Needs recovery' }}
+            {{
+              post.isRecovered
+                ? $t('create.recovered')
+                : $t('create.needsRecovered')
+            }}
           </h3>
           <h1 class="col-12 q-my-sm building-title first-letter-uppercase">
             {{ post.title }}
