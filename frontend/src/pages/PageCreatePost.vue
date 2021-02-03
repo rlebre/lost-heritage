@@ -221,7 +221,6 @@
 <script>
 import { uid } from 'quasar';
 import { mapGetters, mapActions } from 'vuex';
-import { isCreatePostSuccess, isCreatingPost } from '../store/posts/getters';
 import LocationPickerDialog from 'components/new-post/LocationPickerDialog';
 import ImagePicker from 'components/common/ImagePicker';
 import TermsAndConditions from 'components/common/TermsAndConditions';
