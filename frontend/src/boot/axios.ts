@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { LocalStorage } from 'quasar'
 import { boot } from 'quasar/wrappers';
 
 declare module 'vue/types/vue' {
