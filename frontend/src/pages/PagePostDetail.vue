@@ -246,7 +246,7 @@ export default {
     },
 
     metaUrl() {
-      return `${process.env.PRODUCTION_URL}/#/${this.$route.name}`;
+      return `${process.env.PRODUCTION_URL}/${this.$route.name}`;
     },
 
     metaImage() {
@@ -268,52 +268,52 @@ export default {
           content: this.metaTitle
         },
         ogTitle: {
-          name: 'og:title',
+          property: 'og:title',
           content: this.metaTitle
         },
         twitterTitle: {
-          name: 'twitter:title',
+          property: 'twitter:title',
           content: this.metaTitle
         },
 
         description: {
-          name: 'description',
+          property: 'description',
           content: this.metaDescription
         },
         ogDescription: {
-          name: 'og:description',
+          property: 'og:description',
           content: this.metaDescription
         },
         twitterDescription: {
-          name: 'twitter:description',
+          property: 'twitter:description',
           content: this.metaDescription
         },
 
         ogUrl: {
-          name: 'og:url',
+          property: 'og:url',
           content: this.metaUrl
         },
         twitterUrl: {
-          name: 'twitter:url',
+          property: 'twitter:url',
           content: this.metaUrl
         },
 
         ogImage: {
-          name: 'og:image',
+          property: 'og:image',
           content: this.metaImage
         },
         twitterImage: {
-          name: 'twitter:url',
+          property: 'twitter:url',
           content: this.metaImage
         },
 
         ogType: {
-          name: 'og:type',
+          property: 'og:type',
           content: 'website'
         },
 
         twitterCard: {
-          name: 'twitter:card',
+          property: 'twitter:card',
           content: 'summary_large_image'
         }
       }

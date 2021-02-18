@@ -140,7 +140,7 @@ export default {
   },
 
   mounted() {
-    this.url = `${process.env.PRODUCTION_URL}/#/post/${this.post._id}`;
+    this.url = `${process.env.PRODUCTION_URL}/post/${this.post._id}`;
     this.clipboardMessage = `${this.post.title}\n${this.post.details}\n\n${this.url}`;
   }
 };
