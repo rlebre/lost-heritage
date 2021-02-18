@@ -160,11 +160,13 @@
 
         <CommentsBox
           class="col-12 small-screen-only q-px-xs"
+          v-if="post"
           :comments="post.comments"
           :postId="post._id"
         ></CommentsBox>
         <CommentsBox
           class="col-12 large-screen-only q-px-sm"
+          v-if="post"
           :comments="post.comments"
           :postId="post._id"
         ></CommentsBox>
@@ -226,7 +228,7 @@ export default {
 
   watch: {
     postDetails(newValue, oldValue) {
-      this.post = newValue;
+      this.post = Object.assign({}, this.post, newValue);
     }
   },
 
@@ -235,23 +237,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', ['isLoadingPosts', 'postDetails']),
-
-    metaTitle() {
-      return this.post ? this.post.title : '';
-    },
-
-    metaDescription() {
-      return this.post ? this.post.description : '';
-    },
-
-    metaUrl() {
-      return `${process.env.PRODUCTION_URL}/${this.$route.name}`;
-    },
-
-    metaImage() {
-      return this.post ? this.post.images[0] : '';
-    }
+    ...mapGetters('posts', ['isLoadingPosts', 'postDetails'])
   },
 
   created() {
@@ -259,52 +245,51 @@ export default {
   },
 
   meta() {
-    console.log(this.$router);
     return {
       title: this.metaTitle,
       meta: {
         title: {
           name: 'title',
-          content: this.metaTitle
+          content: this.post && this.post.title
         },
         ogTitle: {
           property: 'og:title',
-          content: this.metaTitle
+          content: this.post && this.post.title
         },
         twitterTitle: {
           property: 'twitter:title',
-          content: this.metaTitle
+          content: this.post && this.post.title
         },
 
         description: {
           property: 'description',
-          content: this.metaDescription
+          content: this.post && this.post.details
         },
         ogDescription: {
           property: 'og:description',
-          content: this.metaDescription
+          content: this.post && this.post.details
         },
         twitterDescription: {
           property: 'twitter:description',
-          content: this.metaDescription
+          content: this.post && this.post.details
         },
 
         ogUrl: {
           property: 'og:url',
-          content: this.metaUrl
+          content: `${process.env.PRODUCTION_URL}${this.$route.path}`
         },
         twitterUrl: {
           property: 'twitter:url',
-          content: this.metaUrl
+          content: `${process.env.PRODUCTION_URL}${this.$route.path}`
         },
 
         ogImage: {
           property: 'og:image',
-          content: this.metaImage
+          content: this.post && this.post.images[0]
         },
         twitterImage: {
           property: 'twitter:url',
-          content: this.metaImage
+          content: this.post && this.post.images[0]
         },
 
         ogType: {
