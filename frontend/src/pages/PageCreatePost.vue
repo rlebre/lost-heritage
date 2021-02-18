@@ -341,7 +341,6 @@ export default {
           this.newPost.lat = position.coords.latitude;
         },
         error => {
-          console.log(error);
           this.locationError(error);
         },
         { timeout: 10000 }
