@@ -22,7 +22,7 @@ mongoose.connect(`mongodb+srv://${config.DB_USER}:${config.DB_SECRET}@${config.D
 //db.posts.createIndex( { "title": "text", "details": "text", "county": "text", "stories":"text", "suggestedFunctions": "text", "comments": "text"} )
 
 
-var allowlist = ['http://localhost:8080', 'http://192.168.1.64:8080', 'https://patrimonioesquecido.ruilebre.com'];
+var allowlist = ['http://localhost:8080', 'https://patrimonioesquecido.ruilebre.com', 'https://lostheritage.ruilebre.com'];
 
 var corsOptionsDelegate = function (req, callback) {
     var corsOptions;
