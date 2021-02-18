@@ -6,6 +6,7 @@
   "author": "Rui Lebre <ruilebre@ua.pt>",
   "private": true,
   "scripts": {
+    "build:ssr": "quasar build -m ssr",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
