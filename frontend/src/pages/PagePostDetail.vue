@@ -235,11 +235,89 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', ['isLoadingPosts', 'postDetails'])
+    ...mapGetters('posts', ['isLoadingPosts', 'postDetails']),
+
+    metaTitle() {
+      return this.post ? this.post.title : '';
+    },
+
+    metaDescription() {
+      return this.post ? this.post.description : '';
+    },
+
+    metaUrl() {
+      return `${process.env.PRODUCTION_URL}/#/${this.$route.name}`;
+    },
+
+    metaImage() {
+      return this.post ? this.post.images[0] : '';
+    }
   },
 
   created() {
     this.fetchPostDetails(this.$route.params.id);
+  },
+
+  meta() {
+    console.log(this.$router);
+    return {
+      title: this.metaTitle,
+      meta: {
+        title: {
+          name: 'title',
+          content: this.metaTitle
+        },
+        ogTitle: {
+          name: 'og:title',
+          content: this.metaTitle
+        },
+        twitterTitle: {
+          name: 'twitter:title',
+          content: this.metaTitle
+        },
+
+        description: {
+          name: 'description',
+          content: this.metaDescription
+        },
+        ogDescription: {
+          name: 'og:description',
+          content: this.metaDescription
+        },
+        twitterDescription: {
+          name: 'twitter:description',
+          content: this.metaDescription
+        },
+
+        ogUrl: {
+          name: 'og:url',
+          content: this.metaUrl
+        },
+        twitterUrl: {
+          name: 'twitter:url',
+          content: this.metaUrl
+        },
+
+        ogImage: {
+          name: 'og:image',
+          content: this.metaImage
+        },
+        twitterImage: {
+          name: 'twitter:url',
+          content: this.metaImage
+        },
+
+        ogType: {
+          name: 'og:type',
+          content: 'website'
+        },
+
+        twitterCard: {
+          name: 'twitter:card',
+          content: 'summary_large_image'
+        }
+      }
+    };
   }
 };
 </script>

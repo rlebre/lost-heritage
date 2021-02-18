@@ -132,7 +132,8 @@ module.exports = configure(function (ctx) {
         'Dialog',
         'Notify',
         'Loading',
-        'Cookies'
+        'Cookies',
+        'Meta'
       ]
     },
 
