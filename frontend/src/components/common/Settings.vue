@@ -234,7 +234,7 @@ export default {
         { value: 'pt-pt', label: 'Portuguese (Portugal)' }
       ],
 
-      lang: 'English',
+      lang: 'Portuguese (Portugal)',
 
       slideVol: 39,
       slideAlarm: 56,
