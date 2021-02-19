@@ -7,18 +7,20 @@
     <div class="large-screen-only">
       <div class="app-panel row">
         <div class="list-panel col-sm-4 col-md-4">
-          <template v-if="filteredPosts.length">
-            <div
-              class="col-12 q-ml-md q-mr-sm q-mb-sm"
-              v-for="post in filteredPosts"
-              :key="post.id"
-            >
-              <ListCardComponent
-                :post="post"
-                @viewOnMap="onListCardViewOnMap"
-              ></ListCardComponent>
-            </div>
-          </template>
+          <q-pull-to-refresh @refresh="refreshPosts">
+            <template v-if="filteredPosts.length">
+              <div
+                class="col-12 q-ml-md q-mr-sm q-mb-sm"
+                v-for="post in filteredPosts"
+                :key="post.id"
+              >
+                <ListCardComponent
+                  :post="post"
+                  @viewOnMap="onListCardViewOnMap"
+                ></ListCardComponent>
+              </div>
+            </template>
+          </q-pull-to-refresh>
         </div>
         <div class="col-sm-8 col-md-8 q-pr-md">
           <MapComponent
@@ -85,7 +87,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['searchPosts']),
+    ...mapActions('posts', ['searchPosts', 'fetchPosts']),
 
     postFilterChanged(filterOptions) {
       const { selectedOptions, sortBy, sortType, searchString } = filterOptions;
@@ -117,6 +119,26 @@ export default {
 
     onListCardViewOnMap(post) {
       this.focusedPostId = post;
+    },
+
+    refreshPosts(done) {
+      this.fetchPosts().then(
+        data => {
+          done();
+          this.$q.notify({
+            message: 'Posts updated successfully.',
+            timeout: 1000
+          });
+        },
+        errors => {
+          done();
+          this.$q.notify({
+            message: errors[0].title,
+            caption: errors[0].detail,
+            timeout: 1000
+          });
+        }
+      );
     }
   }
 };

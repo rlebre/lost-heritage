@@ -1,33 +1,37 @@
 <template>
   <q-page class="constrain q-pa-md">
-    <PostFilter @onFilterChanged="postFilterChanged"></PostFilter>
-    <div class="row q-col-gutter-lg">
-      <template v-if="!isLoadingPosts && filteredPosts && filteredPosts.length">
-        <div class="col-12" v-for="post in filteredPosts" :key="post.id">
-          <FeedCard :post="post"></FeedCard>
+    <q-pull-to-refresh @refresh="refreshPosts">
+      <PostFilter @onFilterChanged="postFilterChanged"></PostFilter>
+      <div class="row q-col-gutter-lg">
+        <template
+          v-if="!isLoadingPosts && filteredPosts && filteredPosts.length"
+        >
+          <div class="col-12" v-for="post in filteredPosts" :key="post.id">
+            <FeedCard :post="post"></FeedCard>
+          </div>
+        </template>
+
+        <div class="col-12" v-else-if="!isLoadingPosts && !filteredPosts">
+          <h5 class="text-center text-grey">No posts yet.</h5>
         </div>
-      </template>
 
-      <div class="col-12" v-else-if="!isLoadingPosts && !filteredPosts">
-        <h5 class="text-center text-grey">No posts yet.</h5>
+        <div class="col-12" v-else>
+          <q-card flat bordered>
+            <q-card-section>
+              <q-skeleton type="text" class="text-subtitle2" animation="fade" />
+              <q-skeleton
+                type="text"
+                width="50%"
+                class="text-subtitle2"
+                animation="fade"
+              />
+            </q-card-section>
+
+            <q-skeleton class="q-ma-sm" height="200px" animation="fade" />
+          </q-card>
+        </div>
       </div>
-
-      <div class="col-12" v-else>
-        <q-card flat bordered>
-          <q-card-section>
-            <q-skeleton type="text" class="text-subtitle2" animation="fade" />
-            <q-skeleton
-              type="text"
-              width="50%"
-              class="text-subtitle2"
-              animation="fade"
-            />
-          </q-card-section>
-
-          <q-skeleton class="q-ma-sm" height="200px" animation="fade" />
-        </q-card>
-      </div>
-    </div>
+    </q-pull-to-refresh>
   </q-page>
 </template>
 
@@ -68,7 +72,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['searchPosts']),
+    ...mapActions('posts', ['searchPosts', 'fetchPosts']),
 
     postFilterChanged(filterOptions) {
       const { selectedOptions, sortBy, sortType, searchString } = filterOptions;
@@ -95,6 +99,26 @@ export default {
 
       this.filteredPosts.sort(
         this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1)
+      );
+    },
+
+    refreshPosts(done) {
+      this.fetchPosts().then(
+        data => {
+          done();
+          this.$q.notify({
+            message: 'Posts updated successfully.',
+            timeout: 1000
+          });
+        },
+        errors => {
+          done();
+          this.$q.notify({
+            message: errors[0].title,
+            caption: errors[0].detail,
+            timeout: 1000
+          });
+        }
       );
     }
   }
