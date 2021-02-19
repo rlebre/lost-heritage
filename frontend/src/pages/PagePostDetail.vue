@@ -1,5 +1,5 @@
 <template>
-  <q-page class="constrain q-pa-md" v-if="post">
+  <q-page class="constrain q-pa-md" v-if="postDetails">
     <div class="upper-section">
       <div class="row">
         <div class="small-screen-only details-section q-ma-sm">
@@ -8,21 +8,21 @@
               <h3
                 :class="
                   `col-12 building-status building-${
-                    post.isRecovered ? 'recovered' : 'not-recovered'
+                    postDetails.isRecovered ? 'recovered' : 'not-recovered'
                   }`
                 "
               >
                 {{
-                  post.isRecovered
+                  postDetails.isRecovered
                     ? $t('create.recovered')
                     : $t('create.needsRecovered')
                 }}
               </h3>
               <h1 class="col-12 q-my-sm building-title text-capitalize">
-                {{ post.title }}
+                {{ postDetails.title }}
               </h1>
               <h2 class="col-12 building-county text-capitalize">
-                {{ post.county }}
+                {{ postDetails.county }}
               </h2>
             </div>
           </div>
@@ -40,7 +40,7 @@
           >
             <q-carousel-slide
               class="uncropped-image"
-              v-for="(image, index) in post.images"
+              v-for="(image, index) in postDetails.images"
               :key="`img-${index}`"
               :name="index"
               :img-src="image"
@@ -61,11 +61,14 @@
           </q-carousel>
         </div>
 
-        <div class="col-12 col-md-6 q-pa-sm" v-if="post.lat && post.lng">
+        <div
+          class="col-12 col-md-6 q-pa-sm"
+          v-if="postDetails.lat && postDetails.lng"
+        >
           <googlemaps-map
             ref="map"
             class="map fit googlemaps-map"
-            :center="{ lat: post.lat, lng: post.lng }"
+            :center="{ lat: postDetails.lat, lng: postDetails.lng }"
             :zoom.sync="zoom"
             :options="{
               mapTypeControl: false,
@@ -77,7 +80,9 @@
               styles: $q.dark.isActive ? styleDark : styleLight
             }"
           >
-            <googlemaps-marker :position="{ lat: post.lat, lng: post.lng }" />
+            <googlemaps-marker
+              :position="{ lat: postDetails.lat, lng: postDetails.lng }"
+            />
           </googlemaps-map>
         </div>
       </div>
@@ -89,21 +94,21 @@
           <h3
             :class="
               `col-12 building-status building-${
-                post.isRecovered ? 'recovered' : 'not-recovered'
+                postDetails.isRecovered ? 'recovered' : 'not-recovered'
               }`
             "
           >
             {{
-              post.isRecovered
-                ? $t('create.recovered')
-                : $t('create.needsRecovered')
+              postDetails.isRecovered
+                ? $t('details.recovered')
+                : $t('details.needsRecovery')
             }}
           </h3>
           <h1 class="col-12 q-my-sm building-title first-letter-uppercase">
-            {{ post.title }}
+            {{ postDetails.title }}
           </h1>
           <h2 class="col-12 building-county first-letter-uppercase">
-            {{ post.county }}
+            {{ postDetails.county }}
           </h2>
         </div>
       </div>
@@ -116,37 +121,37 @@
             {{ $t('details.details') }}
           </h2>
           <p class="rental-description">
-            {{ post.details }}
+            {{ postDetails.details }}
           </p>
 
           <h2
             class="building-details-title first-letter-uppercase"
-            v-if="post.stories"
+            v-if="postDetails.stories"
           >
             {{ $t('details.stories') }}
           </h2>
           <p class="rental-description">
-            {{ post.stories }}
+            {{ postDetails.stories }}
           </p>
 
           <h2
             class="building-details-title first-letter-uppercase"
-            v-if="post.previousFunctions"
+            v-if="postDetails.previousFunctions"
           >
             {{ $t('details.previousFunctions') }}
           </h2>
           <p class="rental-description">
-            {{ post.previousFunctions }}
+            {{ postDetails.previousFunctions }}
           </p>
 
           <h2
             class="building-details-title first-letter-uppercase"
-            v-if="post.suggestedFunctions"
+            v-if="postDetails.suggestedFunctions"
           >
             {{ $t('details.suggestedFunctions') }}
           </h2>
           <p class="rental-description">
-            {{ post.suggestedFunctions }}
+            {{ postDetails.suggestedFunctions }}
           </p>
         </div>
       </div>
@@ -160,15 +165,15 @@
 
         <CommentsBox
           class="col-12 small-screen-only q-px-xs"
-          v-if="post"
-          :comments="post.comments"
-          :postId="post._id"
+          v-if="postDetails"
+          :comments="postDetails.comments"
+          :postId="postDetails._id"
         ></CommentsBox>
         <CommentsBox
           class="col-12 large-screen-only q-px-sm"
-          v-if="post"
-          :comments="post.comments"
-          :postId="post._id"
+          v-if="postDetails"
+          :comments="postDetails.comments"
+          :postId="postDetails._id"
         ></CommentsBox>
       </div>
     </div>
@@ -228,7 +233,9 @@ export default {
 
   watch: {
     postDetails(newValue, oldValue) {
-      this.post = Object.assign({}, this.post, newValue);
+      console.log(newValue);
+      console.log('aa');
+      this.post = newValue;
     }
   },
 
@@ -240,8 +247,8 @@ export default {
     ...mapGetters('posts', ['isLoadingPosts', 'postDetails'])
   },
 
-  created() {
-    this.fetchPostDetails(this.$route.params.id);
+  preFetch({ store, currentRoute }) {
+    return store.dispatch('posts/fetchPostDetails', currentRoute.params.id);
   },
 
   meta() {
@@ -250,28 +257,28 @@ export default {
       meta: {
         title: {
           name: 'title',
-          content: this.post && this.post.title
+          content: this.postDetails && this.postDetails.title
         },
         ogTitle: {
           property: 'og:title',
-          content: this.post && this.post.title
+          content: this.postDetails && this.postDetails.title
         },
         twitterTitle: {
           property: 'twitter:title',
-          content: this.post && this.post.title
+          content: this.postDetails && this.postDetails.title
         },
 
         description: {
           property: 'description',
-          content: this.post && this.post.details
+          content: this.postDetails && this.postDetails.details
         },
         ogDescription: {
           property: 'og:description',
-          content: this.post && this.post.details
+          content: this.postDetails && this.postDetails.details
         },
         twitterDescription: {
           property: 'twitter:description',
-          content: this.post && this.post.details
+          content: this.postDetails && this.postDetails.details
         },
 
         ogUrl: {
@@ -285,11 +292,11 @@ export default {
 
         ogImage: {
           property: 'og:image',
-          content: this.post && this.post.images[0]
+          content: this.postDetails && this.postDetails.images[0]
         },
         twitterImage: {
           property: 'twitter:url',
-          content: this.post && this.post.images[0]
+          content: this.postDetails && this.postDetails.images[0]
         },
 
         ogType: {

@@ -1,6 +1,7 @@
 import { RouteConfig } from 'vue-router';
 import PageHome from 'pages/PageHome.vue';
 import PageMap from 'pages/PageMap.vue';
+import PagePostDetail from 'pages/PagePostDetail.vue';
 
 const routes: RouteConfig[] = [
   {
@@ -10,7 +11,10 @@ const routes: RouteConfig[] = [
       { path: '', component: PageHome },
       { path: '/map', component: PageMap },
       { path: '/new-post', component: () => import('pages/PageCreatePost.vue') },
-      { path: '/post/:id', component: () => import('pages/PagePostDetail.vue') },
+      {
+        path: '/post/:id',
+        component: PagePostDetail
+      },
       { path: '/login', component: () => import('pages/PageAuth.vue') }
     ]
   },
