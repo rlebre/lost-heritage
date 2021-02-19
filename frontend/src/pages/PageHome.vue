@@ -6,9 +6,15 @@
         <template
           v-if="!isLoadingPosts && filteredPosts && filteredPosts.length"
         >
-          <div class="col-12" v-for="post in filteredPosts" :key="post.id">
-            <FeedCard :post="post"></FeedCard>
-          </div>
+          <q-intersection
+            v-for="post in filteredPosts"
+            :key="post.id"
+            class="col-12 intersection-card"
+            ssr-prerender
+            once
+          >
+            <FeedCard :post="post" />
+          </q-intersection>
         </template>
 
         <div class="col-12" v-else-if="!isLoadingPosts && !filteredPosts">

@@ -1,24 +1,23 @@
 <template>
   <q-page>
-    <PostFilter
-      class="q-px-md q-pt-sm"
-      @onFilterChanged="postFilterChanged"
-    ></PostFilter>
+    <PostFilter class="q-px-md q-pt-sm" @onFilterChanged="postFilterChanged" />
     <div class="large-screen-only">
       <div class="app-panel row">
         <div class="list-panel col-sm-4 col-md-4">
           <q-pull-to-refresh @refresh="refreshPosts">
             <template v-if="filteredPosts.length">
-              <div
-                class="col-12 q-ml-md q-mr-sm q-mb-sm"
+              <q-intersection
                 v-for="post in filteredPosts"
                 :key="post.id"
+                class="col-12 q-ml-md q-mr-sm q-mb-sm"
+                ssr-prerender
+                once
               >
                 <ListCardComponent
                   :post="post"
                   @viewOnMap="onListCardViewOnMap"
-                ></ListCardComponent>
-              </div>
+                />
+              </q-intersection>
             </template>
           </q-pull-to-refresh>
         </div>
