@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const paginate = require('express-paginate');
 const config = require("./config");
 
 const postRoutes = require('./routes/post');
@@ -34,8 +35,9 @@ var corsOptionsDelegate = function (req, callback) {
     callback(null, corsOptions) // callback expects two parameters: error and options
 }
 
-//app.use(cors(corsOptionsDelegate));
+app.use(cors(corsOptionsDelegate));
 app.use(cors());
+app.use(paginate.middleware(10, 50)); // limit, maxLimit
 app.use(bodyParser.json());
 
 app.use('/api/v1/posts', postRoutes);
