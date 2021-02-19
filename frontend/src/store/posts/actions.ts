@@ -20,11 +20,9 @@ export function fetchPostDetails(this: any, { commit }: any, postId: string) {
         .get(`${process.env.API}/api/v1/posts/${postId}`)
         .then((response: any) => {
             commit('getPostDetailsSuccess', response.data);
-            return Promise.resolve(response.data);
         })
         .catch((error: any) => {
             commit('getPostDetailsFailure', error.response.data);
-            return Promise.reject(error.response.data.errors);
         })
 }
 
