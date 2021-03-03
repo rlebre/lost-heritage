@@ -5,7 +5,6 @@ const Comment = require('../models/post-comment');
 const Image = require('../models/image');
 
 const { normalizeErrors } = require('../helpers/mongoose');
-const paginate = require('express-paginate');
 
 exports.createPost = (req, res) => {
     let {
@@ -67,56 +66,33 @@ exports.createPost = (req, res) => {
 };
 
 
-exports.getPublicPosts = async (req, res) => {
-    try {
-        const [posts, itemCount] = await Promise.all([
-            Post.find({ approved: true })
-                .limit(req.query.limit)
-                .skip(parseInt(req.query.skip))
-                .lean()
-                .exec(),
+exports.getPublicPosts = (req, res) => {
+    Post.find({ approved: true }, (err, posts) => {
+        if (err) {
+            return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
 
-            Post.countDocuments({ approved: true })
-        ]);
+        if (!posts) {
+            return res.json([]);
+        }
 
-        const pageCount = Math.ceil(itemCount / req.query.limit);
-
-        res.json({
-            has_more: paginate.hasNextPages(req)(pageCount),
-            pageCount,
-            itemCount,
-            pages: paginate.getArrayPages(req)(3, pageCount, req.query.page),
-            posts
-        });
-    } catch (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
+        res.json(posts);
+    });
 };
 
-exports.getAllPosts = async (req, res) => {
-    try {
-        const [posts, itemCount] = await Promise.all([
-            Post.find({})
-                .limit(req.query.limit)
-                .skip(parseInt(req.query.skip))
-                .lean()
-                .exec(),
+exports.getAllPosts = (req, res) => {
+    Post.find({})
+        .exec((err, posts) => {
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
 
-            Post.countDocuments({})
-        ]);
+            if (!posts) {
+                return res.json([]);
+            }
 
-        const pageCount = Math.ceil(itemCount / req.query.limit);
-
-        res.json({
-            has_more: paginate.hasNextPages(req)(pageCount),
-            pageCount,
-            itemCount,
-            pages: paginate.getArrayPages(req)(10, pageCount, req.query.page),
-            posts
+            res.json(posts);
         });
-    } catch (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
 };
 
 exports.getPostDetails = (req, res) => {
