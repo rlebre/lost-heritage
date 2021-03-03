@@ -1,5 +1,5 @@
-<template>
-  <q-page class="constrain q-pa-md" v-if="postDetails">
+<template v-if="postDetails">
+  <q-page class="constrain q-pa-md">
     <div class="upper-section">
       <div class="row">
         <div class="small-screen-only details-section q-ma-sm">
@@ -179,14 +179,14 @@
     </div>
   </q-page>
 
-  <q-page class="constrain q-pa-md" v-else>
+  <!-- <q-page class="constrain q-pa-md" v-else>
     <q-spinner
       class="fixed-center"
       color="primary"
       size="3em"
       :thickness="10"
     />
-  </q-page>
+  </q-page> -->
 </template>
 
 <script>
