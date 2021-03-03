@@ -3,7 +3,7 @@ const Post = require('../models/post');
 const { normalizeErrors } = require('../helpers/mongoose');
 
 exports.existingCounties = (req, res) => {
-    Post.find({}, { "_id": 0, "county": 1 })
+    Post.find({ approved: true }, { "_id": 0, "county": 1 })
         .distinct('county')
         .exec((err, counties) => {
             if (err) {
