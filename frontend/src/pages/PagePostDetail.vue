@@ -247,8 +247,8 @@ export default {
     ...mapGetters('posts', ['isLoadingPosts', 'postDetails'])
   },
 
-  preFetch({ store, currentRoute }) {
-    return store.dispatch('posts/fetchPostDetails', currentRoute.params.id);
+  async preFetch({ store, currentRoute }) {
+    await store.dispatch('posts/fetchPostDetails', currentRoute.params.id);
   },
 
   meta() {
