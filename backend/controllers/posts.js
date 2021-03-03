@@ -93,7 +93,7 @@ exports.getPublicPosts = async (req, res) => {
     }
 };
 
-exports.getAllPosts = (req, res) => {
+exports.getAllPosts = async (req, res) => {
     try {
         const [posts, itemCount] = await Promise.all([
             Post.find({})
@@ -111,7 +111,7 @@ exports.getAllPosts = (req, res) => {
             has_more: paginate.hasNextPages(req)(pageCount),
             pageCount,
             itemCount,
-            pages: paginate.getArrayPages(req)(3, pageCount, req.query.page),
+            pages: paginate.getArrayPages(req)(10, pageCount, req.query.page),
             posts
         });
     } catch (err) {
