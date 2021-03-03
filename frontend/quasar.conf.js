@@ -10,8 +10,7 @@
 const { configure } = require('quasar/wrappers');
 
 const PRODUCTION_URL = 'https://patrimonioesquecido.ruilebre.com';
-let API_LOCAL = 'http://localhost:3000', API_PRODUCTION = 'https://lost-heritage.herokuapp.com';
-let API = API_PRODUCTION;
+const API_URL = process.env.API_URL;
 
 module.exports = configure(function (ctx) {
   return {
@@ -49,7 +48,7 @@ module.exports = configure(function (ctx) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      'fontawesome-v5',
+      //'fontawesome-v5',
       'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -63,7 +62,7 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
-        API,
+        API: API_URL,
         PRODUCTION_URL
       },
       // transpile: false,
@@ -103,7 +102,7 @@ module.exports = configure(function (ctx) {
       open: true, // opens browser window automatically
       proxy: {
         '/api': {
-          target: API,
+          target: API_URL,
           secure: false
         }
       }
@@ -195,7 +194,7 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
     capacitor: {
-      hideSplashscreen: true
+      hideSplashscreen: false
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
