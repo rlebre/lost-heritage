@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rui Lebre",
-  "license": "GPLv3",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "aws-sdk": "^2.787.0",
     "bcrypt": "^5.0.0",
