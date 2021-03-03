@@ -205,7 +205,6 @@ export default {
 
   data() {
     return {
-      post: null,
       slideNumber: 0,
       fullscreen: false,
 
@@ -231,14 +230,6 @@ export default {
     };
   },
 
-  watch: {
-    postDetails(newValue, oldValue) {
-      console.log(newValue);
-      console.log('aa');
-      this.post = newValue;
-    }
-  },
-
   methods: {
     ...mapActions('posts', ['fetchPostDetails'])
   },
@@ -247,8 +238,8 @@ export default {
     ...mapGetters('posts', ['isLoadingPosts', 'postDetails'])
   },
 
-  preFetch({ store, currentRoute }) {
-    return store.dispatch('posts/fetchPostDetails', currentRoute.params.id);
+  async preFetch({ store, currentRoute }) {
+    await store.dispatch('posts/fetchPostDetails', currentRoute.params.id);
   },
 
   meta() {
