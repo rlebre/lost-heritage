@@ -1,12 +1,15 @@
 {
   "name": "lost-heritage",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Lost Heritage app is a community-supported forum to track lost or abandoned public buildings around Portugal",
   "productName": "Lost Heritage",
   "author": "Rui Lebre <ruilebre@ua.pt>",
   "private": true,
   "scripts": {
-    "build:ssr": "quasar build -m ssr",
+    "start": "API_URL='http://localhost:3000' quasar dev",
+    "start:ssr": "API_URL='http://localhost:3000' quasar dev -m ssr",
+    "build": "API_URL='https://lost-heritage.herokuapp.com' quasar build",
+    "build:ssr": "API_URL='https://lost-heritage.herokuapp.com' quasar build -m ssr",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
