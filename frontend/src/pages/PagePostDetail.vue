@@ -205,7 +205,6 @@ export default {
 
   data() {
     return {
-      post: null,
       slideNumber: 0,
       fullscreen: false,
 
@@ -229,14 +228,6 @@ export default {
       styleLight,
       styleDark
     };
-  },
-
-  watch: {
-    postDetails(newValue, oldValue) {
-      console.log(newValue);
-      console.log('aa');
-      this.post = newValue;
-    }
   },
 
   methods: {
