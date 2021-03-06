@@ -9,7 +9,7 @@
               <q-intersection
                 v-for="post in filteredPosts"
                 :key="post.id"
-                class="col-12 q-ml-md q-mr-sm q-mb-sm"
+                class="col-12 q-ml-md q-mr-sm q-pb-sm"
                 ssr-prerender
                 once
               >
