@@ -5,7 +5,32 @@
       <div class="app-panel row">
         <div class="list-panel col-sm-4 col-md-4">
           <q-pull-to-refresh @refresh="refreshPosts">
-            <template v-if="filteredPosts.length">
+            <q-infinite-scroll class="w-100" @load="loadMorePosts" :offset="10">
+              <template v-if="isLoadingPosts" v-slot:loading>
+                <div class="col-12">
+                  <q-card flat bordered>
+                    <q-card-section>
+                      <q-skeleton
+                        type="text"
+                        class="text-subtitle2"
+                        animation="fade"
+                      />
+                      <q-skeleton
+                        type="text"
+                        width="50%"
+                        class="text-subtitle2"
+                        animation="fade"
+                      />
+                    </q-card-section>
+
+                    <q-skeleton
+                      class="q-ma-sm"
+                      height="200px"
+                      animation="fade"
+                    />
+                  </q-card>
+                </div>
+              </template>
               <q-intersection
                 v-for="post in filteredPosts"
                 :key="post.id"
@@ -18,7 +43,7 @@
                   @viewOnMap="onListCardViewOnMap"
                 />
               </q-intersection>
-            </template>
+            </q-infinite-scroll>
           </q-pull-to-refresh>
         </div>
         <div class="col-sm-8 col-md-8 q-pr-md">
@@ -67,7 +92,9 @@ export default {
     ...mapGetters('posts', [
       'postListWithClickField',
       'isLoadingPosts',
-      'filteredPostList'
+      'filteredPostList',
+      'postListHasNextPage',
+      'lastFetchedPage'
     ])
   },
 
@@ -86,7 +113,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', ['searchPosts', 'fetchPosts']),
+    ...mapActions('posts', ['searchPosts', 'fetchPosts', 'fetchNextPosts']),
 
     postFilterChanged(filterOptions) {
       const { selectedOptions, sortBy, sortType, searchString } = filterOptions;
@@ -138,6 +165,28 @@ export default {
           });
         }
       );
+    },
+
+    loadMorePosts(index, doneLoadingState) {
+      if (this.filteredPosts.length == 0) {
+        this.fetchPosts(10).then(doneLoadingState());
+      } else if (this.filteredPosts.length > 0 && this.postListHasNextPage) {
+        this.fetchNextPosts({ limit: 10, page: this.lastFetchedPage + 1 }).then(
+          data => {
+            doneLoadingState();
+          },
+          errors => {
+            this.$q.notify({
+              message: errors[0].title,
+              caption: errors[0].detail,
+              timeout: 1000
+            });
+            doneLoadingState();
+          }
+        );
+      } else {
+        doneLoadingState();
+      }
     }
   }
 };
@@ -146,8 +195,15 @@ export default {
 <style lang="scss" scoped>
 .app-panel {
   width: 100%;
-  height: calc(100% - 70px);
   position: absolute;
+}
+
+.small-screen-only > .app-panel {
+  height: 100%;
+}
+
+.large-screen-only > .app-panel {
+  height: calc(100% - 70px);
 }
 
 .list-panel {
