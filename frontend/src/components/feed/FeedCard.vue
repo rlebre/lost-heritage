@@ -1,14 +1,16 @@
 <template>
-  <q-card class="card-post q-mb-md " flat bordered>
-    <q-card-section horizontal>
-      <q-card-section class="q-pt-xs q-pb-xs">
-        <div class="text-h5 q-mt-sm text-weight-bold q-card-title">
-          <router-link class="no-link" :to="`/post/${post._id}`">
-            {{ post.title }}
-          </router-link>
-        </div>
-      </q-card-section>
+  <q-card class="card-post q-mb-md" flat bordered>
+    <q-card-section horizontal class="q-mx-md q-py-xs flex">
+      <div class="text-h5 q-mt-sm text-weight-bold q-card-title">
+        <router-link class="no-link" :to="`/post/${post._id}`">
+          {{ post.title }}
+        </router-link>
+      </div>
     </q-card-section>
+
+    <div class="text-grey-8 q-mx-md text-capitalize">
+      {{ post.county }}
+    </div>
 
     <div class="row q-mt-sm q-mx-md">
       <div class="col-6">
