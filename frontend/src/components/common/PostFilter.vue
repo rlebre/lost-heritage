@@ -55,6 +55,7 @@
             <q-page padding>
               <div class="col-12 q-pa-md">
                 <q-select
+                  :color="inputLabelColor"
                   filled
                   use-chips
                   v-model="selectedOptions"
@@ -76,6 +77,7 @@
 
               <div class="col-12 q-pa-md">
                 <q-select
+                  :color="inputLabelColor"
                   filled
                   bottom-slots
                   v-model="sortBy"
@@ -91,6 +93,7 @@
                   {{ $t('c.filter.sort') }}
                 </span>
                 <q-btn
+                  color="grey-9"
                   class="q-mt-xs primary q-btn-sort"
                   unelevated
                   size="md"
@@ -101,6 +104,7 @@
 
               <div class="col-12 q-pa-md">
                 <q-input
+                  :color="inputLabelColor"
                   class="col col-sm-10 float-right text-capitalize"
                   v-model="search"
                   filled
@@ -124,6 +128,7 @@
       <div class="row">
         <div class="col-md-4 q-pr-sm">
           <q-select
+            :color="inputLabelColor"
             filled
             dense
             use-chips
@@ -146,6 +151,7 @@
 
         <div class="col-md-3">
           <q-select
+            :color="inputLabelColor"
             dense
             filled
             bottom-slots
@@ -160,6 +166,8 @@
 
         <div class="col-md-1 q-mr-sm">
           <q-btn
+            :text-color="toggleSortColor.color"
+            :color="toggleSortColor.bg"
             class="q-mt-xs primary"
             dense
             unelevated
@@ -171,6 +179,7 @@
 
         <div class="col">
           <q-input
+            :color="inputLabelColor"
             class="col col-sm-10 float-right text-capitalize"
             v-model="search"
             filled
@@ -225,7 +234,17 @@ export default {
   },
 
   computed: {
-    ...mapGetters('infos', ['existingCountiesList'])
+    ...mapGetters('infos', ['existingCountiesList']),
+
+    inputLabelColor() {
+      return this.$q.dark.isActive ? 'grey-13' : 'primary';
+    },
+
+    toggleSortColor() {
+      return this.$q.dark.isActive
+        ? { bg: 'grey-9', color: 'grey-13' }
+        : { bg: 'white', color: 'grey-9' };
+    }
   },
 
   methods: {

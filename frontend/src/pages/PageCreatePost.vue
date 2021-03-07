@@ -14,6 +14,7 @@
 
     <div class=" q-ma-md">
       <q-input
+        :color="inputLabelColor"
         v-model="newPost.contributorName"
         class="col col-sm-10 text-capitalize"
         :label="$t('create.contributorName')"
@@ -23,6 +24,7 @@
 
     <div class=" q-ma-md">
       <q-input
+        :color="inputLabelColor"
         v-model="newPost.contributorEmail"
         class="col col-sm-10 text-capitalize"
         :label="$t('create.contributorEmail')"
@@ -32,6 +34,7 @@
 
     <div class=" q-ma-md">
       <q-input
+        :color="inputLabelColor"
         v-model="newPost.contributorCity"
         class="col col-sm-10 text-capitalize"
         :label="$t('create.contributorInfo')"
@@ -47,6 +50,7 @@
 
     <div class=" q-ma-md">
       <q-input
+        :color="inputLabelColor"
         v-model="newPost.title"
         class="col col-sm-10 text-capitalize"
         :label="$t('create.buildTitle')"
@@ -56,6 +60,7 @@
 
     <div class="q-ma-md">
       <q-input
+        :color="inputLabelColor"
         v-model="newPost.details"
         filled
         autogrow
@@ -66,6 +71,7 @@
     </div>
 
     <q-select
+      :color="inputLabelColor"
       class="q-ma-md text-capitalize"
       filled
       use-input
@@ -127,6 +133,7 @@
 
     <div class="q-ma-md">
       <q-input
+        :color="inputLabelColor"
         v-model="newPost.previousFunctions"
         filled
         autogrow
@@ -138,6 +145,7 @@
 
     <div class="q-ma-md">
       <q-input
+        :color="inputLabelColor"
         v-model="newPost.stories"
         filled
         autogrow
@@ -149,6 +157,7 @@
 
     <div class="q-ma-md">
       <q-input
+        :color="inputLabelColor"
         v-model="newPost.suggestedFunctions"
         filled
         autogrow
@@ -159,12 +168,12 @@
     </div>
 
     <q-btn-toggle
+      :toggle-color="toggleColor"
       v-model="newPost.isRecovered"
       spread
       class="q-ma-sm q-mx-md text-grey-9 text-capitalize"
       no-caps
       unelevated
-      toggle-color="primary"
       color="grey-4"
       text-color="grey-9"
       :options="[
@@ -272,7 +281,15 @@ export default {
       'isCreatePostSuccess',
       'errors',
       'lastCreatedPost'
-    ])
+    ]),
+
+    inputLabelColor() {
+      return this.$q.dark.isActive ? 'grey-13' : 'primary';
+    },
+
+    toggleColor() {
+      return this.$q.dark.isActive ? 'primary' : 'primary';
+    }
   },
 
   watch: {
