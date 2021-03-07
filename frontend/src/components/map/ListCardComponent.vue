@@ -7,11 +7,16 @@
             {{ post.title }}
           </router-link>
         </div>
+
+        <div class="text-grey-8 q-mb-sm text-capitalize">
+          {{ post.county }}
+        </div>
+
         <div class="text-caption text-grey-7 small-screen-only">
           {{ post.details | str_limit(50) }}
         </div>
         <div class="text-caption text-grey-7 large-screen-only">
-          {{ post.details | str_limit(100) }}
+          {{ post.details | str_limit(75) }}
         </div>
       </q-card-section>
 
