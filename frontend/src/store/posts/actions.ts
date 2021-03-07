@@ -1,8 +1,8 @@
-export function fetchPosts(this: any, { commit }: any) {
+export function fetchPosts(this: any, { commit }: any, limit: number) {
     commit('getPostsListRequest');
 
     return this.$axios
-        .get(`${process.env.API}/api/v1/posts`)
+        .get(`${process.env.API}/api/v1/posts?limit=${limit}&page=1`)
         .then((response: any) => {
             commit('getPostsListSuccess', response.data);
             return Promise.resolve(response.data);
@@ -12,6 +12,24 @@ export function fetchPosts(this: any, { commit }: any) {
             return Promise.reject(error.response.data.errors);
         })
 }
+
+export function fetchNextPosts(this: any, { commit }: any, params: any) {
+    const { page, limit } = params;
+    commit('getNextPostsRequest');
+
+    return this.$axios
+        .get(`${process.env.API}/api/v1/posts?limit=${limit}&page=${page}`)
+        .then((response: any) => {
+            commit('getNextPostsSuccess', response.data);
+            return Promise.resolve(response.data);
+        })
+        .catch((error: any) => {
+            commit('getNextPostsFailure', error.response.data);
+            return Promise.reject(error.response.data.errors);
+        })
+}
+
+
 
 export function fetchPostDetails(this: any, { commit }: any, postId: string) {
     commit('getPostDetailsRequest');

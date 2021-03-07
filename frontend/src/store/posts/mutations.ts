@@ -5,7 +5,9 @@ export function getPostsListRequest(state: any) {
 
 export function getPostsListSuccess(state: any, newPostsList: any) {
     state.loadingPosts = false;
-    state.postList = newPostsList;
+    state.postList = newPostsList.posts;
+    state.pages = newPostsList.pageCount;
+    state.lastFetchedPage = newPostsList.currentPage;
     state.errors = [];
 }
 
@@ -14,6 +16,25 @@ export function getPostsListFailure(state: any, error: any) {
     state.postList = [];
     state.errors = error.errors;
 }
+
+export function getNextPostsRequest(state: any) {
+    state.loadingPosts = true;
+}
+
+export function getNextPostsSuccess(state: any, newPostsList: any) {
+    state.loadingPosts = false;
+    state.postList.push(...newPostsList.posts)
+    state.pages = newPostsList.pageCount;
+    state.lastFetchedPage = newPostsList.currentPage;
+    state.errors = [];
+}
+
+export function getNextPostsFailure(state: any, error: any) {
+    state.loadingPosts = false;
+    state.postList = [];
+    state.errors = error.errors;
+}
+
 
 // ---------- POST DETAILS --------------
 export function getPostDetailsRequest(state: any) {

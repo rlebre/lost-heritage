@@ -4,6 +4,14 @@ export function postList(state: any) {
     return state.postList;
 }
 
+export function postListHasNextPage(state: any) {
+    return state.pages >= state.lastFetchedPage;
+}
+
+export function lastFetchedPage(state: any) {
+    return state.lastFetchedPage;
+}
+
 export function approvedPostsList(state: any) {
     return state.approvedPostsList.map((obj: any) => ({
         ...obj,
