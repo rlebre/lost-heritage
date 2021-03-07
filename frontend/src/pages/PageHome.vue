@@ -1,42 +1,40 @@
 <template>
   <q-page class="constrain q-pa-md">
+    <PostFilter @onFilterChanged="postFilterChanged" />
+
     <q-pull-to-refresh @refresh="refreshPosts">
-      <PostFilter @onFilterChanged="postFilterChanged"></PostFilter>
-      <div class="row q-col-gutter-lg">
-        <template
-          v-if="!isLoadingPosts && filteredPosts && filteredPosts.length"
-        >
-          <q-intersection
-            v-for="post in filteredPosts"
-            :key="post.id"
-            class="col-12 intersection-card"
-            ssr-prerender
-            once
-          >
-            <FeedCard :post="post" />
-          </q-intersection>
+      <q-infinite-scroll class="w-100" @load="loadMorePosts" :offset="10">
+        <template v-if="isLoadingPosts" v-slot:loading>
+          <div class="col-12">
+            <q-card flat bordered>
+              <q-card-section>
+                <q-skeleton
+                  type="text"
+                  class="text-subtitle2"
+                  animation="fade"
+                />
+                <q-skeleton
+                  type="text"
+                  width="50%"
+                  class="text-subtitle2"
+                  animation="fade"
+                />
+              </q-card-section>
+
+              <q-skeleton class="q-ma-sm" height="200px" animation="fade" />
+            </q-card>
+          </div>
         </template>
-
-        <div class="col-12" v-else-if="!isLoadingPosts && !filteredPosts">
-          <h5 class="text-center text-grey">No posts yet.</h5>
-        </div>
-
-        <div class="col-12" v-else>
-          <q-card flat bordered>
-            <q-card-section>
-              <q-skeleton type="text" class="text-subtitle2" animation="fade" />
-              <q-skeleton
-                type="text"
-                width="50%"
-                class="text-subtitle2"
-                animation="fade"
-              />
-            </q-card-section>
-
-            <q-skeleton class="q-ma-sm" height="200px" animation="fade" />
-          </q-card>
-        </div>
-      </div>
+        <q-intersection
+          v-for="post in filteredPosts"
+          :key="post.id"
+          class="col-12 intersection-card"
+          ssr-prerender
+          once
+        >
+          <FeedCard :post="post" />
+        </q-intersection>
+      </q-infinite-scroll>
     </q-pull-to-refresh>
   </q-page>
 </template>
@@ -55,7 +53,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', ['postList', 'isLoadingPosts', 'filteredPostList'])
+    ...mapGetters('posts', [
+      'postList',
+      'isLoadingPosts',
+      'filteredPostList',
+      'postListHasNextPage',
+      'lastFetchedPage'
+    ])
   },
 
   data() {
@@ -69,16 +73,13 @@ export default {
   },
 
   watch: {
-    postList(newValue, oldValue) {
+    postList(newValue) {
       this.filteredPosts = this.postList;
-    },
-    filteredPostList(n, o) {
-      this.filteredPosts = this.filteredPostList;
     }
   },
 
   methods: {
-    ...mapActions('posts', ['searchPosts', 'fetchPosts']),
+    ...mapActions('posts', ['searchPosts', 'fetchPosts', 'fetchNextPosts']),
 
     postFilterChanged(filterOptions) {
       const { selectedOptions, sortBy, sortType, searchString } = filterOptions;
@@ -109,7 +110,7 @@ export default {
     },
 
     refreshPosts(done) {
-      this.fetchPosts().then(
+      this.fetchPosts(10).then(
         data => {
           done();
           this.$q.notify({
@@ -126,6 +127,29 @@ export default {
           });
         }
       );
+    },
+
+    loadMorePosts(index, doneLoadingState) {
+      if (this.postList.length == 0) {
+        this.fetchPosts(10).then(doneLoadingState());
+      } else if (this.postList.length > 0 && this.postListHasNextPage) {
+        this.fetchNextPosts({ limit: 10, page: this.lastFetchedPage + 1 }).then(
+          data => {
+            doneLoadingState();
+          },
+          errors => {
+            this.$q.notify({
+              message: errors[0].title,
+              caption: errors[0].detail,
+              timeout: 1000
+            });
+
+            doneLoadingState();
+          }
+        );
+      } else {
+        doneLoadingState();
+      }
     }
   }
 };
