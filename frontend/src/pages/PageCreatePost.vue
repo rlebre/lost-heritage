@@ -189,13 +189,18 @@
     <div class="q-ma-sm">
       <q-checkbox
         class="col col-sm-10"
+        :color="inputLabelColor"
         v-model="newPost.newsletterAgree"
         :label="$t('create.newsletter')"
       />
     </div>
 
     <div class="q-ma-sm">
-      <q-checkbox class="col col-sm-10" v-model="tncAgree">
+      <q-checkbox
+        class="col col-sm-10"
+        :color="inputLabelColor"
+        v-model="tncAgree"
+      >
         {{ $t('create.agreeTC1') }}
         <q-btn dense flat unelevated label="T&C" @click="tcModal = true" />{{
           $t('create.agreeTC2')
