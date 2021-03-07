@@ -68,24 +68,27 @@ exports.createPost = (req, res) => {
 
 
 exports.getPublicPosts = async (req, res) => {
+    const { limit, page } = req.query;
+
     try {
         const [posts, itemCount] = await Promise.all([
             Post.find({ approved: true })
-                .limit(req.query.limit)
-                .skip(parseInt(req.query.skip))
+                .limit(limit)
+                .skip(limit * (page - 1))
                 .lean()
                 .exec(),
 
             Post.countDocuments({ approved: true })
         ]);
 
-        const pageCount = Math.ceil(itemCount / req.query.limit);
+        const pageCount = Math.ceil(itemCount / limit);
 
         res.json({
-            has_more: paginate.hasNextPages(req)(pageCount),
+            hasMore: paginate.hasNextPages(req)(pageCount),
             pageCount,
             itemCount,
-            pages: paginate.getArrayPages(req)(3, pageCount, req.query.page),
+            currentPage: page,
+            pages: paginate.getArrayPages(req)(10, pageCount, (page - 1)),
             posts
         });
     } catch (err) {
@@ -94,24 +97,27 @@ exports.getPublicPosts = async (req, res) => {
 };
 
 exports.getAllPosts = async (req, res) => {
+    const { limit, page } = req.query;
+
     try {
         const [posts, itemCount] = await Promise.all([
             Post.find({})
-                .limit(req.query.limit)
-                .skip(parseInt(req.query.skip))
+                .limit(limit)
+                .skip(limit * (page - 1))
                 .lean()
                 .exec(),
 
             Post.countDocuments({})
         ]);
 
-        const pageCount = Math.ceil(itemCount / req.query.limit);
+        const pageCount = Math.ceil(itemCount / limit);
 
         res.json({
-            has_more: paginate.hasNextPages(req)(pageCount),
+            hasMore: paginate.hasNextPages(req)(pageCount),
             pageCount,
             itemCount,
-            pages: paginate.getArrayPages(req)(10, pageCount, req.query.page),
+            currentPage: page,
+            pages: paginate.getArrayPages(req)(10, pageCount, (page - 1)),
             posts
         });
     } catch (err) {
