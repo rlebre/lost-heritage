@@ -1,5 +1,7 @@
 # Lost Heritage
 
+The first part of this documentation is divided into English and Portuguese languages as it is a project developed for a cause in Portugal. However, it may be adapted to any other country easily. In fact, the maintainers encourage that and commit to provide help needed to deploy the solution.
+
 ## EN version
 
 ### About
