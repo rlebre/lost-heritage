@@ -8,7 +8,7 @@
           </router-link>
         </div>
 
-        <div class="text-grey-8 q-mb-sm text-capitalize">
+        <div class="q-mb-sm text-capitalize q-card-county">
           {{ post.county }}
         </div>
 
@@ -159,7 +159,8 @@ export default {
     &-body {
       background: $grey-10;
     }
-    &-title {
+    &-title,
+    &-county {
       color: $grey-13;
     }
   }
@@ -171,5 +172,13 @@ export default {
 
 .view-button {
   margin: auto;
+}
+
+.body--light {
+  .q-card {
+    &-county {
+      color: $grey-8;
+    }
+  }
 }
 </style>

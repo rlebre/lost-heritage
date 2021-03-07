@@ -8,7 +8,7 @@
       </div>
     </q-card-section>
 
-    <div class="text-grey-8 q-mx-md text-capitalize">
+    <div class="q-mx-md text-capitalize q-card-county">
       {{ post.county }}
     </div>
 
@@ -169,13 +169,23 @@ export default {
     &-body {
       background: $grey-10;
     }
-    &-title {
+
+    &-title,
+    &-county {
       color: $grey-13;
     }
   }
 
   .likes-counter {
     color: $grey-13;
+  }
+}
+
+.body--light {
+  .q-card {
+    &-county {
+      color: $grey-8;
+    }
   }
 }
 </style>
