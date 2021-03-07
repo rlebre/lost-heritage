@@ -30,7 +30,7 @@
       </div>
 
       <q-btn
-        class="q-mx-xl float-right "
+        class="view-button"
         round
         color="primary"
         icon="eva-eye-outline"
@@ -162,5 +162,9 @@ export default {
   .likes-counter {
     color: $grey-13;
   }
+}
+
+.view-button {
+  margin: auto;
 }
 </style>
