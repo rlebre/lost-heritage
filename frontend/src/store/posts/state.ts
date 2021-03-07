@@ -2,6 +2,9 @@ export default function () {
 
   return {
     postList: [],
+    pages: 1,
+    lastFetchedPage: 0,
+
     filteredPostList: [],
 
     approvedPostsList: [],
