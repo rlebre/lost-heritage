@@ -6,6 +6,7 @@ export function getPostsListRequest(state: any) {
 export function getPostsListSuccess(state: any, newPostsList: any) {
     state.loadingPosts = false;
     state.postList = newPostsList.posts;
+    state.filteredPostList = newPostsList.posts;
     state.pages = newPostsList.pageCount;
     state.lastFetchedPage = newPostsList.currentPage;
     state.errors = [];
