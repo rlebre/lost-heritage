@@ -1,3 +1,5 @@
+<img src="https://github.com/rlebre/lost-heritage/blob/master/logo.png" alt="logo" width="100"/>
+
 # Lost Heritage
 
 The first part of this documentation is divided into English and Portuguese languages as it is a project developed for a cause in Portugal. However, it may be adapted to any other country easily. In fact, the maintainers encourage that and commit to provide help needed to deploy the solution.
@@ -136,6 +138,6 @@ This open source project is maintained by [Rui Lebre](http://www.ruilebre.com). 
 
 - Rui Lebre - [@rlebre](https://github.com/rlebre)
 
-# License
+## License
 
 [GPL-3.0-only](https://spdx.org/licenses/GPL-3.0-only.html)
