@@ -38,6 +38,8 @@
     "eslint-config-prettier": "^6.9.0",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-vue": "^6.1.2",
+    "lint-staged": ">=10",
+    "simple-git-hooks": ">=2.0.3",
     "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [
@@ -56,5 +58,11 @@
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": "eslint --cache --fix"
   }
 }
