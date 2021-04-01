@@ -8,9 +8,7 @@
           </router-link>
         </div>
 
-        <div class="q-mb-sm text-capitalize q-card-county">
-          {{ post.county }}
-        </div>
+        <div class="q-mb-sm text-capitalize q-card-county"><q-icon name="eva-navigation-2" /> {{ post.county }}</div>
 
         <div class="text-caption text-grey-7 small-screen-only">
           {{ post.details | str_limit(50) }}
@@ -21,18 +19,12 @@
       </q-card-section>
 
       <q-card-section class="col-5 flex flex-center">
-        <q-img
-          class="rounded-borders"
-          :src="post.images[0]"
-          style="height:100px"
-        />
+        <q-img class="rounded-borders" :src="post.images[0]" style="height: 100px" />
       </q-card-section>
     </q-card-section>
 
     <div class="row q-mb-sm q-mx-md q-pb-xs flex flex-center">
-      <div class="text-subtitle2 q-mx-sm">
-        <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
-      </div>
+      <div class="text-subtitle2 q-mx-sm"><q-icon name="eva-heart" color="negative" /> {{ post.likes }}</div>
 
       <q-btn
         class="view-button"
@@ -61,14 +53,7 @@
           :title="`${post.title} - ${post.details}`"
           hashtags="PatrimonioEsquecido,LostHeritage"
         >
-          <q-btn
-            class="q-mr-xs float-right"
-            round
-            color="primary"
-            icon="eva-twitter-outline"
-            size="xs"
-            unelevated
-          />
+          <q-btn class="q-mr-xs float-right" round color="primary" icon="eva-twitter-outline" size="xs" unelevated />
         </ShareNetwork>
 
         <ShareNetwork
@@ -78,14 +63,7 @@
           :quote="post.details"
           hashtags="PatrimonioEsquecido,LostHeritage"
         >
-          <q-btn
-            class="q-mr-xs float-right"
-            round
-            color="primary"
-            icon="eva-facebook-outline"
-            size="xs"
-            unelevated
-          />
+          <q-btn class="q-mr-xs float-right" round color="primary" icon="eva-facebook-outline" size="xs" unelevated />
         </ShareNetwork>
       </div>
     </div>
