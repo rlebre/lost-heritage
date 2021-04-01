@@ -21,14 +21,7 @@
                   {{ $t('c.filter.applyFilters') }}
                 </h6>
               </q-toolbar-title>
-              <q-btn
-                class="float-right"
-                flat
-                v-close-popup
-                round
-                dense
-                icon="close"
-              />
+              <q-btn class="float-right" flat v-close-popup round dense icon="close" />
             </q-toolbar>
           </q-header>
 
@@ -109,7 +102,7 @@
                   v-model="search"
                   filled
                   clearable
-                  style="width:100%"
+                  style="width: 100%"
                   :label="$t('c.filter.search')"
                   @input="filterChanged"
                 >
@@ -125,8 +118,8 @@
     </div>
 
     <div class="large-screen-only">
-      <div class="row">
-        <div class="col-md-4 q-pr-sm">
+      <div class="flex">
+        <div class="q-pr-sm">
           <q-select
             :color="inputLabelColor"
             filled
@@ -149,7 +142,7 @@
             hint="Max 5 selections" -->
         </div>
 
-        <div class="col-md-3">
+        <div>
           <q-select
             :color="inputLabelColor"
             dense
@@ -164,14 +157,15 @@
           />
         </div>
 
-        <div class="col-md-1 q-mr-sm">
+        <div class="q-mr-sm">
           <q-btn
             :text-color="toggleSortColor.color"
             :color="toggleSortColor.bg"
-            class="q-mt-xs primary"
+            class="q-mt-xs primary text-capitalize"
             dense
             unelevated
             size="md"
+            :label="sortDesc ? $t('c.filter.descendent') : $t('c.filter.ascendent')"
             :icon="sortDesc ? 'eva-arrow-down' : 'eva-arrow-up'"
             @click="toggleSort"
           />
@@ -185,7 +179,7 @@
             filled
             dense
             clearable
-            style="width:100%"
+            style="width: 100%"
             :label="$t('c.filter.search')"
             @input="filterChanged"
             debounce="1000"
@@ -211,11 +205,7 @@ export default {
       selectedOptions: [],
       optionsConcelhos: [],
       optionsConcelhosFiltered: [],
-      optionsSort: [
-        this.$t('c.filter.county'),
-        this.$t('c.filter.date'),
-        this.$t('c.filter.likes')
-      ],
+      optionsSort: [this.$t('c.filter.county'), this.$t('c.filter.date'), this.$t('c.filter.likes')],
       search: '',
       sortBy: this.$t('c.filter.date'),
       sortDesc: true,
@@ -241,9 +231,7 @@ export default {
     },
 
     toggleSortColor() {
-      return this.$q.dark.isActive
-        ? { bg: 'grey-9', color: 'grey-13' }
-        : { bg: 'white', color: 'grey-9' };
+      return this.$q.dark.isActive ? { bg: 'grey-9', color: 'grey-13' } : { bg: 'white', color: 'grey-9' };
     }
   },
 
@@ -269,17 +257,13 @@ export default {
 
       update(() => {
         const needle = val.toLowerCase();
-        this.optionsConcelhosFiltered = this.optionsConcelhos.filter(
-          v => v.toLowerCase().indexOf(needle) > -1
-        );
+        this.optionsConcelhosFiltered = this.optionsConcelhos.filter((v) => v.toLowerCase().indexOf(needle) > -1);
       });
     },
 
     filterChanged() {
       this.$emit('onFilterChanged', {
-        selectedOptions: this.selectedOptions
-          ? this.lowerCaseArray(this.selectedOptions)
-          : [],
+        selectedOptions: this.selectedOptions ? this.lowerCaseArray(this.selectedOptions) : [],
         sortBy: this.sortTranslation[this.sortBy],
         sortType: this.sortDesc ? 'desc' : 'asc',
         searchString: this.search ? this.search : null
@@ -287,7 +271,7 @@ export default {
     },
 
     lowerCaseArray(stringList) {
-      return stringList.map(word => word.toLowerCase());
+      return stringList.map((word) => word.toLowerCase());
     },
 
     resetModalFilter() {

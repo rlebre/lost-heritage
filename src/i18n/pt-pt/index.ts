@@ -26,6 +26,8 @@ export default {
             countyHint: 'Max 5 seleções',
             date: 'data',
             sort: 'ordenar',
+            descendent: 'descendente',
+            ascendent: 'ascendente',
             search: 'pesquisar',
             likes: 'gostos',
             like: 'gosto',

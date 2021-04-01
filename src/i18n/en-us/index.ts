@@ -25,6 +25,8 @@ export default {
       countyHint: 'Max 5 selections',
       date: 'date',
       sort: 'sort',
+      descendent: 'high to low',
+      ascendent: 'low to high',
       search: 'search',
       likes: 'likes',
       like: 'like',
