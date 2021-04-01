@@ -5,18 +5,8 @@
         <div class="small-screen-only details-section q-ma-sm">
           <div class="details-section-header">
             <div class="row">
-              <h3
-                :class="
-                  `col-12 building-status building-${
-                    postDetails.isRecovered ? 'recovered' : 'not-recovered'
-                  }`
-                "
-              >
-                {{
-                  postDetails.isRecovered
-                    ? $t('create.recovered')
-                    : $t('create.needsRecovered')
-                }}
+              <h3 :class="`col-12 building-status building-${postDetails.isRecovered ? 'recovered' : 'not-recovered'}`">
+                {{ postDetails.isRecovered ? $t('create.recovered') : $t('create.needsRecovered') }}
               </h3>
               <h1 class="col-12 q-my-sm building-title text-capitalize">
                 {{ postDetails.title }}
@@ -29,15 +19,7 @@
         </div>
 
         <div class="col-12 col-md-6 q-pa-sm">
-          <q-carousel
-            swipeable
-            arrows
-            animated
-            v-model="slideNumber"
-            thumbnails
-            infinite
-            :fullscreen.sync="fullscreen"
-          >
+          <q-carousel swipeable arrows animated v-model="slideNumber" thumbnails infinite :fullscreen.sync="fullscreen">
             <q-carousel-slide
               class="uncropped-image"
               v-for="(image, index) in postDetails.images"
@@ -61,10 +43,7 @@
           </q-carousel>
         </div>
 
-        <div
-          class="col-12 col-md-6 q-pa-sm"
-          v-if="postDetails.lat && postDetails.lng"
-        >
+        <div class="col-12 col-md-6 q-pa-sm" v-if="postDetails.lat && postDetails.lng">
           <googlemaps-map
             ref="map"
             class="map fit googlemaps-map"
@@ -80,9 +59,7 @@
               styles: $q.dark.isActive ? styleDark : styleLight
             }"
           >
-            <googlemaps-marker
-              :position="{ lat: postDetails.lat, lng: postDetails.lng }"
-            />
+            <googlemaps-marker :position="{ lat: postDetails.lat, lng: postDetails.lng }" />
           </googlemaps-map>
         </div>
       </div>
@@ -91,18 +68,8 @@
     <div class="details-section q-ma-sm">
       <div class="large-screen-only details-section-header">
         <div class="row">
-          <h3
-            :class="
-              `col-12 building-status building-${
-                postDetails.isRecovered ? 'recovered' : 'not-recovered'
-              }`
-            "
-          >
-            {{
-              postDetails.isRecovered
-                ? $t('details.recovered')
-                : $t('details.needsRecovery')
-            }}
+          <h3 :class="`col-12 building-status building-${postDetails.isRecovered ? 'recovered' : 'not-recovered'}`">
+            {{ postDetails.isRecovered ? $t('details.recovered') : $t('details.needsRecovery') }}
           </h3>
           <h1 class="col-12 q-my-sm building-title first-letter-uppercase">
             {{ postDetails.title }}
@@ -116,7 +83,7 @@
       <hr class="q-my-lg" />
 
       <div class="row">
-        <div class="col-12 col-md-8 q-pr-sm">
+        <div class="col-12 q-pr-sm">
           <h2 class="building-details-title first-letter-uppercase">
             {{ $t('details.details') }}
           </h2>
@@ -124,30 +91,21 @@
             {{ postDetails.details }}
           </p>
 
-          <h2
-            class="building-details-title first-letter-uppercase"
-            v-if="postDetails.stories"
-          >
+          <h2 class="building-details-title first-letter-uppercase" v-if="postDetails.stories">
             {{ $t('details.stories') }}
           </h2>
           <p class="rental-description">
             {{ postDetails.stories }}
           </p>
 
-          <h2
-            class="building-details-title first-letter-uppercase"
-            v-if="postDetails.previousFunctions"
-          >
+          <h2 class="building-details-title first-letter-uppercase" v-if="postDetails.previousFunctions">
             {{ $t('details.previousFunctions') }}
           </h2>
           <p class="rental-description">
             {{ postDetails.previousFunctions }}
           </p>
 
-          <h2
-            class="building-details-title first-letter-uppercase"
-            v-if="postDetails.suggestedFunctions"
-          >
+          <h2 class="building-details-title first-letter-uppercase" v-if="postDetails.suggestedFunctions">
             {{ $t('details.suggestedFunctions') }}
           </h2>
           <p class="rental-description">
@@ -180,12 +138,7 @@
   </q-page>
 
   <q-page class="constrain q-pa-md" v-else>
-    <q-spinner
-      class="fixed-center"
-      color="primary"
-      size="3em"
-      :thickness="10"
-    />
+    <q-spinner class="fixed-center" color="primary" size="3em" :thickness="10" />
   </q-page>
 </template>
 
