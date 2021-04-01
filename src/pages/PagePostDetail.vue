@@ -59,7 +59,10 @@
               styles: $q.dark.isActive ? styleDark : styleLight
             }"
           >
-            <googlemaps-marker :position="{ lat: postDetails.lat, lng: postDetails.lng }" />
+            <googlemaps-marker
+              :position="{ lat: postDetails.lat, lng: postDetails.lng }"
+              :icon="{ url: 'map-pins/blue.png' }"
+            />
           </googlemaps-map>
         </div>
       </div>

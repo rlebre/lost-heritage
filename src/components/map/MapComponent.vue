@@ -21,11 +21,7 @@
       :position="{ lat: post.lat, lng: post.lng }"
       :clickable="true"
       :draggable="false"
-      :icon="
-        `http://maps.google.com/mapfiles/ms/icons/${
-          post.isRecovered ? 'green' : 'red'
-        }-dot.png`
-      "
+      :icon="{ url: `map-pins/${post.isRecovered ? 'green.png' : 'pink.png'}` }"
       @click="selectMarker(post)"
     >
     </googlemaps-marker>
@@ -93,7 +89,7 @@ export default {
     },
 
     closeInfoWindows() {
-      this.infoWindowList.forEach(infoWindow => infoWindow.close());
+      this.infoWindowList.forEach((infoWindow) => infoWindow.close());
     }
   }
 };
