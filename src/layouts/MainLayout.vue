@@ -6,11 +6,11 @@
 
         <router-link class="no-link flex" to="/">
           <q-avatar class="q-my-auto large-screen-only">
-            <img src="lost-heritage.png" />
+            <img :src="$q.dark.isActive ? 'lost-heritage-reverse.png' : 'lost-heritage.png'" />
           </q-avatar>
 
           <q-avatar class="q-my-auto small-screen-only absolute-center">
-            <img src="lost-heritage-full.png" />
+            <img :src="$q.dark.isActive ? 'lost-heritage-reverse-full.png' : 'lost-heritage-full.png'" />
           </q-avatar>
 
           <q-toolbar-title class="large-screen-only text-grand-hotel text-bold toolbar-title">

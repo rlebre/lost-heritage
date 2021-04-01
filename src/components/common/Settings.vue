@@ -36,14 +36,7 @@
             <q-icon name="eva-globe" />
           </q-item-section>
           <q-item-section>
-            <q-select
-              class="text-capitalize"
-              v-model="lang"
-              :options="langOptions"
-              emit-value
-              dense
-              map-options
-            />
+            <q-select class="text-capitalize" v-model="lang" :options="langOptions" emit-value dense map-options />
           </q-item-section>
         </q-item>
 
@@ -55,12 +48,7 @@
             <q-icon name="eva-question-mark-circle" />
           </q-item-section>
           <q-item-section>
-            <q-btn
-              dense
-              class="text-capitalize"
-              :label="$t('c.settings.show')"
-              @click="instructionsModal = true"
-            />
+            <q-btn dense class="text-capitalize" :label="$t('c.settings.show')" @click="instructionsModal = true" />
           </q-item-section>
         </q-item>
 
@@ -72,12 +60,7 @@
             <q-icon name="eva-info" />
           </q-item-section>
           <q-item-section>
-            <q-btn
-              dense
-              class="text-capitalize"
-              :label="$t('c.settings.show')"
-              @click="aboutModal = true"
-            />
+            <q-btn dense class="text-capitalize" :label="$t('c.settings.show')" @click="aboutModal = true" />
           </q-item-section>
         </q-item>
 
@@ -89,12 +72,7 @@
             <q-icon name="eva-book" />
           </q-item-section>
           <q-item-section>
-            <q-btn
-              dense
-              class="text-capitalize"
-              :label="$t('c.settings.show')"
-              @click="tcModal = true"
-            />
+            <q-btn dense class="text-capitalize" :label="$t('c.settings.show')" @click="tcModal = true" />
           </q-item-section>
         </q-item>
       </q-card>
@@ -129,10 +107,7 @@
                 to="/new-post"
               />)
             </li>
-            <li
-              v-for="(entry, index) in $t('instructions.wantTopics').slice(1)"
-              :key="index"
-            >
+            <li v-for="(entry, index) in $t('instructions.wantTopics').slice(1)" :key="index">
               {{ entry }}
             </li>
           </ol>
@@ -148,9 +123,7 @@
           <div class="text-h6">{{ $t('instructions.stillSearching') }}</div>
           <p>
             {{ $t('instructions.still1') }}
-            <a href="mailto:patrimonioesquecido2020@gmail.com">
-              patrimonioesquecido2020@gmail.com
-            </a>
+            <a href="mailto:patrimonioesquecido2020@gmail.com"> patrimonioesquecido2020@gmail.com </a>
           </p>
         </q-card-section>
       </q-card>
@@ -164,16 +137,13 @@
           </q-avatar>
 
           <q-toolbar-title class="text-weight-bold">
-            Lost Heritage
+            {{ $t('appName') }}
           </q-toolbar-title>
 
           <q-btn flat round dense icon="close" v-close-popup />
         </q-toolbar>
 
-        <q-card-section
-          v-for="(paragraph, index) in $t('about.paragraphs')"
-          :key="index"
-        >
+        <q-card-section v-for="(paragraph, index) in $t('about.paragraphs')" :key="index">
           {{ paragraph }}
         </q-card-section>
 
