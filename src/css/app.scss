@@ -1,6 +1,20 @@
-.text-grand-hotel {
-  font-family: 'Grand Hotel', 'Roboto', 'Helvetica Neue', Arial, Helvetica,
-    sans-serif;
+@font-face {
+  font-family: 'Centra No2 Bold';
+  src: url('../../public/fonts/centra-no-2-bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Centra No2';
+  src: url('../../public/fonts/centra-no-2.woff') format('woff');
+}
+
+body {
+  font-family: 'Centra No2';
+
+  .text-grand-hotel {
+    font-weight: 700;
+    font-family: 'Centra No2 Bold', 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  }
 }
 
 .first-letter-uppercase::first-letter {
