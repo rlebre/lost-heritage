@@ -207,7 +207,7 @@ export default {
       optionsConcelhosFiltered: [],
       optionsSort: [this.$t('c.filter.county'), this.$t('c.filter.date'), this.$t('c.filter.likes')],
       search: '',
-      sortBy: this.$t('c.filter.date'),
+      sortBy: 'Data',
       sortDesc: true,
 
       sortTranslation: {

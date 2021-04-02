@@ -8,17 +8,8 @@
           <div class="col-12">
             <q-card flat bordered>
               <q-card-section>
-                <q-skeleton
-                  type="text"
-                  class="text-subtitle2"
-                  animation="fade"
-                />
-                <q-skeleton
-                  type="text"
-                  width="50%"
-                  class="text-subtitle2"
-                  animation="fade"
-                />
+                <q-skeleton type="text" class="text-subtitle2" animation="fade" />
+                <q-skeleton type="text" width="50%" class="text-subtitle2" animation="fade" />
               </q-card-section>
 
               <q-skeleton class="q-ma-sm" height="200px" animation="fade" />
@@ -53,13 +44,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', [
-      'postList',
-      'isLoadingPosts',
-      'filteredPostList',
-      'postListHasNextPage',
-      'lastFetchedPage'
-    ])
+    ...mapGetters('posts', ['postList', 'isLoadingPosts', 'filteredPostList', 'postListHasNextPage', 'lastFetchedPage'])
   },
 
   data() {
@@ -85,13 +70,24 @@ export default {
       const { selectedOptions, sortBy, sortType, searchString } = filterOptions;
 
       if (searchString) {
-        this.searchPosts({ query: searchString, sortBy, sortType });
+        this.searchPosts({ query: searchString, sortBy, sortType }).then(
+          (data) => {
+            this.filteredPosts = data;
+          },
+          (errors) => {
+            this.$q.notify({
+              message: errors[0].title,
+              caption: errors[0].detail,
+              timeout: 1000
+            });
+          }
+        );
       } else {
         this.filteredPosts = this.postList;
       }
 
       if (selectedOptions.length > 0) {
-        this.filteredPosts = this.filteredPosts.filter(post => {
+        this.filteredPosts = this.filteredPosts.filter((post) => {
           return selectedOptions.includes(post.county);
         });
       }
@@ -104,21 +100,19 @@ export default {
         this.filteredPosts.sort(this.$dynamicSort(filterOptions.sortBy));
       }
 
-      this.filteredPosts.sort(
-        this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1)
-      );
+      this.filteredPosts.sort(this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1));
     },
 
     refreshPosts(done) {
       this.fetchPosts(10).then(
-        data => {
+        (data) => {
           done();
           this.$q.notify({
             message: 'Posts updated successfully.',
             timeout: 1000
           });
         },
-        errors => {
+        (errors) => {
           done();
           this.$q.notify({
             message: errors[0].title,
@@ -134,10 +128,10 @@ export default {
         this.fetchPosts(10).then(doneLoadingState());
       } else if (this.postList.length > 0 && this.postListHasNextPage) {
         this.fetchNextPosts({ limit: 10, page: this.lastFetchedPage + 1 }).then(
-          data => {
+          (data) => {
             doneLoadingState();
           },
-          errors => {
+          (errors) => {
             this.$q.notify({
               message: errors[0].title,
               caption: errors[0].detail,
