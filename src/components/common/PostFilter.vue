@@ -161,7 +161,7 @@
           <q-btn
             :text-color="toggleSortColor.color"
             :color="toggleSortColor.bg"
-            class="q-mt-xs primary text-capitalize"
+            class="q-py-xs q-pr-xs primary text-capitalize"
             dense
             unelevated
             size="md"
