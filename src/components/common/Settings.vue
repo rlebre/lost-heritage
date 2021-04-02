@@ -20,7 +20,6 @@
           <q-item-section>
             <q-toggle
               v-model="darkMode"
-              @input="$q.dark.toggle"
               checked-icon="eva-moon-outline"
               unchecked-icon="eva-sun-outline"
               color="orange"
@@ -198,7 +197,7 @@ export default {
       instructionsModal: false,
       aboutModal: false,
       tcModal: false,
-      darkMode: this.$q.dark.isActive,
+      darkMode: false,
       langOptions: [
         { value: 'en-us', label: 'English' },
         { value: 'pt-pt', label: 'Portuguese (Portugal)' }
@@ -219,12 +218,28 @@ export default {
 
     lang(lang) {
       this.$i18n.locale = lang;
+      this.$q.cookies.set('lang', lang);
+    },
+
+    darkMode(val) {
+      this.$q.dark.set(val);
+      this.$q.cookies.set('dark', val);
     }
   },
 
   methods: {
     onClose() {
       this.$emit('onClose');
+    }
+  },
+
+  created() {
+    if (this.$q.cookies.get('lang')) {
+      this.lang = this.$q.cookies.get('lang');
+    }
+
+    if (this.$q.cookies.get('dark')) {
+      this.darkMode = this.$q.cookies.get('dark');
     }
   }
 };
