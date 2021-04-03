@@ -66,3 +66,12 @@ body {
     color: inherit;
   }
 }
+
+.body {
+  &--dark {
+    .leaflet-popup .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background-color: #1d1d1d !important;
+    }
+  }
+}

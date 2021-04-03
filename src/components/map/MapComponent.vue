@@ -1,37 +1,32 @@
 <template>
-  <googlemaps-map
-    ref="map"
-    class="map fit googlemaps-map"
-    :center="{ lat: 39.7330017, lng: -7.6897566 }"
-    :zoom="7"
-    :options="{
-      mapTypeControl: false,
-      streetViewControl: false,
-      rotateControl: false,
-      fullscreenControl: false,
-      disableDefaultUI: false,
-      styles: $q.dark.isActive ? styleDark : styleLight
-    }"
-    @click="closeInfoWindows"
-  >
-    <googlemaps-marker
+  <l-map :zoom="zoom" :center="center">
+    <l-tile-layer :url="url" :attribution="attribution" />
+    <l-marker
       :key="`marker-${post._id}`"
       :ref="`marker-${post._id}`"
+      :lat-lng="latLng(post.lat, post.lng)"
       v-for="post in posts"
-      :position="{ lat: post.lat, lng: post.lng }"
-      :clickable="true"
-      :draggable="false"
-      :icon="{ url: `map-pins/${post.isRecovered ? 'green.png' : 'pink.png'}` }"
-      @click="selectMarker(post)"
     >
-    </googlemaps-marker>
-  </googlemaps-map>
+      <l-icon
+        :icon-size="[25, 25]"
+        :icon-url="`map-pins/${post.isRecovered ? 'green.png' : 'pink.png'}`"
+        shadowUrl=""
+        :clickable="true"
+        :draggable="false"
+      />
+      <l-popup class="stylePopup">
+        <PinInfoWindow :post="post" />
+      </l-popup>
+    </l-marker>
+  </l-map>
 </template>
 
 <script>
-import { styleLight, styleDark } from '../../helpers/map-styles';
 import PinInfoWindow from 'components/map/PinInfoWindow';
-import Vue from 'vue';
+import { LMap, LTileLayer, LMarker, LPopup, LIcon } from 'vue2-leaflet';
+import { latLng } from 'leaflet';
+
+import 'leaflet/dist/leaflet.css';
 
 export default {
   name: 'Map',
@@ -39,67 +34,44 @@ export default {
   props: {
     posts: {
       type: Array
-    },
-
-    focusOnPost: {
-      type: Object
     }
   },
 
   components: {
-    PinInfoWindow
+    PinInfoWindow,
+    LMap,
+    LTileLayer,
+    LMarker,
+    LPopup,
+    LIcon
   },
 
   data() {
     return {
-      infoWindowList: [],
-      styleLight,
-      styleDark
+      postToOpen: {},
+      latLng,
+      filteredPosts: [],
+      zoom: 7,
+      center: latLng(39.7330017, -7.6897566),
+      shadowUrl: '',
+      attribution:
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, \
+        &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> \
+        &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     };
   },
 
-  watch: {
-    focusOnPost(newValue, oldValue) {
-      this.selectMarker(newValue);
+  computed: {
+    url() {
+      const isDark = this.$q.dark.isActive ? 'alidade_smooth_dark' : 'alidade_smooth';
+      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png`;
     }
   },
 
   methods: {
-    selectMarker(post) {
-      this.closeInfoWindows();
-      const map = this.$refs.map.$_map;
-      const marker_ele = this.$refs[`marker-${post._id}`][0].$_marker;
-
-      const ComponentClass = Vue.extend(PinInfoWindow);
-      const PinInfoWindowInstance = new ComponentClass({
-        propsData: {
-          post: post
-        }
-      });
-
-      PinInfoWindowInstance.$mount();
-
-      const infowindow = new google.maps.InfoWindow({
-        content: PinInfoWindowInstance.$el
-      });
-
-      infowindow.open(map, marker_ele);
-
-      this.infoWindowList.push(infowindow);
-    },
-
-    closeInfoWindows() {
-      this.infoWindowList.forEach((infoWindow) => infoWindow.close());
+    togglePopup(postId) {
+      this.$refs[`marker-${postId}`][0].mapObject.togglePopup();
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.vue-map-container,
-.vue-map-container .vue-map {
-  width: 100%;
-  height: 100%;
-  position: unset;
-}
-</style>

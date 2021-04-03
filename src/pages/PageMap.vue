@@ -31,14 +31,14 @@
           </q-pull-to-refresh>
         </div>
         <div class="col-sm-8 col-md-8 q-pr-md">
-          <MapComponent :posts="filteredPosts" :focusOnPost="focusedPostId"></MapComponent>
+          <MapComponent :posts="filteredPosts" :postToFocus="postToFocus"></MapComponent>
         </div>
       </div>
     </div>
 
     <div class="small-screen-only">
       <div class="app-panel row" style="padding-bottom: 48px">
-        <MapComponent :posts="filteredPosts" :focusOnPost="focusedPostId"></MapComponent>
+        <MapComponent :posts="filteredPosts" :postToFocus="postToFocus"></MapComponent>
       </div>
     </div>
   </q-page>
@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       filteredPosts: [],
-      focusedPostId: null
+      postToFocus: null
     };
   },
 
@@ -131,7 +131,7 @@ export default {
     },
 
     onListCardViewOnMap(post) {
-      this.focusedPostId = post;
+      this.postToFocus = post;
     },
 
     refreshPosts(done) {
