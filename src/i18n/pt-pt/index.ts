@@ -60,8 +60,7 @@ export default {
         },
 
         locationPicker: {
-            set: 'Fixar',
-            pickLocation: 'Escolher localização no mapa',
+            tooltip: 'Ajuste o mapa para selectionar localização do edifício.'
         }
     },
 

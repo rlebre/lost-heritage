@@ -60,8 +60,7 @@ export default {
     },
 
     locationPicker: {
-      set: 'Set',
-      pickLocation: 'Pick Location on map',
+      tooltip: 'Adjust the map to select the building location.'
     }
   },
 

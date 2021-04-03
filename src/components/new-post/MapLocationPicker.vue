@@ -1,70 +1,64 @@
 <template>
-  <googlemaps-map
-    ref="mapLocationPicker"
-    class="map fit googlemaps-map"
-    style="position:unset"
-    :center.sync="pickedLocation"
-    :zoom="7"
-    :options="{
-      mapTypeControl: true,
-      streetViewControl: false,
-      rotateControl: false,
-      fullscreenControl: false,
-      disableDefaultUI: false,
-      styles: $q.dark.isActive ? styleDark : styleLight
-    }"
-  >
-    <googlemaps-marker
-      :position="pickedLocation"
-      :draggable="false"
-      icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-    >
-    </googlemaps-marker>
-  </googlemaps-map>
+  <l-map :zoom="7" :center="latLng(39.7330017, -7.6897566)" @update:center="centerUpdated" ref="lmap">
+    <l-tile-layer :url="url" :attribution="attribution" />
+    <l-marker :lat-lng="pickedLocation" ref="pickerMarker">
+      <l-icon :icon-size="[25, 25]" icon-url="map-pins/blue.png" shadowUrl="" :clickable="false" :draggable="false" />
+
+      <l-popup> {{ $t('c.locationPicker.tooltip') }} </l-popup>
+    </l-marker>
+  </l-map>
 </template>
 
 <script>
-import { styleLight, styleDark } from '../../helpers/map-styles';
+import { LMap, LTileLayer, LMarker, LPopup, LIcon } from 'vue2-leaflet';
+import { latLng } from 'leaflet';
+
+import 'leaflet/dist/leaflet.css';
 
 export default {
   name: 'Map',
 
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker,
+    LPopup,
+    LIcon
+  },
+
   data() {
     return {
-      pickedLocation: { lat: 39.7330017, lng: -7.6897566 },
-      styleLight,
-      styleDark
+      pickedLocation: latLng(39.7330017, -7.6897566),
+      latLng,
+      attribution:
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, \
+        &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> \
+        &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     };
   },
 
   methods: {
-    updateCenter(newLocation) {
-      this.pickedLocation = {
-        lat: newLocation.lat(),
-        lng: newLocation.lng()
-      };
-
+    centerUpdated(newLocation) {
+      this.pickedLocation = newLocation;
       this.$emit('centerUpdated', this.pickedLocation);
     }
   },
 
-  watch: {
-    pickedLocation(newValue, oldValue) {
-      this.$emit('centerUpdated', this.pickedLocation);
+  computed: {
+    url() {
+      const isDark = this.$q.dark.isActive ? 'alidade_smooth_dark' : 'alidade_smooth';
+      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png`;
     }
   },
 
-  created() {
-    this.$emit('centerUpdated', this.pickedLocation);
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.lmap.mapObject.on('drag', (e) => {
+        this.pickedLocation = e.target.getCenter();
+      });
+
+      this.$refs.pickerMarker.mapObject.openPopup();
+    });
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.vue-map-container,
-.vue-map-container .vue-map {
-  width: 100%;
-  height: 100%;
-  position: unset;
-}
-</style>

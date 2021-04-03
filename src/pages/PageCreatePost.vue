@@ -12,7 +12,7 @@
       </h6>
     </div>
 
-    <div class=" q-ma-md">
+    <div class="q-ma-md">
       <q-input
         :color="inputLabelColor"
         v-model="newPost.contributorName"
@@ -22,7 +22,7 @@
       />
     </div>
 
-    <div class=" q-ma-md">
+    <div class="q-ma-md">
       <q-input
         :color="inputLabelColor"
         v-model="newPost.contributorEmail"
@@ -32,7 +32,7 @@
       />
     </div>
 
-    <div class=" q-ma-md">
+    <div class="q-ma-md">
       <q-input
         :color="inputLabelColor"
         v-model="newPost.contributorCity"
@@ -48,7 +48,7 @@
       </h6>
     </div>
 
-    <div class=" q-ma-md">
+    <div class="q-ma-md">
       <q-input
         :color="inputLabelColor"
         v-model="newPost.title"
@@ -92,44 +92,9 @@
       </template>
     </q-select>
 
-    <div class="q-ma-md">
-      <q-input
-        :loading="locationLoading"
-        v-model="location"
-        class="col col-sm-10"
-        :label="$t('create.buildLocation')"
-        filled
-        disable
-      >
-      </q-input>
-      <q-btn-group flat spread class="q-mt-sm">
-        <q-btn
-          class="q-mr-sm text-uppercase"
-          dense
-          flat
-          color="primary"
-          icon="eva-pin-outline"
-          :label="$t('create.pick')"
-          @click="toggleShowLocationPickerDialog"
-        />
-
-        <q-btn
-          dense
-          flat
-          class="text-uppercase"
-          color="primary"
-          icon="eva-navigation-2-outline"
-          :label="$t('create.locate')"
-          @click="getLocation"
-        />
-      </q-btn-group>
+    <div class="q-ma-md" style="height: 300px">
+      <MapLocationPicker @centerUpdated="locationPicked" />
     </div>
-
-    <LocationPickerDialog
-      v-if="showLocationPickerDialog"
-      @closed="showLocationPickerDialog = false"
-      @pickedLocation="applyLocation"
-    ></LocationPickerDialog>
 
     <div class="q-ma-md">
       <q-input
@@ -196,15 +161,9 @@
     </div>
 
     <div class="q-ma-sm">
-      <q-checkbox
-        class="col col-sm-10"
-        :color="inputLabelColor"
-        v-model="tncAgree"
-      >
+      <q-checkbox class="col col-sm-10" :color="inputLabelColor" v-model="tncAgree">
         {{ $t('create.agreeTC1') }}
-        <q-btn dense flat unelevated label="T&C" @click="tcModal = true" />{{
-          $t('create.agreeTC2')
-        }}
+        <q-btn dense flat unelevated label="T&C" @click="tcModal = true" />{{ $t('create.agreeTC2') }}
       </q-checkbox>
     </div>
 
@@ -221,11 +180,11 @@
         @click="addPost"
         :disable="
           !newPost.contributorEmail ||
-            !newPost.title ||
-            !newPost.details ||
-            !newPost.county ||
-            !tncAgree ||
-            isUploadingImages
+          !newPost.title ||
+          !newPost.details ||
+          !newPost.county ||
+          !tncAgree ||
+          isUploadingImages
         "
       ></q-btn>
     </div>
@@ -235,7 +194,7 @@
 <script>
 import { uid } from 'quasar';
 import { mapGetters, mapActions } from 'vuex';
-import LocationPickerDialog from 'components/new-post/LocationPickerDialog';
+import MapLocationPicker from 'components/new-post/MapLocationPicker';
 import ImagePicker from 'components/common/ImagePicker';
 import TermsAndConditions from 'components/common/TermsAndConditions';
 
@@ -243,7 +202,7 @@ export default {
   name: 'PageCreatePost',
 
   components: {
-    LocationPickerDialog,
+    MapLocationPicker,
     ImagePicker,
     TermsAndConditions
   },
@@ -271,7 +230,6 @@ export default {
       location: '',
       locationLoading: false,
       tncAgree: false,
-      showLocationPickerDialog: false,
       tcModal: false,
       concelhos: [],
       filteredConcelhos: []
@@ -332,7 +290,7 @@ export default {
             ]
           });
         } else {
-          this.errors.forEach(error => {
+          this.errors.forEach((error) => {
             this.$q.notify({
               title: 'Error',
               group: false,
@@ -355,14 +313,19 @@ export default {
   methods: {
     ...mapActions('posts', ['createPost', 'uploadImages']),
 
+    locationPicked(location) {
+      this.newPost.lat = location.lat;
+      this.newPost.lng = location.lng;
+    },
+
     getLocation() {
       this.locationLoading = true;
       navigator.geolocation.getCurrentPosition(
-        position => {
+        (position) => {
           this.newPost.lng = position.coords.longitude;
           this.newPost.lat = position.coords.latitude;
         },
-        error => {
+        (error) => {
           this.locationError(error);
         },
         { timeout: 10000 }
@@ -375,10 +338,6 @@ export default {
         message: 'Could not find your location.'
       });
       this.locationLoading = false;
-    },
-
-    toggleShowLocationPickerDialog() {
-      this.showLocationPickerDialog ^= true;
     },
 
     applyLocation(location) {
@@ -399,9 +358,7 @@ export default {
 
       update(() => {
         const needle = val.toLowerCase();
-        this.filteredConcelhos = this.concelhos.filter(
-          v => v.toLowerCase().indexOf(needle) > -1
-        );
+        this.filteredConcelhos = this.concelhos.filter((v) => v.toLowerCase().indexOf(needle) > -1);
       });
     },
 
