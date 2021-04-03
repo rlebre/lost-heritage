@@ -44,26 +44,18 @@
         </div>
 
         <div class="col-12 col-md-6 q-pa-sm" v-if="postDetails.lat && postDetails.lng">
-          <googlemaps-map
-            ref="map"
-            class="map fit googlemaps-map"
-            :center="{ lat: postDetails.lat, lng: postDetails.lng }"
-            :zoom.sync="zoom"
-            :options="{
-              mapTypeControl: false,
-              streetViewControl: false,
-              rotateControl: false,
-              fullscreenControl: false,
-              disableDefaultUI: false,
-              draggable: false,
-              styles: $q.dark.isActive ? styleDark : styleLight
-            }"
-          >
-            <googlemaps-marker
-              :position="{ lat: postDetails.lat, lng: postDetails.lng }"
-              :icon="{ url: 'map-pins/blue.png' }"
-            />
-          </googlemaps-map>
+          <l-map :zoom="9" :center="latLng(postDetails.lat, postDetails.lng)" :options="{ dragging: false }">
+            <l-tile-layer :url="url" :attribution="attribution" />
+            <l-marker :lat-lng="latLng(postDetails.lat, postDetails.lng)">
+              <l-icon
+                :icon-size="[25, 25]"
+                icon-url="map-pins/blue.png"
+                shadowUrl=""
+                :clickable="false"
+                :draggable="false"
+              />
+            </l-marker>
+          </l-map>
         </div>
       </div>
     </div>
@@ -147,16 +139,27 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { styleLight, styleDark } from '../helpers/map-styles';
 import MapComponent from 'components/map/MapComponent.vue';
 import CommentsBox from 'components/post-details/CommentsBox';
+import PinInfoWindow from 'components/map/PinInfoWindow';
+
+import { LMap, LTileLayer, LMarker, LPopup, LIcon } from 'vue2-leaflet';
+import { latLng } from 'leaflet';
+
+import 'leaflet/dist/leaflet.css';
 
 export default {
   name: 'PagePost',
 
   components: {
     MapComponent,
-    CommentsBox
+    PinInfoWindow,
+    CommentsBox,
+    LMap,
+    LTileLayer,
+    LMarker,
+    LPopup,
+    LIcon
   },
 
   data() {
@@ -180,9 +183,12 @@ export default {
       ],
       options: {},
       userPosition: null,
-      zoom: 10,
-      styleLight,
-      styleDark
+
+      attribution:
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, \
+        &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> \
+        &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+      latLng
     };
   },
 
@@ -191,7 +197,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', ['isLoadingPosts', 'postDetails'])
+    ...mapGetters('posts', ['isLoadingPosts', 'postDetails']),
+
+    url() {
+      const isDark = this.$q.dark.isActive ? 'alidade_smooth_dark' : 'alidade_smooth';
+      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png`;
+    }
   },
 
   async preFetch({ store, currentRoute }) {
@@ -262,14 +273,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.googlemaps-map {
-  min-height: 300px;
-}
-
 .uncropped-image {
-  background-size: contain; /* don't crop the image  */
-  background-repeat: no-repeat; /* only show the image one time  */
-  //background-color: grey; /* color to fill empty space with  */
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .upper-section {
