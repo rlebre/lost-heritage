@@ -31,7 +31,6 @@ module.exports = configure(function (ctx) {
       'composition-api',
       'i18n',
       'axios',
-      'google-maps',
       'filters',
       'social-sharing',
       'helpers',
