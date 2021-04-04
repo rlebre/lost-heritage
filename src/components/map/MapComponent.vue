@@ -14,7 +14,7 @@
         :clickable="true"
         :draggable="false"
       />
-      <l-popup class="stylePopup">
+      <l-popup>
         <PinInfoWindow :post="post" />
       </l-popup>
     </l-marker>
@@ -34,6 +34,9 @@ export default {
   props: {
     posts: {
       type: Array
+    },
+    postToFocus: {
+      type: Object
     }
   },
 
@@ -48,7 +51,7 @@ export default {
 
   data() {
     return {
-      postToOpen: {},
+      postToOpen: null,
       latLng,
       filteredPosts: [],
       zoom: 7,
@@ -68,10 +71,35 @@ export default {
     }
   },
 
+  watch: {
+    postToOpen(newVal) {
+      if (newVal) {
+        this.togglePopup(newVal._id);
+      }
+    },
+
+    postToFocus(newVal) {
+      this.postToOpen = newVal;
+    }
+  },
+
   methods: {
     togglePopup(postId) {
       this.$refs[`marker-${postId}`][0].mapObject.togglePopup();
     }
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      for (const ref in this.$refs) {
+        this.$refs[ref][0].mapObject.on('popupclose', (e) => {
+          this.postToOpen = null;
+          this.$emit('popupclosed', ref);
+        });
+      }
+
+      this.postToOpen = this.postToFocus;
+    });
   }
 };
 </script>

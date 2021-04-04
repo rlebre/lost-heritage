@@ -31,14 +31,22 @@
           </q-pull-to-refresh>
         </div>
         <div class="col-sm-8 col-md-8 q-pr-md">
-          <MapComponent :posts="filteredPosts" :postToFocus="postToFocus"></MapComponent>
+          <MapComponent
+            :posts="filteredPosts"
+            :postToFocus="postToFocus"
+            @popupclosed="mapPopupClosed"
+          />
         </div>
       </div>
     </div>
 
     <div class="small-screen-only">
       <div class="app-panel row" style="padding-bottom: 48px">
-        <MapComponent :posts="filteredPosts" :postToFocus="postToFocus"></MapComponent>
+        <MapComponent
+          :posts="filteredPosts"
+          :postToFocus="postToFocus"
+          @popupclosed="mapPopupClosed"
+        />
       </div>
     </div>
   </q-page>
@@ -127,7 +135,9 @@ export default {
         this.filteredPosts.sort(this.$dynamicSort(filterOptions.sortBy));
       }
 
-      this.filteredPosts.sort(this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1));
+      this.filteredPosts.sort(
+        this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1)
+      );
     },
 
     onListCardViewOnMap(post) {
@@ -174,6 +184,10 @@ export default {
       } else {
         doneLoadingState();
       }
+    },
+
+    mapPopupClosed(popupRef) {
+      this.postToFocus = null;
     }
   }
 };
