@@ -1,10 +1,6 @@
 <template>
   <q-page class="constrain q-pa-md" v-if="post">
-    <AdminBar
-      :post="post"
-      :editModeOn="editable"
-      @editModeChanged="editable = !editable"
-    />
+    <AdminBar :post="post" :editModeOn="editable" @editModeChanged="editable = !editable" />
 
     <div class="upper-section">
       <div class="row">
@@ -42,23 +38,17 @@
         </div>
 
         <div class="col-12 col-md-6 q-pa-sm" v-if="post.lat && post.lng">
-          <googlemaps-map
-            ref="map"
-            class="map fit googlemaps-map"
-            :center="{ lat: post.lat, lng: post.lng }"
-            :zoom.sync="zoom"
-            :options="{
-              mapTypeControl: false,
-              streetViewControl: false,
-              rotateControl: false,
-              fullscreenControl: false,
-              disableDefaultUI: false,
-              draggable: false,
-              styles: $q.dark.isActive ? styleDark : styleLight
-            }"
-          >
-            <googlemaps-marker :position="{ lat: post.lat, lng: post.lng }" />
-          </googlemaps-map>
+          <l-map :zoom="9" :center="latLng(post.lat, post.lng)" :options="{ dragging: false }">
+            <l-tile-layer :url="url" :attribution="attribution" />
+            <l-marker :lat-lng="latLng(post.lat, post.lng)">
+              <l-icon
+                :icon-size="[25, 25]"
+                icon-url="map-pins/blue.png"
+                :clickable="true"
+                :draggable="true"
+              />
+            </l-marker>
+          </l-map>
         </div>
       </div>
     </div>
@@ -170,24 +160,22 @@
   </q-page>
 
   <q-page class="constrain q-pa-md" v-else>
-    <q-spinner
-      class="fixed-center"
-      color="primary"
-      size="3em"
-      :thickness="10"
-    />
+    <q-spinner class="fixed-center" color="primary" size="3em" :thickness="10" />
   </q-page>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { styleLight, styleDark } from '../../helpers/map-styles';
 import MapComponent from 'components/map/MapComponent.vue';
 import CommentsBox from 'components/post-details/CommentsBox';
 import EditableInput from 'components/post-details/editable/EditableInput';
 import EditableSelect from 'components/post-details/editable/EditableSelect';
 import EditableToggle from 'components/post-details/editable/EditableToggle';
 import AdminBar from 'components/admin/AdminBar';
+import { LMap, LTileLayer, LMarker, LPopup, LIcon } from 'vue2-leaflet';
+import { latLng } from 'leaflet';
+
+import 'leaflet/dist/leaflet.css';
 
 export default {
   name: 'AdminPostDetails',
@@ -198,7 +186,12 @@ export default {
     EditableInput,
     EditableSelect,
     EditableToggle,
-    AdminBar
+    AdminBar,
+    LMap,
+    LTileLayer,
+    LMarker,
+    LPopup,
+    LIcon
   },
 
   props: {
@@ -235,9 +228,11 @@ export default {
 
       inputLoadingState: false,
       inputDoneState: {},
-
-      styleLight,
-      styleDark
+      attribution:
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, \
+        &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> \
+        &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+      latLng
     };
   },
 
@@ -248,25 +243,20 @@ export default {
   },
 
   methods: {
-    ...mapActions('posts', [
-      'fetchPostDetails',
-      'editPost',
-      'approvePost',
-      'declinePost'
-    ]),
+    ...mapActions('posts', ['fetchPostDetails', 'editPost', 'approvePost', 'declinePost']),
 
     inputChanged(evt) {
       this.$set(this.post, evt.key, evt.value);
       this.$set(this.inputDoneState, evt.key, true);
       this.editPost(this.post).then(
-        data => {
+        (data) => {
           this.$q.notify({
             message: 'Post edited successfully',
             timeout: 3000
           });
           this.$set(this.inputDoneState, evt.key, true);
         },
-        errors => {
+        (errors) => {
           this.$q.notify({
             message: errors[0].title,
             caption: errors[0].detail,
@@ -283,7 +273,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', ['isLoadingPosts', 'postDetails'])
+    ...mapGetters('posts', ['isLoadingPosts', 'postDetails']),
+
+    url() {
+      const isDark = this.$q.dark.isActive ? 'alidade_smooth_dark' : 'alidade_smooth';
+      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png`;
+    }
   },
 
   created() {
@@ -293,10 +288,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.googlemaps-map {
-  min-height: 300px;
-}
-
 .uncropped-image {
   background-size: contain; /* don't crop the image  */
   background-repeat: no-repeat; /* only show the image one time  */
