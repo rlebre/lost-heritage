@@ -5,7 +5,11 @@
         <div class="small-screen-only details-section q-ma-sm">
           <div class="details-section-header">
             <div class="row">
-              <h3 :class="`col-12 building-status building-${postDetails.isRecovered ? 'recovered' : 'not-recovered'}`">
+              <h3
+                :class="`col-12 building-status building-${
+                  postDetails.isRecovered ? 'recovered' : 'not-recovered'
+                }`"
+              >
                 {{ postDetails.isRecovered ? $t('create.recovered') : $t('create.needsRecovered') }}
               </h3>
               <h1 class="col-12 q-my-sm building-title text-capitalize">
@@ -19,7 +23,15 @@
         </div>
 
         <div class="col-12 col-md-6 q-pa-sm">
-          <q-carousel swipeable arrows animated v-model="slideNumber" thumbnails infinite :fullscreen.sync="fullscreen">
+          <q-carousel
+            swipeable
+            arrows
+            animated
+            v-model="slideNumber"
+            thumbnails
+            infinite
+            :fullscreen.sync="fullscreen"
+          >
             <q-carousel-slide
               class="uncropped-image"
               v-for="(image, index) in postDetails.images"
@@ -43,8 +55,16 @@
           </q-carousel>
         </div>
 
-        <div class="col-12 col-md-6 q-pa-sm" v-if="postDetails.lat && postDetails.lng">
-          <l-map :zoom="9" :center="latLng(postDetails.lat, postDetails.lng)" :options="{ dragging: false }">
+        <div
+          class="col-12 col-md-6 q-pa-sm"
+          style="min-height: 300px"
+          v-if="postDetails.lat && postDetails.lng"
+        >
+          <l-map
+            :zoom="9"
+            :center="latLng(postDetails.lat, postDetails.lng)"
+            :options="{ dragging: false }"
+          >
             <l-tile-layer :url="url" :attribution="attribution" />
             <l-marker :lat-lng="latLng(postDetails.lat, postDetails.lng)">
               <l-icon
@@ -63,7 +83,11 @@
     <div class="details-section q-ma-sm">
       <div class="large-screen-only details-section-header">
         <div class="row">
-          <h3 :class="`col-12 building-status building-${postDetails.isRecovered ? 'recovered' : 'not-recovered'}`">
+          <h3
+            :class="`col-12 building-status building-${
+              postDetails.isRecovered ? 'recovered' : 'not-recovered'
+            }`"
+          >
             {{ postDetails.isRecovered ? $t('details.recovered') : $t('details.needsRecovery') }}
           </h3>
           <h1 class="col-12 q-my-sm building-title first-letter-uppercase">
@@ -93,14 +117,20 @@
             {{ postDetails.stories }}
           </p>
 
-          <h2 class="building-details-title first-letter-uppercase" v-if="postDetails.previousFunctions">
+          <h2
+            class="building-details-title first-letter-uppercase"
+            v-if="postDetails.previousFunctions"
+          >
             {{ $t('details.previousFunctions') }}
           </h2>
           <p class="rental-description">
             {{ postDetails.previousFunctions }}
           </p>
 
-          <h2 class="building-details-title first-letter-uppercase" v-if="postDetails.suggestedFunctions">
+          <h2
+            class="building-details-title first-letter-uppercase"
+            v-if="postDetails.suggestedFunctions"
+          >
             {{ $t('details.suggestedFunctions') }}
           </h2>
           <p class="rental-description">
@@ -121,13 +151,13 @@
           v-if="postDetails"
           :comments="postDetails.comments"
           :postId="postDetails._id"
-        ></CommentsBox>
+        />
         <CommentsBox
           class="col-12 large-screen-only q-px-sm"
           v-if="postDetails"
           :comments="postDetails.comments"
           :postId="postDetails._id"
-        ></CommentsBox>
+        />
       </div>
     </div>
   </q-page>
