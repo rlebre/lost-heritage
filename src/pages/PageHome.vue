@@ -44,7 +44,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters('posts', ['postList', 'isLoadingPosts', 'filteredPostList', 'postListHasNextPage', 'lastFetchedPage'])
+    ...mapGetters('posts', [
+      'postList',
+      'isLoadingPosts',
+      'filteredPostList',
+      'postListHasNextPage',
+      'lastFetchedPage'
+    ])
   },
 
   data() {
@@ -100,7 +106,9 @@ export default {
         this.filteredPosts.sort(this.$dynamicSort(filterOptions.sortBy));
       }
 
-      this.filteredPosts.sort(this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1));
+      this.filteredPosts.sort(
+        this.$dynamicSort(filterOptions.sortBy, sortType === 'desc' ? -1 : 1)
+      );
     },
 
     refreshPosts(done) {
@@ -124,7 +132,7 @@ export default {
     },
 
     loadMorePosts(index, doneLoadingState) {
-      if (this.postList.length == 0) {
+      if (this.postList.length == 0 && !isLoadingPosts) {
         this.fetchPosts(10).then(doneLoadingState());
       } else if (this.postList.length > 0 && this.postListHasNextPage) {
         this.fetchNextPosts({ limit: 10, page: this.lastFetchedPage + 1 }).then(
