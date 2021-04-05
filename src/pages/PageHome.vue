@@ -132,7 +132,7 @@ export default {
     },
 
     loadMorePosts(index, doneLoadingState) {
-      if (this.postList.length == 0 && !isLoadingPosts) {
+      if (this.postList.length == 0 && !this.isLoadingPosts) {
         this.fetchPosts(10).then(doneLoadingState());
       } else if (this.postList.length > 0 && this.postListHasNextPage) {
         this.fetchNextPosts({ limit: 10, page: this.lastFetchedPage + 1 }).then(
