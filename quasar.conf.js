@@ -11,6 +11,7 @@ const { configure } = require('quasar/wrappers');
 
 const PRODUCTION_URL = 'https://patrimonioesquecido.ruilebre.com';
 const API_URL = process.env.API_URL;
+const MAP_KEY = process.env.MAP_KEY;
 
 module.exports = configure(function (ctx) {
   return {
