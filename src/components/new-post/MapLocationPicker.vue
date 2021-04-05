@@ -1,8 +1,19 @@
 <template>
-  <l-map :zoom="7" :center="latLng(39.7330017, -7.6897566)" @update:center="centerUpdated" ref="lmap">
+  <l-map
+    :zoom="7"
+    :center="latLng(39.7330017, -7.6897566)"
+    @update:center="centerUpdated"
+    ref="lmap"
+  >
     <l-tile-layer :url="url" :attribution="attribution" />
     <l-marker :lat-lng="pickedLocation" ref="pickerMarker">
-      <l-icon :icon-size="[25, 25]" icon-url="map-pins/blue.png" shadowUrl="" :clickable="false" :draggable="false" />
+      <l-icon
+        :icon-size="[25, 25]"
+        icon-url="map-pins/blue.png"
+        shadowUrl=""
+        :clickable="false"
+        :draggable="false"
+      />
 
       <l-popup> {{ $t('c.locationPicker.tooltip') }} </l-popup>
     </l-marker>
@@ -47,7 +58,7 @@ export default {
   computed: {
     url() {
       const isDark = this.$q.dark.isActive ? 'alidade_smooth_dark' : 'alidade_smooth';
-      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png`;
+      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png?api_key=${process.ENV.MAP_KEY}`;
     }
   },
 

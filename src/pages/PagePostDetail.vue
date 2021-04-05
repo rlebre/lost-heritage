@@ -231,7 +231,7 @@ export default {
 
     url() {
       const isDark = this.$q.dark.isActive ? 'alidade_smooth_dark' : 'alidade_smooth';
-      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png`;
+      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png?api_key=${process.ENV.MAP_KEY}`;
     }
   },
 
