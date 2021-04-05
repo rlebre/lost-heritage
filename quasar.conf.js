@@ -63,7 +63,8 @@ module.exports = configure(function (ctx) {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
         API: API_URL,
-        PRODUCTION_URL
+        PRODUCTION_URL,
+        MAP_KEY
       },
       // transpile: false,
 
