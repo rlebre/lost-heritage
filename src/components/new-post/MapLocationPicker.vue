@@ -58,7 +58,7 @@ export default {
   computed: {
     url() {
       const isDark = this.$q.dark.isActive ? 'alidade_smooth_dark' : 'alidade_smooth';
-      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png?api_key=${process.ENV.MAP_KEY}`;
+      return `https://tiles.stadiamaps.com/tiles/${isDark}/{z}/{x}/{y}{r}.png?api_key=${process.env.MAP_KEY}`;
     }
   },
 
