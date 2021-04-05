@@ -4,7 +4,7 @@
     <l-marker
       :key="`marker-${post._id}`"
       :ref="`marker-${post._id}`"
-      :lat-lng="latLng(post.lat, post.lng)"
+      :lat-lng="[post.lat, post.lng]"
       v-for="post in posts"
     >
       <l-icon
@@ -23,8 +23,13 @@
 
 <script>
 import PinInfoWindow from 'components/map/PinInfoWindow';
-import { LMap, LTileLayer, LMarker, LPopup, LIcon } from 'vue2-leaflet';
-import { latLng } from 'leaflet';
+
+let Vue2Leaflet = {};
+
+if (!process.env.SERVER) {
+  console.log('loading vue2-leaflet');
+  Vue2Leaflet = require('vue2-leaflet');
+}
 
 import 'leaflet/dist/leaflet.css';
 
@@ -42,20 +47,19 @@ export default {
 
   components: {
     PinInfoWindow,
-    LMap,
-    LTileLayer,
-    LMarker,
-    LPopup,
-    LIcon
+    'l-map': Vue2Leaflet.LMap,
+    'l-tile-layer': Vue2Leaflet.LTileLayer,
+    'l-marker': Vue2Leaflet.LMarker,
+    'l-popup': Vue2Leaflet.LPopup,
+    'l-icon': Vue2Leaflet.LIcon
   },
 
   data() {
     return {
       postToOpen: null,
-      latLng,
       filteredPosts: [],
       zoom: 7,
-      center: latLng(39.7330017, -7.6897566),
+      center: [39.7330017, -7.6897566],
       shadowUrl: '',
       attribution:
         '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, \

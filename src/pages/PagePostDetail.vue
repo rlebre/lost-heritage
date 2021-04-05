@@ -62,11 +62,11 @@
         >
           <l-map
             :zoom="9"
-            :center="latLng(postDetails.lat, postDetails.lng)"
+            :center="[postDetails.lat, postDetails.lng]"
             :options="{ dragging: false }"
           >
             <l-tile-layer :url="url" :attribution="attribution" />
-            <l-marker :lat-lng="latLng(postDetails.lat, postDetails.lng)">
+            <l-marker :lat-lng="[postDetails.lat, postDetails.lng]">
               <l-icon
                 :icon-size="[25, 25]"
                 icon-url="map-pins/blue.png"
@@ -173,8 +173,12 @@ import MapComponent from 'components/map/MapComponent.vue';
 import CommentsBox from 'components/post-details/CommentsBox';
 import PinInfoWindow from 'components/map/PinInfoWindow';
 
-import { LMap, LTileLayer, LMarker, LPopup, LIcon } from 'vue2-leaflet';
-import { latLng } from 'leaflet';
+let Vue2Leaflet = {};
+
+if (!process.env.SERVER) {
+  console.log('loading vue2-leaflet');
+  Vue2Leaflet = require('vue2-leaflet');
+}
 
 import 'leaflet/dist/leaflet.css';
 
@@ -185,11 +189,11 @@ export default {
     MapComponent,
     PinInfoWindow,
     CommentsBox,
-    LMap,
-    LTileLayer,
-    LMarker,
-    LPopup,
-    LIcon
+    'l-map': Vue2Leaflet.LMap,
+    'l-tile-layer': Vue2Leaflet.LTileLayer,
+    'l-marker': Vue2Leaflet.LMarker,
+    'l-popup': Vue2Leaflet.LPopup,
+    'l-icon': Vue2Leaflet.LIcon
   },
 
   data() {
@@ -197,28 +201,14 @@ export default {
       slideNumber: 0,
       fullscreen: false,
 
-      center: {
-        lat: 48.853,
-        lng: 2.298
-      },
-      path: [
-        {
-          lat: 48.853,
-          lng: 2.298
-        },
-        {
-          lat: 48.8735,
-          lng: 2.2951
-        }
-      ],
+      center: [48.853, 2.298],
       options: {},
       userPosition: null,
 
       attribution:
         '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, \
         &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> \
-        &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-      latLng
+        &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     };
   },
 

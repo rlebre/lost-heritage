@@ -38,9 +38,9 @@
         </div>
 
         <div class="col-12 col-md-6 q-pa-sm" v-if="post.lat && post.lng">
-          <l-map :zoom="9" :center="latLng(post.lat, post.lng)" :options="{ dragging: false }">
+          <l-map :zoom="9" :center="[post.lat, post.lng]" :options="{ dragging: false }">
             <l-tile-layer :url="url" :attribution="attribution" />
-            <l-marker :lat-lng="latLng(post.lat, post.lng)">
+            <l-marker :lat-lng="[post.lat, post.lng]">
               <l-icon
                 :icon-size="[25, 25]"
                 icon-url="map-pins/blue.png"
@@ -172,8 +172,13 @@ import EditableInput from 'components/post-details/editable/EditableInput';
 import EditableSelect from 'components/post-details/editable/EditableSelect';
 import EditableToggle from 'components/post-details/editable/EditableToggle';
 import AdminBar from 'components/admin/AdminBar';
-import { LMap, LTileLayer, LMarker, LPopup, LIcon } from 'vue2-leaflet';
-import { latLng } from 'leaflet';
+
+let Vue2Leaflet = {};
+
+if (!process.env.SERVER) {
+  console.log('loading vue2-leaflet');
+  Vue2Leaflet = require('vue2-leaflet');
+}
 
 import 'leaflet/dist/leaflet.css';
 
@@ -187,11 +192,11 @@ export default {
     EditableSelect,
     EditableToggle,
     AdminBar,
-    LMap,
-    LTileLayer,
-    LMarker,
-    LPopup,
-    LIcon
+    'l-map': Vue2Leaflet.LMap,
+    'l-tile-layer': Vue2Leaflet.LTileLayer,
+    'l-marker': Vue2Leaflet.LMarker,
+    'l-popup': Vue2Leaflet.LPopup,
+    'l-icon': Vue2Leaflet.LIcon
   },
 
   props: {
@@ -208,20 +213,7 @@ export default {
       slideNumber: 0,
       fullscreen: false,
 
-      center: {
-        lat: 48.853,
-        lng: 2.298
-      },
-      path: [
-        {
-          lat: 48.853,
-          lng: 2.298
-        },
-        {
-          lat: 48.8735,
-          lng: 2.2951
-        }
-      ],
+      center: [48.853, 2.298],
       options: {},
       userPosition: null,
       zoom: 10,
@@ -231,8 +223,7 @@ export default {
       attribution:
         '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, \
         &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> \
-        &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-      latLng
+        &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     };
   },
 

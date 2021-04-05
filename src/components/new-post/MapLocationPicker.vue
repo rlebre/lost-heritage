@@ -1,10 +1,5 @@
 <template>
-  <l-map
-    :zoom="7"
-    :center="latLng(39.7330017, -7.6897566)"
-    @update:center="centerUpdated"
-    ref="lmap"
-  >
+  <l-map :zoom="7" :center="[39.7330017, -7.6897566]" @update:center="centerUpdated" ref="lmap">
     <l-tile-layer :url="url" :attribution="attribution" />
     <l-marker :lat-lng="pickedLocation" ref="pickerMarker">
       <l-icon
@@ -21,8 +16,12 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LPopup, LIcon } from 'vue2-leaflet';
-import { latLng } from 'leaflet';
+let Vue2Leaflet = {};
+
+if (!process.env.SERVER) {
+  console.log('loading vue2-leaflet');
+  Vue2Leaflet = require('vue2-leaflet');
+}
 
 import 'leaflet/dist/leaflet.css';
 
@@ -30,17 +29,16 @@ export default {
   name: 'Map',
 
   components: {
-    LMap,
-    LTileLayer,
-    LMarker,
-    LPopup,
-    LIcon
+    'l-map': Vue2Leaflet.LMap,
+    'l-tile-layer': Vue2Leaflet.LTileLayer,
+    'l-marker': Vue2Leaflet.LMarker,
+    'l-popup': Vue2Leaflet.LPopup,
+    'l-icon': Vue2Leaflet.LIcon
   },
 
   data() {
     return {
-      pickedLocation: latLng(39.7330017, -7.6897566),
-      latLng,
+      pickedLocation: [39.7330017, -7.6897566],
       attribution:
         '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, \
         &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> \
