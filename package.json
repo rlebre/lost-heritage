@@ -8,8 +8,8 @@
   "scripts": {
     "start": "API_URL='http://localhost:3000' quasar dev",
     "start:ssr": "API_URL='http://localhost:3000' quasar dev -m ssr",
-    "build": "API_URL='https://lost-heritage.herokuapp.com' quasar build",
-    "build:ssr": "API_URL='https://lost-heritage.herokuapp.com' quasar build -m ssr",
+    "build": "API_URL='https://api.patrimonioesquecido.ruilebre.com' quasar build",
+    "build:ssr": "API_URL='https://api.patrimonioesquecido.ruilebre.com' quasar build -m ssr",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
