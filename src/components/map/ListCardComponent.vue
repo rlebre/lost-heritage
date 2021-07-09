@@ -8,13 +8,15 @@
           </router-link>
         </div>
 
-        <div class="q-mb-sm text-capitalize q-card-county"><q-icon name="eva-navigation-2" /> {{ post.county }}</div>
-
-        <div class="text-caption text-grey-7 small-screen-only">
-          {{ post.details | str_limit(50) }}
+        <div class="q-mb-sm text-capitalize q-card-county">
+          <q-icon name="eva-navigation-2" /> {{ post.county }}
         </div>
-        <div class="text-caption text-grey-7 large-screen-only">
+
+        <div class="text-caption text-grey-7 small-screen-only details">
           {{ post.details | str_limit(75) }}
+        </div>
+        <div class="text-caption text-grey-7 large-screen-only details">
+          {{ post.details | str_limit(100) }}
         </div>
       </q-card-section>
 
@@ -24,7 +26,9 @@
     </q-card-section>
 
     <div class="row q-mb-sm q-mx-md q-pb-xs flex flex-center">
-      <div class="text-subtitle2 q-mx-sm"><q-icon name="eva-heart" color="negative" /> {{ post.likes }}</div>
+      <div class="text-subtitle2 q-mx-sm">
+        <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
+      </div>
 
       <q-btn
         class="view-button"
@@ -53,7 +57,14 @@
           :title="`${post.title} - ${post.details}`"
           hashtags="PatrimonioEsquecido,LostHeritage"
         >
-          <q-btn class="q-mr-xs float-right" round color="primary" icon="eva-twitter-outline" size="xs" unelevated />
+          <q-btn
+            class="q-mr-xs float-right"
+            round
+            color="primary"
+            icon="eva-twitter-outline"
+            size="xs"
+            unelevated
+          />
         </ShareNetwork>
 
         <ShareNetwork
@@ -63,7 +74,14 @@
           :quote="post.details"
           hashtags="PatrimonioEsquecido,LostHeritage"
         >
-          <q-btn class="q-mr-xs float-right" round color="primary" icon="eva-facebook-outline" size="xs" unelevated />
+          <q-btn
+            class="q-mr-xs float-right"
+            round
+            color="primary"
+            icon="eva-facebook-outline"
+            size="xs"
+            unelevated
+          />
         </ShareNetwork>
       </div>
     </div>
@@ -158,5 +176,10 @@ export default {
       color: $grey-8;
     }
   }
+}
+
+.details {
+  white-space: pre-line;
+  text-align: justify;
 }
 </style>

@@ -6,16 +6,16 @@
           <div class="details-section-header">
             <div class="row">
               <h3
-                :class="`col-12 building-status building-${
+                :class="`col-12 post-status post-${
                   postDetails.isRecovered ? 'recovered' : 'not-recovered'
                 }`"
               >
                 {{ postDetails.isRecovered ? $t('create.recovered') : $t('create.needsRecovered') }}
               </h3>
-              <h1 class="col-12 q-my-sm building-title text-capitalize">
+              <h1 class="col-12 q-my-sm post-title text-capitalize">
                 {{ postDetails.title }}
               </h1>
-              <h2 class="col-12 building-county text-capitalize">
+              <h2 class="col-12 post-county text-capitalize">
                 {{ postDetails.county }}
               </h2>
             </div>
@@ -84,16 +84,16 @@
       <div class="large-screen-only details-section-header">
         <div class="row">
           <h3
-            :class="`col-12 building-status building-${
+            :class="`col-12 post-status post-${
               postDetails.isRecovered ? 'recovered' : 'not-recovered'
             }`"
           >
             {{ postDetails.isRecovered ? $t('details.recovered') : $t('details.needsRecovery') }}
           </h3>
-          <h1 class="col-12 q-my-sm building-title first-letter-uppercase">
+          <h1 class="col-12 q-my-sm post-title first-letter-uppercase">
             {{ postDetails.title }}
           </h1>
-          <h2 class="col-12 building-county first-letter-uppercase">
+          <h2 class="col-12 post-county first-letter-uppercase">
             {{ postDetails.county }}
           </h2>
         </div>
@@ -103,46 +103,38 @@
 
       <div class="row">
         <div class="col-12 q-pr-sm">
-          <h2 class="building-details-title first-letter-uppercase">
+          <h2 class="post-details-title first-letter-uppercase">
             {{ $t('details.details') }}
           </h2>
-          <p class="rental-description">
-            {{ postDetails.details }}
-          </p>
+          <p class="post-description">{{ postDetails.details }}</p>
 
-          <h2 class="building-details-title first-letter-uppercase" v-if="postDetails.stories">
-            {{ $t('details.stories') }}
-          </h2>
-          <p class="rental-description">
-            {{ postDetails.stories }}
-          </p>
+          <template v-if="postDetails.stories">
+            <h2 class="post-details-title first-letter-uppercase">
+              {{ $t('details.stories') }}
+            </h2>
+            <p class="post-description">{{ postDetails.stories }}</p>
+          </template>
 
-          <h2
-            class="building-details-title first-letter-uppercase"
-            v-if="postDetails.previousFunctions"
-          >
-            {{ $t('details.previousFunctions') }}
-          </h2>
-          <p class="rental-description">
-            {{ postDetails.previousFunctions }}
-          </p>
+          <template v-if="postDetails.previousFunctions">
+            <h2 class="post-details-title first-letter-uppercase">
+              {{ $t('details.previousFunctions') }}
+            </h2>
+            <p class="post-description">{{ postDetails.previousFunctions }}</p>
+          </template>
 
-          <h2
-            class="building-details-title first-letter-uppercase"
-            v-if="postDetails.suggestedFunctions"
-          >
-            {{ $t('details.suggestedFunctions') }}
-          </h2>
-          <p class="rental-description">
-            {{ postDetails.suggestedFunctions }}
-          </p>
+          <template v-if="postDetails.suggestedFunctions">
+            <h2 class="post-details-title first-letter-uppercase">
+              {{ $t('details.suggestedFunctions') }}
+            </h2>
+            <p class="post-description">{{ postDetails.suggestedFunctions }}</p>
+          </template>
         </div>
       </div>
 
       <hr class="q-my-lg q-mb-lg" />
 
       <div class="row">
-        <h2 class="building-details-title first-letter-uppercase">
+        <h2 class="post-details-title first-letter-uppercase">
           {{ $t('details.comments') }}
         </h2>
 
@@ -302,7 +294,7 @@ export default {
   margin-bottom: 30px;
 }
 
-.building {
+.post {
   &-status {
     font-size: 14px;
     font-weight: 500;
@@ -325,6 +317,11 @@ export default {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 0;
+  }
+
+  &-description {
+    white-space: pre-line;
+    text-align: justify;
   }
 }
 </style>

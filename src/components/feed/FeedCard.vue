@@ -8,11 +8,15 @@
       </div>
     </q-card-section>
 
-    <div class="q-mx-md text-capitalize q-card-county"><q-icon name="eva-navigation-2" /> {{ post.county }}</div>
+    <div class="q-mx-md text-capitalize q-card-county">
+      <q-icon name="eva-navigation-2" /> {{ post.county }}
+    </div>
 
     <div class="row q-mt-sm q-mx-md">
       <div class="col-6">
-        <div class="text-subtitle2 likes-counter"><q-icon name="eva-heart" color="negative" /> {{ post.likes }}</div>
+        <div class="text-subtitle2 likes-counter">
+          <q-icon name="eva-heart" color="negative" /> {{ post.likes }}
+        </div>
       </div>
       <div class="col-6" v-if="url && post">
         <q-btn
@@ -35,7 +39,14 @@
           :title="`${post.title} - ${post.details}`"
           hashtags="PatrimonioEsquecido,LostHeritage"
         >
-          <q-btn class="q-mr-xs float-right" round color="primary" icon="eva-twitter-outline" size="xs" unelevated>
+          <q-btn
+            class="q-mr-xs float-right"
+            round
+            color="primary"
+            icon="eva-twitter-outline"
+            size="xs"
+            unelevated
+          >
             <q-tooltip anchor="bottom middle" self="top middle">
               {{ $t('tooltips.shareTwitter') }}
             </q-tooltip>
@@ -49,7 +60,14 @@
           :quote="post.details"
           hashtags="PatrimonioEsquecido,LostHeritage"
         >
-          <q-btn class="q-mr-xs float-right" round color="primary" icon="eva-facebook-outline" size="xs" unelevated>
+          <q-btn
+            class="q-mr-xs float-right"
+            round
+            color="primary"
+            icon="eva-facebook-outline"
+            size="xs"
+            unelevated
+          >
             <q-tooltip anchor="bottom middle" self="top middle">
               {{ $t('tooltips.shareFacebook') }}
             </q-tooltip>
@@ -63,8 +81,8 @@
         <div class="text-caption text-grey-7 small-screen-only">
           {{ post.details | str_limit(200) }}
         </div>
-        <div class="text-caption text-grey-7 large-screen-only">
-          {{ post.details }}
+        <div class="text-caption text-grey-7 large-screen-only details">
+          {{ post.details | str_limit(400) }}
         </div>
       </q-card-section>
 
@@ -165,5 +183,10 @@ export default {
       color: $grey-8;
     }
   }
+}
+
+.details {
+  white-space: pre-line;
+  text-align: justify;
 }
 </style>
